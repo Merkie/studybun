@@ -12,6 +12,8 @@
 <style>
 	:global(body) {
 		--light-pink: #ffe4ee;
+		--border: #c4a2b6;
+		--dark-pink: #4c1b44;
 		margin: 0;
 		background-color: var(--light-pink);
 		font-family: sans-serif;

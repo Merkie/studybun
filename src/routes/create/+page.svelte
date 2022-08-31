@@ -2,7 +2,7 @@
 	import Header from '../../components/Header.svelte';
 	import EditorCard from '../../components/EditorCard.svelte';
 	import type { IUser } from '$lib/types';
-	import { Icon, InformationCircle } from 'svelte-hero-icons';
+	import { Icon, InformationCircle, Plus } from 'svelte-hero-icons';
 	export let data: { user: IUser; url: string };
 </script>
 
@@ -32,6 +32,7 @@
 	<textarea placeholder="Optional: Enter a description for the set" class="setdesc" />
 
 	<EditorCard />
+	<button class="add"><Icon width="30px" src={Plus} /></button>
 </main>
 
 <style>
@@ -84,5 +85,18 @@
 
 	.status-info:hover .tooltip {
 		display: block;
+	}
+
+	.add {
+		background-color: var(--light-pink);
+		border: 1px solid var(--border);
+		border-radius: 50%;
+		padding: 10px 12px;
+		color: var(--dark-pink);
+		font-size: 18px;
+		margin-top: 20px;
+		cursor: pointer;
+		margin-left: 50%;
+		transform: translateX(-50%);
 	}
 </style>
