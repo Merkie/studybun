@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model FlashCard {
+  id          String  @id @default(cuid())
+  term        String
+  description String
+  image       String?
+}
+
+model FlashcardSet {
+  id          String   @id @default(cuid())
+  author      User     @relation(fields: [userId], references: [id])
+  name        String
+  description String
+  public      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      String
+}
+
+model RefreshToken {
+  id            Int    @id @unique @default(autoincrement())
+  refresh_token String @unique @db.VarChar(300)
+  user          User   @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  user_id       String
+
+  @@index([user_id])
+  @@map("refresh_token")
+}
+
+model User {
+  id                 String         @id @unique @default(cuid())
+  identifier_token   String         @unique
+  hashed_password    String?
+  used_openai_tokens Int            @default(0)
+  account_plan       String         @default("free")
+  RefreshToken       RefreshToken[]
+  name               String
+  image              String
+  created_at         DateTime       @default(now())
+  updated_at         DateTime       @updatedAt
+  FlashcardSet       FlashcardSet[]
+
+  @@map("user")
+}
