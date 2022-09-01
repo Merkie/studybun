@@ -11,6 +11,8 @@
 
 <style>
 	:global(body) {
+		--surface-background: white;
+
 		--light-pink: #ffe4ee;
 		--border: #c4a2b6;
 		--dark-pink: #4c1b44;

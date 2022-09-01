@@ -9,4 +9,3 @@
 </svelte:head>
 
 <Header discordLoginUrl={data.url} user={data.user} />
-<h1>Hello!</h1>

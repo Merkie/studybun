@@ -1,9 +1,11 @@
 <script lang="ts">
+	// Props
 	export let discordLoginUrl: string;
-	export let user: { name: string; image: string };
+	export let user: IUser;
 
 	import { Icon, Search, Plus } from 'svelte-hero-icons';
 	import { signOut } from 'lucia-sveltekit/client';
+	import type { IUser } from '$lib/types';
 
 	let dropdownShowing = false;
 </script>
@@ -15,7 +17,7 @@
 		<a href="/">Home</a>
 		<a href="/">Explore</a>
 		{#if user}
-			<a href="/">Your Library</a>
+			<a href="/library">Your Library</a>
 			<a class="create" href="/create"><Icon width="15px" src={Plus} /><span>Create</span></a>
 		{/if}
 		<div class="search">
@@ -55,7 +57,7 @@
 <style>
 	nav {
 		padding: 10px 50px;
-		background-color: white;
+		background-color: var(--surface-background);
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -89,7 +91,7 @@
 		width: 150px;
 		top: calc(100% + 10px);
 		right: 0;
-		background-color: white;
+		background-color: var(--surface-background);
 		border-radius: 5px;
 		box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
 		display: flex;
