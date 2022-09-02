@@ -4,13 +4,13 @@ import { client } from '$lib/prisma';
 export const load: ServerLoad = async ({ parent }) => {
 	const { lucia } = await parent();
 
-	if (lucia) {
-		const sets = await client.flashcardSet.findMany({
-			include: {
-				flashcards: true
-			}
-		});
+	const sets = await client.flashcardSet.findMany({
+		include: {
+			flashcards: true
+		}
+	});
 
+	if (lucia) {
 		return { user: lucia.user, sets: sets };
 	}
 
