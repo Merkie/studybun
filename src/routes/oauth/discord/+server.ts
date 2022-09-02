@@ -16,8 +16,8 @@ export const GET: RequestHandler = async ({ request }) => {
 			grantType: 'authorization_code',
 			redirectUri: process.env.DISCORD_REDIRECT_URI
 		});
-	} catch {
-		return new Response('error', { status: 500 });
+	} catch (e) {
+		return new Response('error ' + e, { status: 500 });
 	}
 
 	// If we dont get an access token, null
