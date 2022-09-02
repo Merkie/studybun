@@ -10,58 +10,72 @@
 	let dropdownShowing = false;
 </script>
 
-<nav>
-	<img on:click={() => window.location.assign('/')} src="logo.png" width="30px" alt="" />
+<main>
+	<nav>
+		<img on:click={() => window.location.assign('/')} src="logo.png" width="30px" alt="" />
 
-	<span>
-		<a href="/">Home</a>
-		<a href="/">Explore</a>
-		{#if user}
-			<a href="/library">Your Library</a>
-			<a class="create" href="/create"><Icon width="15px" src={Plus} /><span>Create</span></a>
-		{/if}
-		<div class="search">
-			<Icon width="15px" src={Search} />
-			<input type="text" placeholder="Search..." />
-		</div>
-	</span>
-
-	{#if user}
-		<div style="position: relative;">
-			<img
-				on:click={() => (dropdownShowing = !dropdownShowing)}
-				class="profile-image"
-				src={user.image}
-				width="40px"
-				alt="profile"
-			/>
-			<div style={`display: ${dropdownShowing ? 'flex' : 'none'}`} class="drop-down">
-				<p>{user.name}</p>
-				<a href="/">Profile</a>
-				<a href="/">Settings</a>
-				<button
-					on:click={async () => {
-						await signOut();
-						window.location.assign('/');
-					}}>Sign out</button
+		<span>
+			<a href="/">Home</a>
+			<a href="/">Explore</a>
+			{#if user}
+				<a href="/library">Your Library</a>
+				<a style="" class="create" href="/create"
+					><Icon width="14px" src={Plus} /><span>Create</span></a
 				>
+			{/if}
+			<div class="search">
+				<Icon style="padding-left: 5px" width="15px" src={Search} />
+				<input type="text" placeholder="Search..." />
 			</div>
-		</div>
-	{:else}
-		<button on:click={() => window.location.assign(discordLoginUrl)} class="discord"
-			><img src="discord.svg" width="20x" alt="discord" /> <span>Sign in with Discord</span></button
-		>
-	{/if}
-</nav>
+		</span>
+
+		{#if user}
+			<div style="position: relative;">
+				<img
+					on:click={() => (dropdownShowing = !dropdownShowing)}
+					class="profile-image"
+					src={user.image}
+					width="40px"
+					alt="profile"
+				/>
+				<div style={`display: ${dropdownShowing ? 'flex' : 'none'}`} class="drop-down">
+					<p>{user.name}</p>
+					<a href="/">Profile</a>
+					<a href="/">Settings</a>
+					<button
+						on:click={async () => {
+							await signOut();
+							window.location.assign('/');
+						}}>Sign out</button
+					>
+				</div>
+			</div>
+		{:else}
+			<button on:click={() => window.location.assign(discordLoginUrl)} class="discord"
+				><img src="discord.svg" width="20x" alt="discord" />
+				<span>Sign in with Discord</span></button
+			>
+		{/if}
+	</nav>
+</main>
 
 <style>
+	main {
+		width: 100%;
+		background-color: var(--surface-background);
+		filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.2));
+	}
 	nav {
-		padding: 10px 50px;
 		background-color: var(--surface-background);
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.2));
+		position: sticky;
+		top: 0;
+		width: min(80%, 1200px);
+		margin: auto;
+		padding-bottom: 10px;
+		padding-top: 10px;
 	}
 
 	img {
@@ -130,11 +144,10 @@
 		border: 1px solid #56274e59;
 		border-radius: 5px;
 		width: 250px;
-		margin-left: 10px;
-		background-color: var(--light-pink);
+		background-color: var(--med-pink);
 		display: flex;
 		align-items: center;
-		padding: 5px;
+		padding: 0px;
 	}
 
 	input {
@@ -203,10 +216,6 @@
 
 		.discord {
 			padding: 10px;
-		}
-
-		nav {
-			padding: 10px 15px;
 		}
 	}
 </style>

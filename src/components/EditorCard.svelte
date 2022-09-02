@@ -62,7 +62,7 @@
 
 <style>
 	main {
-		background-color: var(--light-pink);
+		background-color: var(--med-pink);
 		width: calc(100%);
 		border-radius: 5px;
 		border: var(--border) 1px solid;

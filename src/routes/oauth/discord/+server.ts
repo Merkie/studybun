@@ -14,7 +14,7 @@ export const GET: RequestHandler = async ({ request }) => {
 			code: request.url.split('?code=')[1],
 			scope: 'identify',
 			grantType: 'authorization_code',
-			redirectUri: 'http://localhost:5174/oauth/discord'
+			redirectUri: process.env.DISCORD_REDIRECT_URI
 		});
 	} catch {
 		return new Response('error', { status: 500 });

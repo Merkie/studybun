@@ -2,6 +2,7 @@
 	import Header from '../../components/Header.svelte';
 	import EditorCard from '../../components/EditorCard.svelte';
 	import type { IUser } from '$lib/types';
+	import { fetchTerms, suggestMoreTerms, publishSet } from '$lib/controllers/createController';
 	import { Icon, InformationCircle, Plus } from 'svelte-hero-icons';
 	export let data: { user: IUser; url: string };
 
@@ -10,7 +11,7 @@
 	let suggestions: string[] = [];
 	let suggesting = false;
 
-	const addSet = (term: string) => {
+	const addSetItem = (term: string) => {
 		setList.push({ term, definition: '' });
 		setList = [...setList];
 	};
@@ -18,17 +19,6 @@
 	const updateSetItem = (index: number, term: string, definition: string) => {
 		setList[index] = { term, definition };
 		setList = [...setList];
-	};
-
-	const fetchTerms = async () => {
-		if (!context) return;
-		const response = await fetch('/api/ai/list', {
-			method: 'POST',
-			body: JSON.stringify({ context })
-		});
-
-		const resData = JSON.parse(await (await response.blob()).text());
-		suggestions = resData.terms;
 	};
 
 	const removeSetItem = (index: number) => {
@@ -39,31 +29,6 @@
 	const removeSuggestionItem = (index: number) => {
 		suggestions.splice(index, 1);
 		suggestions = [...suggestions];
-	};
-
-	const suggestMoreTerms = async () => {
-		if (!context) return;
-		suggesting = true;
-		const response = await fetch('/api/ai/list', {
-			method: 'POST',
-			body: JSON.stringify({ context, suggestions })
-		});
-
-		// Grab json data from response
-		const resData = JSON.parse(await (await response.blob()).text());
-
-		if (!resData.terms) return; // If no terms, return
-
-		// Add new terms to the list
-		suggestions = [...suggestions, ...resData.terms];
-		suggesting = false;
-	};
-
-	const publishSet = async () => {
-		const response = fetch('/api/user/publish', {
-			method: 'POST',
-			body: JSON.stringify({ set: setList, context: context, user: data.user.user_id })
-		});
 	};
 </script>
 
@@ -85,13 +50,13 @@
 	>
 	<div style="flex: 1" />
 	<button class="preview-btn">Preview</button>
-	<button on:click={publishSet} class="publish-btn">Publish</button>
+	<button on:click={() => publishSet(setList, context, data)} class="publish-btn">Publish</button>
 	<input
 		type="text"
 		bind:value={context}
 		class="setname"
 		placeholder={`Enter a title, like ${'"Chemistry: Unit 1 - Atomic Structure"'}`}
-		on:change={fetchTerms}
+		on:change={async () => (suggestions = await fetchTerms(context))}
 	/>
 	<textarea placeholder="Optional: Enter a description for the set" class="setdesc" />
 
@@ -99,14 +64,22 @@
 		{#each suggestions as item}
 			<span
 				on:click={() => {
-					addSet(item);
+					addSetItem(item);
 					removeSuggestionItem(suggestions.indexOf(item));
 				}}>{item}</span
 			>
 		{/each}
 
 		{#if suggestions.length > 0 && !suggesting}
-			<button on:click={suggestMoreTerms}>More Suggestions...</button>
+			<button
+				on:click={async () => {
+					suggesting = true;
+					suggestions = [...suggestions, ...((await suggestMoreTerms(context, suggestions)) || [])];
+					suggesting = false;
+				}}
+			>
+				>More Suggestions...</button
+			>
 		{/if}
 	</div>
 
@@ -120,7 +93,7 @@
 		/>
 	{/each}
 
-	<button on:click={() => addSet('')} class="add"><Icon width="30px" src={Plus} /></button>
+	<button on:click={() => addSetItem('')} class="add"><Icon width="30px" src={Plus} /></button>
 </main>
 
 <style>
@@ -144,7 +117,7 @@
 	.preview-btn,
 	.publish-btn {
 		padding: 5px;
-		background-color: var(--light-pink);
+		background-color: var(--med-pink);
 		border: 1px solid var(--border);
 		color: var(--dark-pink);
 		border-radius: 5px;
@@ -208,7 +181,7 @@
 	}
 
 	.add {
-		background-color: var(--light-pink);
+		background-color: var(--med-pink);
 		border: 1px solid var(--border);
 		border-radius: 50%;
 		padding: 10px 12px;

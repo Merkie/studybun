@@ -14,6 +14,8 @@
 		--surface-background: white;
 
 		--light-pink: #ffe4ee;
+		--med-pink: #fbcedf;
+
 		--border: #c4a2b6;
 		--dark-pink: #4c1b44;
 		margin: 0;
