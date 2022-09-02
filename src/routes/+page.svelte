@@ -23,7 +23,9 @@
 				<p>
 					{item.name}<span class="subtext">{item.flashcards.length} terms</span>
 				</p>
-				<p style="margin-top: 10px; font-weight: normal;">Created by {item.userId}</p>
+				<p style="margin-top: 10px; font-weight: normal;">
+					Created by <a href={`profile/${item.author.id}`}>{item.author.name}</a>
+				</p>
 			</div>
 		{/each}
 	</span>

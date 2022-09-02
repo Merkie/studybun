@@ -6,7 +6,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
 	const userObj = await client.user.findFirst({
 		where: {
-			id: user
+			id: user.user_ud
 		}
 	});
 

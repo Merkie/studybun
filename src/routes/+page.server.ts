@@ -6,7 +6,8 @@ export const load: ServerLoad = async ({ parent }) => {
 
 	const sets = await client.flashcardSet.findMany({
 		include: {
-			flashcards: true
+			flashcards: true,
+			author: true
 		}
 	});
 

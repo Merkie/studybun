@@ -12,7 +12,12 @@
 
 <main>
 	<nav>
-		<img on:click={() => window.location.assign('/')} src="logo.png" width="30px" alt="" />
+		<img
+			on:click={() => window.location.assign('/')}
+			src="https://studybun.vercel.app/logo.png"
+			width="30px"
+			alt=""
+		/>
 
 		<span>
 			<a href="/">Home</a>
