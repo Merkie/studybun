@@ -1,6 +1,8 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import DiscordOauth2 from 'discord-oauth2';
 import { auth } from '../../../lib/lucia';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export const GET: RequestHandler = async ({ request }) => {
 	const oauth = new DiscordOauth2();
@@ -14,10 +16,10 @@ export const GET: RequestHandler = async ({ request }) => {
 			code: request.url.split('?code=')[1],
 			scope: 'identify',
 			grantType: 'authorization_code',
-			redirectUri: process.env.DISCORD_REDIRECT_URI
+			redirectUri: process.env.REDIRECT_URI
 		});
 	} catch (e) {
-		return new Response('error ' + e, { status: 500 });
+		return new Response('error', { status: 500 });
 	}
 
 	// If we dont get an access token, null
