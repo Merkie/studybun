@@ -19,7 +19,7 @@
 	<h1>Your study sets</h1>
 	<span style="display: flex; flex-wrap: wrap; gap: 30px;">
 		{#each data.sets as item}
-			<div>
+			<div on:click={() => window.location.assign('/set/' + item.id)}>
 				<p>
 					{item.name}<span class="subtext">{item.flashcards.length} terms</span>
 				</p>

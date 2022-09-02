@@ -14,7 +14,6 @@ export const load: ServerLoad = async ({ parent }) => {
 			}
 		});
 
-		console.log(sets);
 		return { user: lucia.user, sets: sets };
 	}
 
