@@ -7,6 +7,14 @@ export const load: ServerLoad = async ({ parent, params }) => {
 	const slugUser = await client.user.findFirst({
 		where: {
 			id: params.slug
+		},
+		include: {
+			FlashcardSet: {
+				include: {
+					flashcards: true,
+					author: true
+				}
+			}
 		}
 	});
 

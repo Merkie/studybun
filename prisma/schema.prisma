@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -11,12 +12,13 @@ datasource db {
 }
 
 model FlashCard {
-  id             String        @id @default(cuid())
-  term           String
-  description    String
-  image          String?
-  FlashcardSet   FlashcardSet? @relation(fields: [flashcardSetId], references: [id])
-  flashcardSetId String?
+  id               String        @id @default(cuid())
+  term             String
+  description      String
+  hiddenDescriptor String?
+  image            String?
+  FlashcardSet     FlashcardSet? @relation(fields: [flashcardSetId], references: [id])
+  flashcardSetId   String?
 }
 
 model FlashcardSet {

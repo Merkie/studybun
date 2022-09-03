@@ -7,10 +7,10 @@
 	import { signOut } from 'lucia-sveltekit/client';
 	import type { IUser } from '$lib/types';
 	import { theme } from '$lib/stores';
-	import { assign } from 'svelte/internal';
 
 	let dropdownShowing = false;
 	let themeSelect: HTMLSelectElement;
+	let searchInput: HTMLInputElement;
 </script>
 
 <main>
@@ -25,12 +25,17 @@
 		<span>
 			{#if user}
 				<a style="" class="create" href="/create"
-					><Icon width="14px" src={Plus} /><span>Create</span></a
+					><Icon width="14px" src={Plus} /><span style="display: none;">Create</span></a
 				>
 			{/if}
 			<div class="search">
 				<Icon style="padding-left: 5px" width="15px" src={Search} />
-				<input type="text" placeholder="Search..." />
+				<input
+					on:change={() => window.location.assign('/search?term=' + searchInput.value)}
+					bind:this={searchInput}
+					type="text"
+					placeholder="Search..."
+				/>
 			</div>
 		</span>
 
@@ -45,10 +50,10 @@
 				/>
 				<div style={`display: ${dropdownShowing ? 'flex' : 'none'}`} class="drop-down">
 					<p>{user.name}</p>
-					<a href="/">Profile</a>
+					<a href={'/profile/' + user.user_id}>Profile</a>
 					<a href="/">Settings</a>
 					<hr />
-					<a href="/">Library</a>
+					<a href="/library">Library</a>
 					<select bind:this={themeSelect} on:input={() => theme.set(themeSelect.value)}>
 						<option value="light">Light</option>
 						<option value="dark">Dark</option>

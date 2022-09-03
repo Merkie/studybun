@@ -1,7 +1,9 @@
 <script lang="ts">
-	export let data;
+	import type { ISet, IUser } from '$lib/types';
 	import Header from '../../../components/Header.svelte';
 	import { ArrowLeft, ArrowRight, Icon } from 'svelte-hero-icons';
+
+	export let data: { user: IUser; url: string; set: ISet };
 
 	let index = 0;
 	let termSide = true;

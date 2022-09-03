@@ -45,7 +45,13 @@
 	>
 	<div style="flex: 1" />
 	<button class="preview-btn">Preview</button>
-	<button on:click={() => publishSet(setList, context, data)} class="publish-btn">Publish</button>
+	<button
+		on:click={async () => {
+			await publishSet(setList, context, data);
+			window.location.assign('/library');
+		}}
+		class="publish-btn">Publish</button
+	>
 	<input
 		type="text"
 		bind:value={context}
@@ -107,7 +113,7 @@
 		display: flex;
 		gap: 10px;
 		align-items: baseline;
-		flex-wrap: wrap;
+		flex-wrap: nowrap;
 		align-items: center;
 	}
 
@@ -160,6 +166,7 @@
 		align-items: center;
 		gap: 5px;
 		cursor: pointer;
+		margin: 10px 0;
 	}
 
 	.add {
@@ -201,8 +208,8 @@
 	}
 
 	@media (max-width: 600px) {
-		h1 {
-			font-size: 25px;
+		.header-info h1 {
+			font-size: 20px;
 		}
 	}
 </style>

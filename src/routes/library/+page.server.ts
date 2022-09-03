@@ -10,11 +10,12 @@ export const load: ServerLoad = async ({ parent }) => {
 				userId: lucia.user.user_id
 			},
 			include: {
-				flashcards: true
+				flashcards: true,
+				author: true
 			}
 		});
 
-		return { user: lucia.user, sets: sets };
+		return { user: lucia.user, sets: sets.reverse() };
 	}
 
 	return { url: process.env.DISCORD_LOGIN_URL };
