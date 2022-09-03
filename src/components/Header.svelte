@@ -94,6 +94,14 @@
 		color: var(--border);
 	}
 
+	select {
+		background-color: var(--container-background);
+		border: 1px solid var(--border);
+		padding: 10px;
+		border-radius: 5px;
+		color: var(--text-color);
+	}
+
 	img {
 		cursor: pointer;
 	}
@@ -153,7 +161,7 @@
 		color: white;
 		border-radius: 5px;
 		padding: 5px 10px;
-		margin-top: 20px;
+		margin-top: 10px;
 		cursor: pointer;
 	}
 
