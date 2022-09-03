@@ -7,16 +7,19 @@
 	export let context: string;
 	export let index: number;
 	export let term: string;
+	export let definition: string;
+	export let autofill: boolean;
+
+	export let descriptor: string;
 	export let removeSetItem: Function;
 	export let updateSetItem: Function;
 
-	let definition: string;
-
 	const completeDefinition = async () => {
+		if (!autofill) return;
 		if (!term || !context) return null;
 		const response = await fetch('/api/ai/define', {
 			method: 'POST',
-			body: JSON.stringify({ term, context })
+			body: JSON.stringify({ term: term + descriptor, context })
 		});
 
 		const resData: IDefineResponse = JSON.parse(await (await response.blob()).text());

@@ -1,15 +1,21 @@
 <script lang="ts">
 	import Header from '../../components/Header.svelte';
 	import EditorCard from '../../components/EditorCard.svelte';
-	import type { IUser } from '$lib/types';
+	import type { IUser, ISet } from '$lib/types';
 	import { fetchTerms, suggestMoreTerms, publishSet } from '$lib/controllers/createController';
 	import { Icon, LockOpen, Plus } from 'svelte-hero-icons';
 	export let data: { user: IUser; url: string };
 
-	let setList = [{ term: '', definition: '' }];
+	let setList: ISet[] = [{ term: '', definition: '' }];
 	let context: string;
 	let suggestions: string[] = [];
 	let suggesting = false;
+
+	let autofill = true;
+	let bulletpoints = false;
+	let summarize = false;
+
+	let descriptor: string;
 
 	const addSetItem = (term: string) => {
 		setList.push({ term, definition: '' });
@@ -22,14 +28,19 @@
 	};
 
 	const removeSetItem = (index: number) => {
-		setList.splice(index, 1);
-		setList = [...setList];
+		setList = setList.slice(0, index).concat(setList.slice(index + 1));
 	};
 
 	const removeSuggestionItem = (index: number) => {
 		suggestions.splice(index, 1);
 		suggestions = [...suggestions];
 	};
+
+	$: {
+		descriptor =
+			(summarize ? ', summarize for fifth grader' : '') +
+			(bulletpoints ? ', summarized bulletpoints' : '');
+	}
 </script>
 
 <svelte:head>
@@ -57,9 +68,28 @@
 		bind:value={context}
 		class="setname"
 		placeholder={`Enter a title, like ${'"Chemistry: Unit 1 - Atomic Structure"'}`}
-		on:change={async () => (suggestions = await fetchTerms(context))}
+		on:change={async () => {
+			if (autofill) {
+				suggestions = await fetchTerms(context);
+			}
+		}}
 	/>
 	<textarea placeholder="Optional: Enter a description for the set" class="setdesc" />
+
+	<span style="display: flex; flex-direction: column; gap: 5px;">
+		<span>
+			<label for="autofill">AI Suggestions</label>
+			<input bind:checked={autofill} type="checkbox" id="autofill" />
+		</span>
+		<span>
+			<label for="bullets">Bulletpoints</label>
+			<input bind:checked={bulletpoints} type="checkbox" id="bullets" />
+		</span>
+		<span>
+			<label for="summary">Summarize for fifth grader</label>
+			<input bind:checked={summarize} type="checkbox" id="summary" />
+		</span>
+	</span>
 
 	<div class="suggestions">
 		{#each suggestions as item}
@@ -89,9 +119,12 @@
 		<EditorCard
 			{removeSetItem}
 			{updateSetItem}
+			{descriptor}
+			definition={item.definition}
 			term={item.term}
 			index={setList.indexOf(item)}
 			{context}
+			{autofill}
 		/>
 	{/each}
 
