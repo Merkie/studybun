@@ -9,7 +9,8 @@ export const load: ServerLoad = async ({ parent, params }) => {
 			id: params.slug
 		},
 		include: {
-			flashcards: true
+			flashcards: true,
+			author: true
 		}
 	});
 
