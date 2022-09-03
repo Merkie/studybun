@@ -100,6 +100,7 @@
 	main {
 		width: min(75%, 1200px);
 		margin: 0 auto;
+		margin-top: 100px;
 		background-color: var(--surface-background);
 		padding: 30px;
 		margin-top: 20px;

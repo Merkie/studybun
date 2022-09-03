@@ -4,4 +4,13 @@
 </script>
 
 <Header discordLoginUrl={data.url} user={data.user} />
-<p>{JSON.stringify(data.slugUser)}</p>
+<main>
+	<p>{JSON.stringify(data.slugUser)}</p>
+</main>
+
+<style>
+	main {
+		margin: 0 auto;
+		margin-top: 100px;
+	}
+</style>

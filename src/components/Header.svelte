@@ -75,6 +75,10 @@
 		width: 100%;
 		background-color: var(--surface-background);
 		filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.2));
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 100;
 	}
 	nav {
 		background-color: var(--surface-background);
@@ -136,7 +140,6 @@
 		display: flex;
 		flex-direction: column;
 		padding: 5px;
-		z-index: 999;
 	}
 
 	.drop-down a {

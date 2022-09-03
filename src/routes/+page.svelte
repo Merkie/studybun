@@ -4,7 +4,6 @@
 	export let data: { user: IUser; url: string };
 </script>
 
-<Header discordLoginUrl={data.url} user={data.user} />
 <!-- 
 {#each data.sets as item}
 	<h3>{item.name}</h3>
@@ -31,13 +30,15 @@
 	</span>
 </main>
 
+<Header discordLoginUrl={data.url} user={data.user} />
+
 <style>
 	main {
 		width: min(75%, 1200px);
 		margin: 0 auto;
+		margin-top: 100px;
 		background-color: var(--surface-background);
 		padding: 30px;
-		margin-top: 20px;
 		border-radius: 10px;
 		display: flex;
 		flex-direction: column;
@@ -55,6 +56,7 @@
 		width: fit-content;
 		cursor: pointer;
 		transition-duration: 0.1s;
+		z-index: 1;
 	}
 	div:hover {
 		transform: translateY(-3px);

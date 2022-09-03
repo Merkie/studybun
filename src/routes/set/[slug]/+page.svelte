@@ -64,9 +64,13 @@
 
 <main>
 	<div class="set-info">
-		<h4>{data.set.name}</h4>
-		<h4>By <a href={`/profile/${data.set.author.id}`}>{data.set.author.name}</a></h4>
-		<h4>Term:</h4>
+		<h4>
+			{data.set.name}:
+			<span style="font-weight: normal;">
+				By <a href={`/profile/${data.set.author.id}`}>{data.set.author.name}</a></span
+			>
+		</h4>
+		<h4 />
 	</div>
 
 	<div on:click={flip} class="flashcard" bind:this={flashcard}>
@@ -96,6 +100,8 @@
 		gap: 50px;
 		margin-top: 50px;
 		overflow-x: hidden;
+		margin-top: 100px;
+		padding-bottom: 100px;
 	}
 	.flashcard {
 		width: min(80%, 500px);
@@ -122,9 +128,12 @@
 	.set-info {
 		background-color: var(--container-background);
 		border: 1px solid var(--border);
-		padding: 0 30px;
+		padding: 10px 20px;
 		border-radius: 10px;
-		width: min(70%, 500px);
+	}
+
+	.set-info * {
+		margin: 0;
 	}
 
 	.progressbar {
@@ -141,6 +150,11 @@
 		transition-duration: 0.2s;
 		cursor: pointer;
 		font-size: 20px;
+		color: var(--text-color);
+	}
+
+	.navigation * {
+		margin: 0;
 	}
 
 	.navigation button:hover {
