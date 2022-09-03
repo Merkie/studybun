@@ -138,7 +138,10 @@
 	}
 
 	.progressbar {
-		height: 5px;
+		position: absolute;
+		top: 73px;
+		left: 0;
+		height: 10px;
 		background-color: var(--container-background);
 		transition-duration: 0.2s;
 	}
