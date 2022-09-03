@@ -68,7 +68,7 @@
 			</div>
 		{:else}
 			<button on:click={() => window.location.assign(discordLoginUrl)} class="discord"
-				><img src="discord.svg" width="20x" alt="discord" />
+				><img src="https://studybun.vercel.app/discord.svg" width="20x" alt="discord" />
 				<span>Sign in with Discord</span></button
 			>
 		{/if}
