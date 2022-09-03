@@ -23,8 +23,6 @@
 		/>
 
 		<span>
-			<a href="/">Home</a>
-			<a href="/">Explore</a>
 			{#if user}
 				<a href="/library">Your Library</a>
 				<a style="" class="create" href="/create"
