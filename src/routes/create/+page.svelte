@@ -77,8 +77,9 @@
 					suggestions = [...suggestions, ...((await suggestMoreTerms(context, suggestions)) || [])];
 					suggesting = false;
 				}}
+				class="more-suggestions"
 			>
-				>More Suggestions...</button
+				More Suggestions...</button
 			>
 		{/if}
 	</div>
@@ -201,6 +202,15 @@
 		flex-wrap: wrap;
 		gap: 5px;
 		margin-bottom: 20px;
+	}
+
+	.more-suggestions {
+		padding: 5px;
+		background-color: var(--container-background);
+		border: 1px solid var(--border);
+		color: var(--text-color);
+		border-radius: 5px;
+		cursor: pointer;
 	}
 
 	.suggestions span {
