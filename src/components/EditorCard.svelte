@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { IDefineResponse } from '$lib/types';
 	import { onMount } from 'svelte';
-	import { Icon, Trash } from 'svelte-hero-icons';
+	import { Icon, Refresh, Trash } from 'svelte-hero-icons';
 
 	// props
 	export let context: string;
@@ -14,7 +14,11 @@
 	export let removeSetItem: Function;
 	export let updateSetItem: Function;
 
+	let refreshButton: HTMLElement;
+
 	const completeDefinition = async () => {
+		refreshButton.style.transitionDuration = '1s';
+		refreshButton.style.transform = 'rotate(360deg)';
 		if (!autofill) return;
 		if (!term || !context) return null;
 		const response = await fetch('/api/ai/define', {
@@ -24,6 +28,8 @@
 
 		const resData: IDefineResponse = JSON.parse(await (await response.blob()).text());
 		definition = resData.definition;
+		refreshButton.style.transitionDuration = '0s';
+		refreshButton.style.transform = 'rotate(0deg)';
 	};
 
 	onMount(async () => {
@@ -38,6 +44,9 @@
 	<span class="header"
 		><p>{index + 1}</p>
 		<div style="flex: 1;" />
+		<button class="refreshButton" bind:this={refreshButton} on:click={completeDefinition}
+			><Icon width="20px" src={Refresh} /></button
+		>
 		<button on:click={() => removeSetItem(index)}><Icon width="20px" src={Trash} /></button></span
 	>
 	<div>
