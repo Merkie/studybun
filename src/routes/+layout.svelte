@@ -47,4 +47,8 @@
 		margin: 0;
 		font-family: sans-serif;
 	}
+
+	:global(a) {
+		color: var(--border);
+	}
 </style>
