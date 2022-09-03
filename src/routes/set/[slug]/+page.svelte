@@ -130,6 +130,7 @@
 		border: 1px solid var(--border);
 		padding: 10px 20px;
 		border-radius: 10px;
+		max-width: 80%;
 	}
 
 	.set-info * {
