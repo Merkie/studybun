@@ -24,7 +24,6 @@
 
 		<span>
 			{#if user}
-				<a href="/library">Your Library</a>
 				<a style="" class="create" href="/create"
 					><Icon width="14px" src={Plus} /><span>Create</span></a
 				>
@@ -88,6 +87,11 @@
 		margin: auto;
 		padding-bottom: 10px;
 		padding-top: 10px;
+	}
+
+	hr {
+		width: 100%;
+		color: var(--border);
 	}
 
 	img {
