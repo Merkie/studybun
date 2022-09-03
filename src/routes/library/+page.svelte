@@ -44,7 +44,7 @@
 
 	div {
 		padding: 20px;
-		background-color: var(--med-pink);
+		background-color: var(--container-background);
 		border: 1px solid var(--border);
 		border-radius: 10px;
 		font-size: 18px;

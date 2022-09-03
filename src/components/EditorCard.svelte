@@ -62,7 +62,7 @@
 
 <style>
 	main {
-		background-color: var(--med-pink);
+		background-color: var(--container-background);
 		width: calc(100%);
 		border-radius: 5px;
 		border: var(--border) 1px solid;
@@ -85,7 +85,8 @@
 		background-color: transparent;
 		border: none;
 		cursor: pointer;
-		color: var(--dark-pink);
+		/* color: var(--dark-pink); */
+		color: var(--text-color);
 	}
 
 	div {
@@ -114,7 +115,8 @@
 
 	p {
 		margin: 5px;
-		color: var(--dark-pink);
+		/* color: var(--dark-pink); */
+		color: var(--text-color);
 		font-weight: bold;
 	}
 

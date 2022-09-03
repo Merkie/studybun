@@ -19,10 +19,10 @@
 	<h1>All study sets</h1>
 	<span style="display: flex; flex-wrap: wrap; gap: 30px;">
 		{#each data.sets as item}
-			<div on:click={() => window.location.assign('/set/' + item.id)}>
-				<p>
-					{item.name}<span class="subtext">{item.flashcards.length} terms</span>
-				</p>
+			<div>
+				<span on:click={() => window.location.assign('/set/' + item.id)}>
+					{item.name}
+				</span>
 				<p style="margin-top: 10px; font-weight: normal;">
 					Created by <a href={`profile/${item.author.id}`}>{item.author.name}</a>
 				</p>
@@ -46,7 +46,7 @@
 
 	div {
 		padding: 20px;
-		background-color: var(--med-pink);
+		background-color: var(--container-background);
 		border: 1px solid var(--border);
 		border-radius: 10px;
 		font-size: 18px;

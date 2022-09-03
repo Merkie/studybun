@@ -6,8 +6,11 @@
 	import { Icon, Search, Plus } from 'svelte-hero-icons';
 	import { signOut } from 'lucia-sveltekit/client';
 	import type { IUser } from '$lib/types';
+	import { theme } from '$lib/stores';
+	import { assign } from 'svelte/internal';
 
 	let dropdownShowing = false;
+	let themeSelect: HTMLSelectElement;
 </script>
 
 <main>
@@ -47,6 +50,12 @@
 					<p>{user.name}</p>
 					<a href="/">Profile</a>
 					<a href="/">Settings</a>
+					<hr />
+					<a href="/">Library</a>
+					<select bind:this={themeSelect} on:input={() => theme.set(themeSelect.value)}>
+						<option value="light">Light</option>
+						<option value="dark">Dark</option>
+					</select>
 					<button
 						on:click={async () => {
 							await signOut();
@@ -123,12 +132,13 @@
 		border-radius: 5px;
 		padding: 10px 10px;
 		text-decoration: none;
-		color: rgb(107, 66, 100);
+		color: var(--border);
 		cursor: pointer;
 	}
 
 	.drop-down a:hover {
-		background-color: #ffecfc;
+		background-color: var(--container-background);
+		color: var(--text-color);
 	}
 
 	.drop-down p {
@@ -146,10 +156,10 @@
 	}
 
 	.search {
-		border: 1px solid #56274e59;
+		border: 1px solid var(--border);
 		border-radius: 5px;
 		width: 250px;
-		background-color: var(--med-pink);
+		background-color: var(--container-background);
 		display: flex;
 		align-items: center;
 		padding: 0px;
@@ -161,6 +171,7 @@
 		background-color: inherit;
 		border: none;
 		outline: none;
+		color: var(--text-color);
 	}
 
 	span {
@@ -170,13 +181,13 @@
 	}
 
 	span a {
-		color: #56274e;
+		color: var(--border);
 		text-decoration: none;
 		transition-duration: 0.1s;
 	}
 
 	span a:hover {
-		color: #924385;
+		filter: brightness(1.2);
 		transform: translateY(-2px);
 	}
 

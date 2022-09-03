@@ -50,5 +50,6 @@
 		left: 50%;
 		transform: translate(-50%, -50%);
 		transition-duration: 0.2s;
+		color: black;
 	}
 </style>

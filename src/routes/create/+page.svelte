@@ -117,14 +117,14 @@
 	.preview-btn,
 	.publish-btn {
 		padding: 5px;
-		background-color: var(--med-pink);
+		background-color: var(--container-background);
 		border: 1px solid var(--border);
-		color: var(--dark-pink);
 		border-radius: 5px;
 		cursor: pointer;
 		margin: 0;
 		margin-bottom: 20px;
 		transition-duration: 0.1s;
+		color: var(--text-color);
 	}
 
 	.publish-btn {
@@ -145,7 +145,9 @@
 		border-radius: 5px;
 		font-size: 18px;
 		margin-bottom: 20px;
-		/* background-color: var(--light-pink); */
+		background-color: var(--container-background);
+		border: 1px solid var(--border);
+		color: var(--text-color);
 		font-family: sans-serif;
 	}
 
@@ -167,7 +169,7 @@
 		position: absolute;
 		top: -50px;
 		right: 100%;
-		background-color: var(--light-pink);
+		background-color: var(--background);
 		filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.2));
 		width: 300px;
 		padding: 10px;
@@ -181,11 +183,11 @@
 	}
 
 	.add {
-		background-color: var(--med-pink);
+		background-color: var(--container-background);
 		border: 1px solid var(--border);
 		border-radius: 50%;
 		padding: 10px 12px;
-		color: var(--dark-pink);
+		color: var(--text-color);
 		font-size: 18px;
 		margin-top: 20px;
 		cursor: pointer;
@@ -202,9 +204,9 @@
 
 	.suggestions span {
 		padding: 5px;
-		background-color: var(--light-pink);
+		background-color: var(--background);
 		border: 1px solid var(--border);
-		color: var(--dark-pink);
+		color: var(--text-color);
 		border-radius: 5px;
 		cursor: pointer;
 	}
