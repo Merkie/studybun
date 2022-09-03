@@ -3,7 +3,7 @@
 	import EditorCard from '../../components/EditorCard.svelte';
 	import type { IUser } from '$lib/types';
 	import { fetchTerms, suggestMoreTerms, publishSet } from '$lib/controllers/createController';
-	import { Icon, InformationCircle, Plus } from 'svelte-hero-icons';
+	import { Icon, LockOpen, Plus } from 'svelte-hero-icons';
 	export let data: { user: IUser; url: string };
 
 	let setList = [{ term: '', definition: '' }];
@@ -41,12 +41,7 @@
 <main>
 	<span class="header-info"
 		><h1>Create a new study set</h1>
-		<small class="status-info"
-			><div class="tooltip">
-				<p>This set will show up on search results and your profile, but only you can edit it.</p>
-			</div>
-			<Icon width="15px" src={InformationCircle} />Public</small
-		></span
+		<small class="status-info"> <Icon width="15px" src={LockOpen} />Public</small></span
 	>
 	<div style="flex: 1" />
 	<button class="preview-btn">Preview</button>
@@ -104,7 +99,6 @@
 		margin-top: 100px;
 		background-color: var(--surface-background);
 		padding: 30px;
-		margin-top: 20px;
 		border-radius: 10px;
 	}
 
@@ -165,23 +159,6 @@
 		align-items: center;
 		gap: 5px;
 		cursor: pointer;
-	}
-
-	.tooltip {
-		position: absolute;
-		top: -50px;
-		right: 100%;
-		background-color: var(--background);
-		filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.2));
-		width: 300px;
-		padding: 10px;
-		height: fit-content;
-		display: none;
-		border-radius: 5px;
-	}
-
-	.status-info:hover .tooltip {
-		display: block;
 	}
 
 	.add {
