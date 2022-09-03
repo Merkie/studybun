@@ -95,6 +95,7 @@
 	}
 
 	select {
+		-webkit-appearance: none;
 		background-color: var(--container-background);
 		border: 1px solid var(--border);
 		padding: 10px;

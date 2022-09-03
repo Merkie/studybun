@@ -158,6 +158,7 @@
 		left: 50%;
 		transform: translateX(-50%);
 		filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.1));
+		color: var(--text-color);
 	}
 
 	.navigation {

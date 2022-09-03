@@ -30,9 +30,7 @@
 				.split('--text-color:')[1]
 				.split(';')[0]
 				.trim();
-		} catch (e) {
-			console.log(e);
-		}
+		} catch (e) {}
 	}
 </script>
 
