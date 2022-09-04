@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Header from '../../../components/Header.svelte';
 	import type { IUser } from '$lib/types';
+	import { format } from 'timeago.js';
 	import SetDisplayCard from '../../../components/SetDisplayCard.svelte';
 	export let data: { user: IUser; slugUser: IUser; url: string };
 </script>
@@ -9,13 +10,21 @@
 <main>
 	<div class="header">
 		<img src={data.slugUser.image} width="100px" alt="" />
-		<h1>{data.slugUser.name} <small>User</small></h1>
+		<h1>
+			{data.slugUser.name}
+			<small>Joined {format(data.slugUser.created_at)}</small>
+
+			{#if data.slugUser.account_plan == 'premium'}
+				<small on:click={() => window.location.assign('/premium')} class="sb-plus"
+					>Study Bun Plus</small
+				>
+			{/if}
+		</h1>
 	</div>
 
 	<h1>{data.slugUser.name}'s study sets</h1>
 	<span style="display: flex; flex-wrap: wrap; gap: 30px;">
 		{#each data.slugUser.FlashcardSet as item}
-			<!-- <p>{JSON.stringify(item)}</p> -->
 			<SetDisplayCard set={item} />
 		{/each}
 	</span>
@@ -51,6 +60,7 @@
 	small {
 		font-weight: normal;
 		font-size: 0.5em;
+		margin-top: 5px;
 	}
 
 	img {
@@ -59,5 +69,21 @@
 
 	p {
 		whitespace: pre;
+	}
+
+	.sb-plus {
+		background-color: rgb(29, 82, 241);
+		border: 1px solid rgb(54, 172, 227);
+		padding: 5px 10px;
+		border-radius: 5px;
+		width: fit-content;
+		color: white;
+		cursor: pointer;
+		transition-duration: 0.1s;
+	}
+
+	.sb-plus:hover {
+		transform: scale(1.05);
+		filter: brightness(1.1);
 	}
 </style>

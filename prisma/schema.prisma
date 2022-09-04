@@ -44,17 +44,18 @@ model RefreshToken {
 }
 
 model User {
-  id                 String         @id @unique @default(cuid())
-  identifier_token   String         @unique
-  hashed_password    String?
-  used_openai_tokens Int            @default(0)
-  account_plan       String         @default("free")
-  RefreshToken       RefreshToken[]
-  name               String
-  image              String
-  created_at         DateTime       @default(now())
-  updated_at         DateTime       @updatedAt
-  FlashcardSet       FlashcardSet[]
+  id                         String         @id @unique @default(cuid())
+  identifier_token           String         @unique
+  hashed_password            String?
+  used_openai_tokens         Int            @default(0)
+  used_openai_tokens_monthly Int            @default(0)
+  account_plan               String         @default("free")
+  RefreshToken               RefreshToken[]
+  name                       String
+  image                      String
+  created_at                 DateTime       @default(now())
+  updated_at                 DateTime       @updatedAt
+  FlashcardSet               FlashcardSet[]
 
   @@map("user")
 }

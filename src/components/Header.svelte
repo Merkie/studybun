@@ -25,7 +25,7 @@
 		<span>
 			{#if user}
 				<a style="" class="create" href="/create"
-					><Icon width="14px" src={Plus} /><span style="display: none;">Create</span></a
+					><Icon width="14px" src={Plus} /><span>Create</span></a
 				>
 			{/if}
 			<div class="search">
@@ -37,6 +37,11 @@
 					placeholder="Search..."
 				/>
 			</div>
+			<a style="" class="discord" href="/discord"
+				><img width="14px" src="https://studybun.vercel.app/discord.svg" /><span
+					>Join the Discord!</span
+				></a
+			>
 		</span>
 
 		{#if user}

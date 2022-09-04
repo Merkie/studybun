@@ -7,6 +7,7 @@ export interface IUser {
 	account_plan: string;
 	created_at: string;
 	updated_at: string;
+	FlashcardSet: ISet[];
 }
 
 export interface IFlashcard {

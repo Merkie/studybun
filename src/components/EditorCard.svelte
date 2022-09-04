@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { IDefineResponse } from '$lib/types';
 	import { onMount } from 'svelte';
-	import { Icon, Refresh, Trash } from 'svelte-hero-icons';
+	import { Icon, Photograph, Refresh, Trash } from 'svelte-hero-icons';
 
 	// props
 	export let context: string;
@@ -43,10 +43,12 @@
 <main>
 	<span class="header"
 		><p>{index + 1}</p>
-		<div style="flex: 1;" />
+
+		<button on:click={completeDefinition}><Icon width="20px" src={Photograph} /></button>
 		<button class="refreshButton" bind:this={refreshButton} on:click={completeDefinition}
 			><Icon width="20px" src={Refresh} /></button
 		>
+		<div style="flex: 1;" />
 		<button on:click={() => removeSetItem(index)}><Icon width="20px" src={Trash} /></button></span
 	>
 	<div>
