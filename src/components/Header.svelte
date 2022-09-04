@@ -3,7 +3,7 @@
 	export let discordLoginUrl: string;
 	export let user: IUser;
 
-	import { Icon, Search, Plus } from 'svelte-hero-icons';
+	import { Icon, Search, Plus, Menu } from 'svelte-hero-icons';
 	import { signOut } from 'lucia-sveltekit/client';
 	import type { IUser } from '$lib/types';
 	import { theme } from '$lib/stores';
@@ -11,74 +11,92 @@
 	let dropdownShowing = false;
 	let themeSelect: HTMLSelectElement;
 	let searchInput: HTMLInputElement;
+	let mobileMenuVisible = false;
 </script>
 
 <main>
 	<nav>
-		<img
-			on:click={() => window.location.assign('/')}
-			src="https://studybun.vercel.app/logo.png"
-			width="30px"
-			alt=""
-		/>
+		<span class="nav-items">
+			<img
+				on:click={() => window.location.assign('/')}
+				src="https://studybun.vercel.app/logo.png"
+				width="30px"
+				alt=""
+			/>
 
-		<span>
+			<span>
+				{#if user}
+					<a style="" class="create desktop-icon" href="/create"
+						><Icon width="14px" src={Plus} /><span>Create</span></a
+					>
+				{/if}
+				<div class="search">
+					<Icon style="padding-left: 5px" width="15px" src={Search} />
+					<input
+						on:change={() => window.location.assign('/search?term=' + searchInput.value)}
+						bind:this={searchInput}
+						type="text"
+						placeholder="Search..."
+					/>
+				</div>
+				{#if user}
+					<a style="" class="discord desktop-icon" href="/discord"
+						><img width="14px" src="https://studybun.vercel.app/discord.svg" /><span
+							>Join the Discord!</span
+						></a
+					>
+				{/if}
+			</span>
+
 			{#if user}
-				<a style="" class="create" href="/create"
-					><Icon width="14px" src={Plus} /><span>Create</span></a
-				>
-			{/if}
-			<div class="search">
-				<Icon style="padding-left: 5px" width="15px" src={Search} />
-				<input
-					on:change={() => window.location.assign('/search?term=' + searchInput.value)}
-					bind:this={searchInput}
-					type="text"
-					placeholder="Search..."
-				/>
-			</div>
-			{#if user}
-				<a style="" class="discord" href="/discord"
-					><img width="14px" src="https://studybun.vercel.app/discord.svg" /><span
-						>Join the Discord!</span
-					></a
+				<div style="position: relative;">
+					<img
+						on:click={() => (dropdownShowing = !dropdownShowing)}
+						class="profile-image"
+						src={user.image}
+						width="40px"
+						alt="profile"
+					/>
+					<div style={`display: ${dropdownShowing ? 'flex' : 'none'}`} class="drop-down">
+						<p>{user.name}</p>
+						<a href={'/profile/' + user.user_id}>Profile</a>
+						<a href="/">Settings</a>
+						<hr />
+						<a href="/library">Library</a>
+						<select bind:this={themeSelect} on:input={() => theme.set(themeSelect.value)}>
+							<option value="light">Light</option>
+							<option value="dark">Dark</option>
+						</select>
+						<button
+							on:click={async () => {
+								await signOut();
+								window.location.assign('/');
+							}}>Sign out</button
+						>
+					</div>
+				</div>
+			{:else}
+				<button on:click={() => window.location.assign(discordLoginUrl)} class="discord"
+					><img src="https://studybun.vercel.app/discord.svg" width="20x" alt="discord" />
+					<span>Sign in with Discord</span></button
 				>
 			{/if}
 		</span>
-
-		{#if user}
-			<div style="position: relative;">
-				<img
-					on:click={() => (dropdownShowing = !dropdownShowing)}
-					class="profile-image"
-					src={user.image}
-					width="40px"
-					alt="profile"
-				/>
-				<div style={`display: ${dropdownShowing ? 'flex' : 'none'}`} class="drop-down">
-					<p>{user.name}</p>
-					<a href={'/profile/' + user.user_id}>Profile</a>
-					<a href="/">Settings</a>
-					<hr />
-					<a href="/library">Library</a>
-					<select bind:this={themeSelect} on:input={() => theme.set(themeSelect.value)}>
-						<option value="light">Light</option>
-						<option value="dark">Dark</option>
-					</select>
-					<button
-						on:click={async () => {
-							await signOut();
-							window.location.assign('/');
-						}}>Sign out</button
-					>
-				</div>
-			</div>
-		{:else}
-			<button on:click={() => window.location.assign(discordLoginUrl)} class="discord"
-				><img src="https://studybun.vercel.app/discord.svg" width="20x" alt="discord" />
-				<span>Sign in with Discord</span></button
-			>
-		{/if}
+		<button on:click={() => (mobileMenuVisible = !mobileMenuVisible)} class="mobile-menu">
+			<Icon width="20px" src={Menu} />
+		</button>
+		<div
+			style={'height: ' +
+				(mobileMenuVisible ? 'fit-content' : '0px') +
+				(mobileMenuVisible ? '' : '; padding: 0px') +
+				(mobileMenuVisible ? '' : '; margin: 0px') +
+				(mobileMenuVisible ? '' : '; border: none')}
+			class="mobile-menu-body"
+		>
+			<a href="/create">Create</a>
+			<a href="/library">Your Library</a>
+			<a href="/Discord">Study Bun Discord server</a>
+		</div>
 	</nav>
 </main>
 
@@ -95,7 +113,7 @@
 	nav {
 		background-color: var(--surface-background);
 		display: flex;
-		justify-content: space-between;
+		flex-wrap: wrap;
 		align-items: center;
 		position: sticky;
 		top: 0;
@@ -103,6 +121,36 @@
 		margin: auto;
 		padding-bottom: 10px;
 		padding-top: 10px;
+	}
+
+	.mobile-menu-body {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		margin-top: 20px;
+		padding-top: 20px;
+		gap: 10px;
+		overflow: hidden;
+		border-top: 1px solid var(--border);
+		padding-bottom: 20px;
+		transition: all 0.1s;
+	}
+
+	.mobile-menu-body a {
+		font-size: 1.2rem;
+		color: var(--border);
+		text-decoration: none;
+	}
+
+	.mobile-menu-body a:focus {
+		color: var(--text-color);
+	}
+
+	.nav-items {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-grow: 1;
 	}
 
 	hr {
@@ -236,29 +284,34 @@
 		color: white;
 	}
 
+	.mobile-menu {
+		display: none;
+		background: none;
+		border: none;
+		color: white;
+		padding-left: 20px;
+		cursor: pointer;
+	}
+
 	@media (max-width: 780px) {
 		span a {
 			display: none;
-		}
-
-		.search {
-			width: 150px;
 		}
 
 		input {
 			width: 120px;
 		}
 
-		.create {
-			font-size: 14px;
-		}
-
-		.discord span {
+		.desktop-icon {
 			display: none;
 		}
 
-		.discord {
-			padding: 10px;
+		.mobile-menu {
+			display: block;
+		}
+
+		.search {
+			width: 160px;
 		}
 	}
 </style>
