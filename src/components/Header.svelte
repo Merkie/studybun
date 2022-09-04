@@ -313,5 +313,9 @@
 		.search {
 			width: 160px;
 		}
+
+		.discord span {
+			display: none;
+		}
 	}
 </style>
