@@ -93,9 +93,11 @@
 				(mobileMenuVisible ? '' : '; border: none')}
 			class="mobile-menu-body"
 		>
-			<a href="/create">Create</a>
-			<a href="/library">Your Library</a>
-			<a href="/Discord">Study Bun Discord server</a>
+			{#if user}
+				<a href="/create">Create</a>
+				<a href="/library">Your Library</a>
+			{/if}
+			<a href="/discord">Study Bun Discord server</a>
 		</div>
 	</nav>
 </main>
