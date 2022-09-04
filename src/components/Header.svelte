@@ -37,11 +37,13 @@
 					placeholder="Search..."
 				/>
 			</div>
-			<a style="" class="discord" href="/discord"
-				><img width="14px" src="https://studybun.vercel.app/discord.svg" /><span
-					>Join the Discord!</span
-				></a
-			>
+			{#if user}
+				<a style="" class="discord" href="/discord"
+					><img width="14px" src="https://studybun.vercel.app/discord.svg" /><span
+						>Join the Discord!</span
+					></a
+				>
+			{/if}
 		</span>
 
 		{#if user}
