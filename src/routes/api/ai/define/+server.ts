@@ -7,7 +7,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	// Get the AI autocomplete
 	const response = await openai.createCompletion({
 		model: 'text-davinci-002',
-		prompt: `Provide a short response for the following term in the flashcard set entitled "${context}": ${term}`,
+		prompt: `Provide a short description for the following term in the flashcard set entitled "${context}": ${term}\ndescription: `,
 		temperature: 0.7,
 		max_tokens: 70,
 		top_p: 1,
@@ -15,15 +15,15 @@ export const POST: RequestHandler = async ({ request }) => {
 		presence_penalty: 0
 	});
 
-	let definition;
+	let description;
 
 	// If we get choices back, provide the first one
 	if (response.data.choices) {
-		definition = response.data.choices[0].text?.trim();
+		description = response.data.choices[0].text?.trim();
 	} else {
-		definition = '';
+		description = '';
 	}
 
-	// Send back the definition
-	return new Response(JSON.stringify({ definition }), { status: 200 });
+	// Send back the description
+	return new Response(JSON.stringify({ description }), { status: 200 });
 };

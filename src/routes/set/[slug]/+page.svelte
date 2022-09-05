@@ -72,13 +72,12 @@
 				By <a href={`/profile/${data.set.author.id}`}>{data.set.author.name}</a></span
 			>
 		</h4>
-		<h4 />
 	</div>
 
 	<div on:click={flip} class="flashcard" bind:this={flashcard}>
 		<h4 class="card-header">{index + 1} / {data.set.flashcards.length}</h4>
 		<span
-			><p>{termSide ? 'Term' : 'Definition'}</p>
+			><p>{termSide ? 'Term' : 'description'}</p>
 			<h1 class={termSide ? 'term' : 'def'} style="text-align: center;">
 				{data.set.flashcards[index][termSide ? 'term' : 'description']}
 			</h1>
@@ -146,6 +145,11 @@
 		height: 10px;
 		background-color: var(--container-background);
 		transition-duration: 0.2s;
+	}
+
+	.navigation {
+		position: absolute;
+		bottom: 350px;
 	}
 
 	.navigation button {

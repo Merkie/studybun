@@ -11,11 +11,11 @@ export interface IUser {
 }
 
 export interface IFlashcard {
-	id: string;
+	id?: string;
 	term: string;
 	description: string;
-	hiddenDescriptor: string;
-	image: string;
+	hiddenDescriptor?: string;
+	image?: string;
 }
 
 export interface ISet {
@@ -35,5 +35,5 @@ export interface IDefineRequest {
 }
 
 export interface IDefineResponse {
-	definition: string;
+	description: string;
 }

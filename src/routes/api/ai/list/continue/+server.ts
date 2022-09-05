@@ -30,6 +30,6 @@ export const POST: RequestHandler = async ({ request }) => {
 		return term.trim();
 	});
 
-	// Send back the definition
+	// Send back the description
 	return new Response(JSON.stringify({ terms: termsEdited }), { status: 200 });
 };

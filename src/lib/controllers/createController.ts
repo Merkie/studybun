@@ -25,9 +25,22 @@ export const suggestMoreTerms = async (context: string, suggestions: string[]) =
 	return [...suggestions, ...resData.terms];
 };
 
-export const publishSet = async (setList: Array<object>, context: string, data: object) => {
+export const publishSet = async (
+	setList: Array<object>,
+	context: string,
+	data: object,
+	description: string,
+	editingSet: string
+) => {
+	console.log(editingSet);
 	await fetch('/api/user/publish', {
 		method: 'POST',
-		body: JSON.stringify({ set: setList, context: context, user: data.user })
+		body: JSON.stringify({
+			set: setList,
+			context: context,
+			user: data.user,
+			description,
+			editingSet
+		})
 	});
 };

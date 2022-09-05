@@ -1,54 +1,107 @@
 <script lang="ts">
-	import Header from '../../components/Header.svelte';
-	import EditorCard from '../../components/EditorCard.svelte';
-	import type { IUser, ISet } from '$lib/types';
-	import { fetchTerms, suggestMoreTerms, publishSet } from '$lib/controllers/createController';
-	import {
-		AcademicCap,
-		DotsHorizontal,
-		DotsVertical,
-		Icon,
-		LockOpen,
-		Plus
-	} from 'svelte-hero-icons';
-	import { cancel } from 'timeago.js';
+	// Props
 	export let data: { user: IUser; url: string };
 
-	let setList: ISet[] = [{ term: '', definition: '' }];
-	let context: string;
-	let suggestions: string[] = [];
-	let suggesting = false;
+	// Svelte
+	import { onMount } from 'svelte';
 
-	let autofill = true;
-	let bulletpoints = false;
-	let summarize = false;
+	// Components
+	import Header from '../../components/Header.svelte';
+	import EditorCard from '../../components/EditorCard.svelte';
+	import Modal from '../../components/Modal.svelte';
 
-	let descriptor: string;
+	// Types
+	import type { IUser, IFlashcard, ISet } from '$lib/types';
 
+	// Controllers
+	import { fetchTerms, suggestMoreTerms, publishSet } from '$lib/controllers/createController';
+
+	// Icons
+	import { AcademicCap, DotsVertical, Icon, LockOpen, Plus } from 'svelte-hero-icons';
+
+	/* Local State */
+	// Bindings
+	let context: string; // Binded to the value of the title <input />
+	let description: string; // Binded to the value of the description <textarea />
+
+	// Booleans
+	let suggesting = false; // Whether or not the API is currently suggesting terms
+	let publishing = false; // Whether or not the API is currently publishing the set
+	let autofill = true; // Whether or not the user has autofill enabled
+	let bulletpoints = false; // Whether or not the user has bulletpoints enabled
+	let summarize = false; // Whether or not the user has summarize enabled
+
+	// Other
+	let setList: IFlashcard[] = [{ term: '', description: '' }]; // List of flashcards
+	let editingSet: string; // The set that is currently being edited, '' if new set
+	let suggestions: string[] = []; // Term suggestions from API
+	let descriptor: string; // String that is built from the user's selected filters
+
+	// Add an empty flashcard to the end of the setList
 	const addSetItem = (term: string) => {
-		setList.push({ term, definition: '' });
+		setList.push({ term, description: '' });
 		setList = [...setList];
 	};
 
-	const updateSetItem = (index: number, term: string, definition: string) => {
-		setList[index] = { term, definition };
+	// Callback function that updates a specific item in the setList, called by <EditorCard />
+	const updateSetItem = (index: number, term: string, description: string) => {
+		setList[index] = { term, description };
 		setList = [...setList];
 	};
 
+	// Callback function that removed a specific card from the setList, called by <EditorCard />
 	const removeSetItem = (index: number) => {
 		setList = setList.slice(0, index).concat(setList.slice(index + 1));
 	};
 
+	// Removes a specific suggestion from the suggestions array
 	const removeSuggestionItem = (index: number) => {
 		suggestions.splice(index, 1);
 		suggestions = [...suggestions];
 	};
-
+	// effect that changes the descriptor whenever the user changes the filters
 	$: {
 		descriptor =
 			(summarize ? ', summarize for fifth grader' : '') +
 			(bulletpoints ? ', summarized bulletpoints' : '');
 	}
+
+	onMount(async () => {
+		// If the user isnt logged in, redirect to /
+		if (!data.user) {
+			window.location.assign('/');
+		}
+
+		// Onmount script that fetches the terms from the URL if the user is editing a set, not creating a new one
+		const url = window.location.toString();
+		const urlParams = new URLSearchParams(url.split('?')[1]);
+		const set = urlParams.get('set'); // ?set=...
+
+		if (set) {
+			// Fetch details of the set from the API
+			const response = fetch('/api/set/fetch', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ id: set })
+			});
+
+			// Get the JSON data
+			const resData = await (await response).json();
+
+			// If we get the set back...
+			if (resData.set) {
+				// If the owner of the set is not the current user, return
+				if (resData.set.userId != data.user.user_id) return;
+				editingSet = resData.set.id; // Set the editingSet to the set's ID
+				const set: ISet = resData.set; // Set the set variable to the set data
+				setList = set.flashcards; // Set the setList to the set's flashcards
+				context = set.name; // Change the title (context) to the set's name
+				description = set.description; // Set the description to the set's description
+			}
+		}
+	});
 </script>
 
 <svelte:head>
@@ -58,12 +111,6 @@
 <Header discordLoginUrl={data.url} user={data.user} />
 
 <main>
-	{#if !data.user}
-		<span style="text-align: center;"
-			><h1>Error</h1>
-			<p>You need to be logged in to use this route</p>
-		</span>
-	{/if}
 	{#if data.user}
 		<span class="header-info"
 			><h1>Create a new study set</h1>
@@ -73,10 +120,12 @@
 		<button class="preview-btn">Preview</button>
 		<button
 			on:click={async () => {
-				await publishSet(setList, context, data);
+				publishing = true;
+				await publishSet(setList, context, data, description, editingSet);
 				window.location.assign('/library');
 			}}
-			class="publish-btn">Publish</button
+			class="publish-btn"
+			disabled={publishing}>Publish</button
 		>
 		<input
 			type="text"
@@ -89,7 +138,11 @@
 				}
 			}}
 		/>
-		<textarea placeholder="Optional: Enter a description for the set" class="setdesc" />
+		<textarea
+			bind:value={description}
+			placeholder="Optional: Enter a description for the set"
+			class="setdesc"
+		/>
 
 		<h3 style="margin-top: 0;">Filters</h3>
 		<div class="filters">
@@ -163,7 +216,7 @@
 				{removeSetItem}
 				{updateSetItem}
 				{descriptor}
-				definition={item.definition}
+				description={item.description}
 				term={item.term}
 				index={setList.indexOf(item)}
 				{context}

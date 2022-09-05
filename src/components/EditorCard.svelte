@@ -7,7 +7,7 @@
 	export let context: string;
 	export let index: number;
 	export let term: string;
-	export let definition: string;
+	export let description: string;
 	export let autofill: boolean;
 
 	export let descriptor: string;
@@ -16,7 +16,7 @@
 
 	let refreshButton: HTMLElement;
 
-	const completeDefinition = async () => {
+	const completedescription = async () => {
 		refreshButton.style.transitionDuration = '1s';
 		refreshButton.style.transform = 'rotate(360deg)';
 		if (!autofill) return;
@@ -27,25 +27,27 @@
 		});
 
 		const resData: IDefineResponse = JSON.parse(await (await response.blob()).text());
-		definition = resData.definition;
+		description = resData.description;
 		refreshButton.style.transitionDuration = '0s';
 		refreshButton.style.transform = 'rotate(0deg)';
 	};
 
 	onMount(async () => {
-		if (!term) return;
-		await completeDefinition();
+		if (!term || description) return;
+		await completedescription();
 	});
-
-	$: updateSetItem(index, term, definition);
+	5;
+	$: {
+		const response = updateSetItem(index, term, description);
+	}
 </script>
 
 <main>
 	<span class="header"
 		><p>{index + 1}</p>
 
-		<button on:click={completeDefinition}><Icon width="20px" src={Photograph} /></button>
-		<button class="refreshButton" bind:this={refreshButton} on:click={completeDefinition}
+		<button on:click={completedescription}><Icon width="20px" src={Photograph} /></button>
+		<button class="refreshButton" bind:this={refreshButton} on:click={completedescription}
 			><Icon width="20px" src={Refresh} /></button
 		>
 		<div style="flex: 1;" />
@@ -55,7 +57,7 @@
 		<span>
 			<p>Term</p>
 			<textarea
-				on:change={completeDefinition}
+				on:change={completedescription}
 				bind:value={term}
 				rows="4"
 				data-gramm="false"
@@ -63,9 +65,9 @@
 			/>
 		</span>
 		<span>
-			<p>Definition</p>
+			<p>description</p>
 			<textarea
-				bind:value={definition}
+				bind:value={description}
 				data-gramm="false"
 				rows="4"
 				placeholder="A group of atoms bonded together..."

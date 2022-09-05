@@ -41,7 +41,7 @@
 				</div>
 				{#if user}
 					<a style="" class="discord desktop-icon" href="/discord"
-						><img width="14px" src="https://studybun.vercel.app/discord.svg" /><span
+						><img width="14px" src="https://studybun.vercel.app/discord.svg" alt="discord" /><span
 							>Join the Discord!</span
 						></a
 					>
@@ -57,13 +57,18 @@
 						width="40px"
 						alt="profile"
 					/>
+
 					<div style={`display: ${dropdownShowing ? 'flex' : 'none'}`} class="drop-down">
 						<p>{user.name}</p>
 						<a href={'/profile/' + user.user_id}>Profile</a>
 						<a href="/">Settings</a>
 						<hr />
 						<a href="/library">Library</a>
-						<select bind:this={themeSelect} on:input={() => theme.set(themeSelect.value)}>
+						<select
+							style="margin-bottom: 10px;"
+							bind:this={themeSelect}
+							on:input={() => theme.set(themeSelect.value)}
+						>
 							<option value="light">Light</option>
 							<option value="dark">Dark</option>
 						</select>
@@ -85,19 +90,21 @@
 		<button on:click={() => (mobileMenuVisible = !mobileMenuVisible)} class="mobile-menu">
 			<Icon width="20px" src={Menu} />
 		</button>
-		<div
-			style={'height: ' +
-				(mobileMenuVisible ? 'fit-content' : '0px') +
-				(mobileMenuVisible ? '' : '; padding: 0px') +
-				(mobileMenuVisible ? '' : '; margin: 0px') +
-				(mobileMenuVisible ? '' : '; border: none')}
-			class="mobile-menu-body"
-		>
-			{#if user}
-				<a href="/create">Create</a>
-				<a href="/library">Your Library</a>
-			{/if}
-			<a href="/discord">Study Bun Discord server</a>
+		<div class="mobile-menu-wrapper">
+			<div
+				style={'height: ' +
+					(mobileMenuVisible ? 'fit-content' : '0px') +
+					(mobileMenuVisible ? '' : '; padding: 0px') +
+					(mobileMenuVisible ? '' : '; margin: 0px') +
+					(mobileMenuVisible ? '' : '; border: none')}
+				class="mobile-menu-body"
+			>
+				{#if user}
+					<a href="/create">Create</a>
+					<a href="/library">Your Library</a>
+				{/if}
+				<a href="/discord">Study Bun Discord server</a>
+			</div>
 		</div>
 	</nav>
 </main>
@@ -295,6 +302,10 @@
 		cursor: pointer;
 	}
 
+	.mobile-menu-wrapper {
+		display: none;
+	}
+
 	@media (max-width: 780px) {
 		span a {
 			display: none;
@@ -314,6 +325,11 @@
 
 		.search {
 			width: 160px;
+		}
+
+		.mobile-menu-wrapper {
+			display: block;
+			width: 100%;
 		}
 
 		.discord span {
