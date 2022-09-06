@@ -9,5 +9,5 @@ export const load: ServerLoad = async () => {
 		}
 	});
 
-	return { sets };
+	return { sets: sets.reverse() };
 };
