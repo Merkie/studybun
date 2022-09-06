@@ -168,7 +168,8 @@
 
 <style>
 	.flashcard {
-		width: min(80%, 500px);
+		max-width: 500px;
+		margin: 0 auto;
 		background-color: #fff;
 		padding: 30px;
 		border-radius: 10px;
@@ -177,7 +178,6 @@
 		color: black;
 		position: relative;
 		white-space: pre-wrap;
-		margin: 0 auto;
 	}
 
 	.flashcard-wrapper {
@@ -193,7 +193,7 @@
 	}
 
 	.def {
-		font-size: 24px !important;
+		font-size: 18px !important;
 		text-align: left !important;
 		font-weight: normal;
 	}
@@ -321,6 +321,7 @@
 
 	.maximized .flashcard {
 		top: 70px;
+		max-width: 1000px;
 	}
 
 	@media (max-width: 850px) {
