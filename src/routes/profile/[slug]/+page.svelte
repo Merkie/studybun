@@ -1,54 +1,38 @@
 <script lang="ts">
-	import Header from '../../../components/Header.svelte';
 	import type { IUser } from '$lib/types';
 	import { format } from 'timeago.js';
 	import SetDisplayCard from '../../../components/SetDisplayCard.svelte';
 	export let data: { user: IUser; slugUser: IUser; url: string };
 </script>
 
-<Header discordLoginUrl={data.url} user={data.user} />
-<main>
-	<div class="header">
-		<img src={data.slugUser.image} width="100px" alt="" />
-		<h1>
-			{data.slugUser.name}
-			<small>Joined {format(data.slugUser.created_at)}</small>
+<div class="header">
+	<img src={data.slugUser.image} width="100px" alt="" />
+	<h1>
+		{data.slugUser.name}
+		<small>Joined {format(data.slugUser.created_at)}</small>
 
-			{#if data.slugUser.account_plan == 'premium'}
-				<small on:click={() => window.location.assign('/premium')} class="sb-plus"
-					>Study Bun Plus</small
-				>
-			{/if}
-			{#if data.user.user_id == data.slugUser.id}
-				<small style="margin-top: 10px;">Used tokens: {data.slugUser.used_openai_tokens}</small>
-				<small style="margin-top: 10px;"
-					>Used tokens ($): {((0.02 / 1000) * data.slugUser.used_openai_tokens).toFixed(3)}</small
-				>
-			{/if}
-		</h1>
-	</div>
+		{#if data.slugUser.account_plan == 'premium'}
+			<small on:click={() => window.location.assign('/premium')} class="sb-plus"
+				>Study Bun Plus</small
+			>
+		{/if}
+		{#if data.user.user_id == data.slugUser.id}
+			<small style="margin-top: 10px;">Used tokens: {data.slugUser.used_openai_tokens}</small>
+			<small style="margin-top: 10px;"
+				>Used tokens ($): {((0.02 / 1000) * data.slugUser.used_openai_tokens).toFixed(3)}</small
+			>
+		{/if}
+	</h1>
+</div>
 
-	<h1>{data.slugUser.name}'s study sets</h1>
-	<span style="display: flex; flex-wrap: wrap; gap: 30px;">
-		{#each data.slugUser.FlashcardSet as item}
-			<SetDisplayCard set={item} />
-		{/each}
-	</span>
-</main>
+<h1>{data.slugUser.name}'s study sets</h1>
+<span style="display: flex; flex-wrap: wrap; gap: 30px;">
+	{#each data.slugUser.FlashcardSet as item}
+		<SetDisplayCard set={item} />
+	{/each}
+</span>
 
 <style>
-	main {
-		width: min(75%, 1200px);
-		margin: 0 auto;
-		margin-top: 100px;
-		background-color: var(--surface-background);
-		padding: 30px;
-		border-radius: 10px;
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-	}
-
 	.header {
 		display: flex;
 		align-items: center;
@@ -71,10 +55,6 @@
 
 	img {
 		border-radius: 50%;
-	}
-
-	p {
-		whitespace: pre;
 	}
 
 	.sb-plus {

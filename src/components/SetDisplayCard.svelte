@@ -3,10 +3,11 @@
 	import { Icon, Pencil, Trash } from 'svelte-hero-icons';
 	import type { ISet } from '$lib/types';
 	export let set: ISet;
-	export let edit: boolean;
-	export let index: number;
-	export let promptDelete: Function;
-	export let indexCallback: Function;
+	// TODO: make these props better
+	export let edit: boolean = false;
+	export let index: number = 0;
+	export let promptDelete: Function = () => {};
+	export let indexCallback: Function = () => {};
 </script>
 
 <div>

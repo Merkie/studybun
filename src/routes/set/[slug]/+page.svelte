@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { ISet, IUser } from '$lib/types';
-	import Header from '../../../components/Header.svelte';
 	import { ArrowLeft, ArrowRight, Icon } from 'svelte-hero-icons';
 
 	export let data: { user: IUser; url: string; set: ISet };
@@ -57,62 +56,45 @@
 	};
 </script>
 
-<Header discordLoginUrl={data.url} user={data.user} />
-
 <div
 	class="progressbar"
 	style={'width: calc(100vw * ' + (index + 1) / data.set.flashcards.length + ');'}
 />
 
-<main>
-	<div class="set-info">
-		<h4>
-			{data.set.name}:
-			<span style="font-weight: normal;">
-				By <a href={`/profile/${data.set.author.id}`}>{data.set.author.name}</a></span
-			>
-		</h4>
-	</div>
+<div class="set-info">
+	<h4>
+		{data.set.name}:
+		<span style="font-weight: normal;">
+			By <a href={`/profile/${data.set.author.id}`}>{data.set.author.name}</a></span
+		>
+	</h4>
+</div>
 
-	<div on:click={flip} class="flashcard" bind:this={flashcard}>
-		<h4 class="card-header">{index + 1} / {data.set.flashcards.length}</h4>
+<div class="flashcard" bind:this={flashcard}>
+	<h4 class="card-header">{index + 1} / {data.set.flashcards.length}</h4>
+	<span on:click={flip}
+		><p>{termSide ? 'Term' : 'description'}</p>
+		{#if data.set.flashcards[index].image}
+			<img
+				style="margin-left: 50%; transform: translateX(-50%);"
+				width="120px"
+				src={data.set.flashcards[index].image}
+				alt="flashcard"
+			/>
+		{/if}
+		<h1 class={termSide ? 'term' : 'def'} style="text-align: center;">
+			{data.set.flashcards[index][termSide ? 'term' : 'description']}
+		</h1>
 
-		<span
-			><p>{termSide ? 'Term' : 'description'}</p>
-			{#if data.set.flashcards[index].image}
-				<img
-					style="margin-left: 50%; transform: translateX(-50%);"
-					width="120px"
-					src={data.set.flashcards[index].image}
-					alt="flashcard"
-				/>
-			{/if}
-			<h1 class={termSide ? 'term' : 'def'} style="text-align: center;">
-				{data.set.flashcards[index][termSide ? 'term' : 'description']}
-			</h1>
-
-			<!-- <p>{data.set.flashcards[index].description}</p> -->
-		</span>
-	</div>
-
+		<!-- <p>{data.set.flashcards[index].description}</p> -->
+	</span>
 	<div class="navigation">
 		<button on:click={progressBackwards}><Icon src={ArrowLeft} width="20px" /></button>
 		<button on:click={progressCard}><Icon src={ArrowRight} width="20px" /></button>
 	</div>
-</main>
+</div>
 
 <style>
-	main {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: 50px;
-		margin-top: 50px;
-		overflow-x: hidden;
-		margin-top: 100px;
-		padding-bottom: 100px;
-	}
 	.flashcard {
 		width: min(80%, 500px);
 		background-color: #fff;
@@ -158,7 +140,9 @@
 
 	.navigation {
 		position: absolute;
-		bottom: 300px;
+		bottom: 0;
+		left: 50%;
+		transform: translate(-50%, 50%);
 	}
 
 	.navigation button {

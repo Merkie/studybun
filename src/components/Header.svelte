@@ -58,7 +58,7 @@
 
 					<div style={`display: ${dropdownShowing ? 'flex' : 'none'}`} class="drop-down">
 						<p>{user.name}</p>
-						<a href={'/profile/' + user.user_id}>Profile</a>
+						<a href={'/profile/' + user.id}>Profile</a>
 						<a href="/settings">Settings</a>
 						<hr />
 						<a href="/library">Library</a>

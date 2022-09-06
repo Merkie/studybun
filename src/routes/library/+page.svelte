@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { ISet, IUser } from '$lib/types';
-	import Header from '../../components/Header.svelte';
 	import SetDisplayCard from '../../components/SetDisplayCard.svelte';
 	import Modal from '../../components/Modal.svelte';
 	import { setMaxListeners } from 'discord-oauth2';
@@ -44,22 +43,19 @@
 	});
 </script>
 
-<Header discordLoginUrl={data.url} user={data.user} />
 {#if data.user}
-	<main>
-		<h1>Your study sets</h1>
-		<span style="display: flex; flex-wrap: wrap; gap: 30px;">
-			{#each data.sets as item}
-				<SetDisplayCard
-					index={data.sets.indexOf(item)}
-					indexCallback={(index) => (deleteIndex = index)}
-					{promptDelete}
-					edit={true}
-					set={item}
-				/>
-			{/each}
-		</span>
-	</main>
+	<h1>Your study sets</h1>
+	<span style="display: flex; flex-wrap: wrap; gap: 30px;">
+		{#each data.sets as item}
+			<SetDisplayCard
+				index={data.sets.indexOf(item)}
+				indexCallback={(index) => (deleteIndex = index)}
+				{promptDelete}
+				edit={true}
+				set={item}
+			/>
+		{/each}
+	</span>
 {/if}
 
 {#if modalOpen}
@@ -69,18 +65,3 @@
 		close={() => (modalOpen = false)}
 	/>
 {/if}
-
-<style>
-	main {
-		width: min(75%, 1200px);
-		margin: 0 auto;
-		margin-top: 100px;
-		margin-bottom: 30px;
-		background-color: var(--surface-background);
-		padding: 30px;
-		border-radius: 10px;
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-	}
-</style>

@@ -1,6 +1,9 @@
 <script>
 	import { Lucia } from 'lucia-sveltekit/client';
 	import { theme } from '$lib/stores';
+	import Header from '../components/Header.svelte';
+
+	export let data;
 
 	let lightTheme = `
 		--surface-background: white;
@@ -51,6 +54,7 @@
 		}`}
 	>
 		<slot />
+		<Header discordLoginUrl={data.url} user={data.user} />
 	</main>
 </Lucia>
 
@@ -62,5 +66,17 @@
 
 	:global(a) {
 		color: var(--border);
+	}
+
+	main {
+		width: min(75%, 1200px);
+		margin: 0 auto;
+		margin-top: 100px;
+		background-color: var(--surface-background);
+		padding: 30px;
+		border-radius: 10px;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
 	}
 </style>

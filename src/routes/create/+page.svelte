@@ -6,7 +6,6 @@
 	import { onMount } from 'svelte';
 
 	// Components
-	import Header from '../../components/Header.svelte';
 	import EditorCard from '../../components/EditorCard.svelte';
 	import Modal from '../../components/Modal.svelte';
 
@@ -108,15 +107,15 @@
 	<title>Create | Study Bun</title>
 </svelte:head>
 
-<Header discordLoginUrl={data.url} user={data.user} />
-
-<main>
-	{#if data.user}
-		<span class="header-info"
-			><h1>Create a new study set</h1>
-			<small class="status-info"> <Icon width="15px" src={LockOpen} />Public</small></span
-		>
-		<div style="flex: 1" />
+{#if data.user}
+	<span class="header-info"
+		><h1 style="margin-bottom: 0;">Create a new study set</h1>
+		<small style="margin-bottom: 0;" class="status-info">
+			<Icon width="15px" src={LockOpen} />Public</small
+		></span
+	>
+	<div style="flex: 1" />
+	<span>
 		<button class="preview-btn">Preview</button>
 		<button
 			on:click={async () => {
@@ -127,120 +126,109 @@
 			class="publish-btn"
 			disabled={publishing}>Publish</button
 		>
-		<input
-			type="text"
-			bind:value={context}
-			class="setname"
-			placeholder={`Enter a title, like ${'"Chemistry: Unit 1 - Atomic Structure"'}`}
-			on:change={async () => {
-				if (autofill) {
-					suggestions = await fetchTerms(context);
-				}
-			}}
-		/>
-		<textarea
-			bind:value={description}
-			placeholder="Optional: Enter a description for the set"
-			class="setdesc"
-		/>
+	</span>
+	<input
+		type="text"
+		bind:value={context}
+		class="setname"
+		placeholder={`Enter a title, like ${'"Chemistry: Unit 1 - Atomic Structure"'}`}
+		on:change={async () => {
+			if (autofill) {
+				suggestions = await fetchTerms(context);
+			}
+		}}
+	/>
+	<textarea
+		bind:value={description}
+		placeholder="Optional: Enter a description for the set"
+		class="setdesc"
+	/>
 
-		<h3 style="margin-top: 0;">Filters</h3>
-		<div class="filters">
-			<span style="display: flex; gap: 10px;">
-				<button class={!autofill ? 'selected' : ''} on:click={() => (autofill = !autofill)}>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke-width="1.5"
-						stroke="currentColor"
-						class="w-6 h-6"
-						width="20px"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
-						/>
-					</svg>
-				</button>
-				<button
-					class={bulletpoints ? 'selected' : ''}
-					on:click={() => (bulletpoints = !bulletpoints)}
+	<h3 style="margin-top: 0;">Filters</h3>
+	<div class="filters">
+		<span style="display: flex; gap: 10px;">
+			<button class={!autofill ? 'selected' : ''} on:click={() => (autofill = !autofill)}>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="w-6 h-6"
+					width="20px"
 				>
-					<Icon width="20px" src={DotsVertical} />
-				</button>
-				<button class={summarize ? 'selected' : ''} on:click={() => (summarize = !summarize)}>
-					<Icon width="20px" src={AcademicCap} />
-				</button>
-			</span>
-			{#if descriptor && autofill}
-				<p>
-					{descriptor.replace(', ', '')}
-				</p>
-			{/if}
-			{#if !autofill}
-				<p style="color: rgb(247, 68, 68);">Autofill is disabled</p>
-			{/if}
-		</div>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+					/>
+				</svg>
+			</button>
+			<button
+				class={bulletpoints ? 'selected' : ''}
+				on:click={() => (bulletpoints = !bulletpoints)}
+			>
+				<Icon width="20px" src={DotsVertical} />
+			</button>
+			<button class={summarize ? 'selected' : ''} on:click={() => (summarize = !summarize)}>
+				<Icon width="20px" src={AcademicCap} />
+			</button>
+		</span>
+		{#if descriptor && autofill}
+			<p>
+				{descriptor.replace(', ', '')}
+			</p>
+		{/if}
+		{#if !autofill}
+			<p style="color: rgb(247, 68, 68);">Autofill is disabled</p>
+		{/if}
+	</div>
 
-		<div class="suggestions">
-			{#each suggestions as item}
-				<span
-					on:click={() => {
-						addSetItem(item);
-						removeSuggestionItem(suggestions.indexOf(item));
-					}}>{item}</span
-				>
-			{/each}
-
-			{#if suggestions.length > 0 && !suggesting}
-				<button
-					on:click={async () => {
-						suggesting = true;
-						suggestions = [
-							...suggestions,
-							...((await suggestMoreTerms(context, suggestions)) || [])
-						];
-						suggesting = false;
-					}}
-					class="more-suggestions"
-				>
-					More Suggestions...</button
-				>
-			{/if}
-		</div>
-
-		{#each setList as item}
-			<EditorCard
-				{removeSetItem}
-				{updateSetItem}
-				{descriptor}
-				description={item.description}
-				term={item.term}
-				index={setList.indexOf(item)}
-				{context}
-				{autofill}
-				imagesrc={item.image || ''}
-				userId={data.user.user_id}
-			/>
+	<div class="suggestions">
+		{#each suggestions as item}
+			<span
+				on:click={() => {
+					addSetItem(item);
+					removeSuggestionItem(suggestions.indexOf(item));
+				}}>{item}</span
+			>
 		{/each}
 
-		<button on:click={() => addSetItem('')} class="add"><Icon width="30px" src={Plus} /></button>
-	{/if}
-</main>
+		{#if suggestions.length > 0 && !suggesting}
+			<button
+				on:click={async () => {
+					suggesting = true;
+					suggestions = [...suggestions, ...((await suggestMoreTerms(context, suggestions)) || [])];
+					suggesting = false;
+				}}
+				class="more-suggestions"
+			>
+				More Suggestions...</button
+			>
+		{/if}
+	</div>
+
+	{#each setList as item}
+		<EditorCard
+			{removeSetItem}
+			{updateSetItem}
+			{descriptor}
+			description={item.description}
+			term={item.term}
+			index={setList.indexOf(item)}
+			{context}
+			{autofill}
+			imagesrc={item.image || ''}
+			userId={data.user.user_id}
+		/>
+	{/each}
+
+	<button style="height: 60px; width: 60px;" on:click={() => addSetItem('')} class="add"
+		><Icon width="30px" src={Plus} /></button
+	>
+{/if}
 
 <style>
-	main {
-		width: min(75%, 1200px);
-		margin: 0 auto;
-		margin-top: 100px;
-		margin-bottom: 30px;
-		background-color: var(--surface-background);
-		padding: 30px;
-		border-radius: 10px;
-	}
-
 	.header-info {
 		display: flex;
 		gap: 10px;
