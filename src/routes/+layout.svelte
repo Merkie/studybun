@@ -18,8 +18,18 @@
 		--text-color: white;
 	`.trim();
 
+	let utdTheme = `
+		--surface-background: white;
+		--background: #2ecc71;
+		--container-background: #ffb270;
+		--border: #30336b;
+		--text-color: #130f40;
+	`.trim();
+
 	$: {
-		let userTheme = $theme === 'light' ? lightTheme : darkTheme;
+		let userTheme = `${$theme == 'light' ? lightTheme : ''} ${$theme == 'dark' ? darkTheme : ''} ${
+			$theme == 'utd' ? utdTheme : ''
+		}`;
 		try {
 			document.getElementsByTagName('body')[0].style.backgroundColor = userTheme
 				.split('--background:')[1]
@@ -35,7 +45,11 @@
 </script>
 
 <Lucia>
-	<main style={`${$theme == 'light' ? lightTheme : darkTheme}`}>
+	<main
+		style={`${$theme == 'light' ? lightTheme : ''} ${$theme == 'dark' ? darkTheme : ''} ${
+			$theme == 'utd' ? utdTheme : ''
+		}`}
+	>
 		<slot />
 	</main>
 </Lucia>

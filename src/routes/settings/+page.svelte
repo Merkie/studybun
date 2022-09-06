@@ -28,6 +28,7 @@
 		>
 			<option value="light">Light</option>
 			<option value="dark">Dark</option>
+			<option value="utd">UT Dallas</option>
 		</select>
 	</main>
 {/if}
