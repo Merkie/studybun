@@ -48,14 +48,16 @@
 </script>
 
 <Lucia>
-	<main
+	<span
 		style={`${$theme == 'light' ? lightTheme : ''} ${$theme == 'dark' ? darkTheme : ''} ${
 			$theme == 'utd' ? utdTheme : ''
 		}`}
 	>
-		<slot />
+		<main>
+			<slot />
+		</main>
 		<Header discordLoginUrl={data.url} user={data.user} />
-	</main>
+	</span>
 </Lucia>
 
 <style>
@@ -69,7 +71,7 @@
 	}
 
 	main {
-		width: min(75%, 1200px);
+		width: min(calc(100% - 120px), 1200px);
 		margin: 0 auto;
 		margin-top: 100px;
 		background-color: var(--surface-background);
@@ -78,5 +80,6 @@
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
+		position: relative;
 	}
 </style>
