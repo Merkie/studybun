@@ -102,7 +102,6 @@
 <style>
 	main {
 		width: 100%;
-		background-color: var(--surface-background);
 		filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.2));
 		top: 0;
 		left: 0;
@@ -110,13 +109,16 @@
 		position: absolute;
 	}
 	nav {
+		padding: 0 30px;
+		border-bottom-left-radius: 10px;
+		border-bottom-right-radius: 10px;
 		background-color: var(--surface-background);
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
 		position: sticky;
 		top: 0;
-		width: min(80%, 1200px);
+		width: min(calc(100% - 120px), 1200px);
 		margin: auto;
 		padding-bottom: 10px;
 		padding-top: 10px;
