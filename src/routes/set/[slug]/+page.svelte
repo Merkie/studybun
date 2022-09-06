@@ -315,8 +315,9 @@
 		position: absolute;
 		top: 0;
 		left: 0;
-		width: calc(100% - 100px);
-		height: calc(100vh - 240px);
+		width: calc(100% - 20px);
+		height: calc(100vh - 155px);
+		padding: 10px;
 	}
 
 	.maximized .flashcard {

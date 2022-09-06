@@ -14,72 +14,74 @@
 
 <main>
 	<nav>
-		<span class="nav-items">
-			<img
-				on:click={() => window.location.assign('/')}
-				src="https://studybun.vercel.app/logo.png"
-				width="30px"
-				alt=""
-			/>
+		<span class="nav-row">
+			<span class="nav-items">
+				<img
+					on:click={() => window.location.assign('/')}
+					src="https://studybun.vercel.app/logo.png"
+					width="30px"
+					alt=""
+				/>
 
-			<span>
+				<span>
+					{#if user}
+						<a style="" class="create desktop-icon" href="/create"
+							><Icon width="14px" src={Plus} /><span>Create</span></a
+						>
+					{/if}
+					<div class="search">
+						<Icon style="padding-left: 5px" width="15px" src={Search} />
+						<input
+							on:change={() => window.location.assign('/search?term=' + searchInput.value)}
+							bind:this={searchInput}
+							type="text"
+							placeholder="Search..."
+						/>
+					</div>
+					{#if user}
+						<a style="" class="discord desktop-icon" href="/discord"
+							><img width="14px" src="https://studybun.vercel.app/discord.svg" alt="discord" /><span
+								>Join the Discord!</span
+							></a
+						>
+					{/if}
+				</span>
+
 				{#if user}
-					<a style="" class="create desktop-icon" href="/create"
-						><Icon width="14px" src={Plus} /><span>Create</span></a
-					>
-				{/if}
-				<div class="search">
-					<Icon style="padding-left: 5px" width="15px" src={Search} />
-					<input
-						on:change={() => window.location.assign('/search?term=' + searchInput.value)}
-						bind:this={searchInput}
-						type="text"
-						placeholder="Search..."
-					/>
-				</div>
-				{#if user}
-					<a style="" class="discord desktop-icon" href="/discord"
-						><img width="14px" src="https://studybun.vercel.app/discord.svg" alt="discord" /><span
-							>Join the Discord!</span
-						></a
+					<div style="position: relative;">
+						<img
+							on:click={() => (dropdownShowing = !dropdownShowing)}
+							class="profile-image"
+							src={user.image}
+							width="40px"
+							alt="profile"
+						/>
+
+						<div style={`display: ${dropdownShowing ? 'flex' : 'none'}`} class="drop-down">
+							<p>{user.name}</p>
+							<a href={'/profile/' + user.id}>Profile</a>
+							<a href="/settings">Settings</a>
+							<hr />
+							<a href="/library">Library</a>
+							<button
+								on:click={async () => {
+									await signOut();
+									window.location.assign('/');
+								}}>Sign out</button
+							>
+						</div>
+					</div>
+				{:else}
+					<button on:click={() => window.location.assign(discordLoginUrl)} class="discord"
+						><img src="https://studybun.vercel.app/discord.svg" width="20x" alt="discord" />
+						<span>Sign in with Discord</span></button
 					>
 				{/if}
 			</span>
-
-			{#if user}
-				<div style="position: relative;">
-					<img
-						on:click={() => (dropdownShowing = !dropdownShowing)}
-						class="profile-image"
-						src={user.image}
-						width="40px"
-						alt="profile"
-					/>
-
-					<div style={`display: ${dropdownShowing ? 'flex' : 'none'}`} class="drop-down">
-						<p>{user.name}</p>
-						<a href={'/profile/' + user.id}>Profile</a>
-						<a href="/settings">Settings</a>
-						<hr />
-						<a href="/library">Library</a>
-						<button
-							on:click={async () => {
-								await signOut();
-								window.location.assign('/');
-							}}>Sign out</button
-						>
-					</div>
-				</div>
-			{:else}
-				<button on:click={() => window.location.assign(discordLoginUrl)} class="discord"
-					><img src="https://studybun.vercel.app/discord.svg" width="20x" alt="discord" />
-					<span>Sign in with Discord</span></button
-				>
-			{/if}
+			<button on:click={() => (mobileMenuVisible = !mobileMenuVisible)} class="mobile-menu">
+				<Icon width="20px" src={Menu} />
+			</button>
 		</span>
-		<button on:click={() => (mobileMenuVisible = !mobileMenuVisible)} class="mobile-menu">
-			<Icon width="20px" src={Menu} />
-		</button>
 		<div class="mobile-menu-wrapper">
 			<div
 				style={'height: ' +
@@ -114,7 +116,6 @@
 		border-bottom-right-radius: 10px;
 		background-color: var(--surface-background);
 		display: flex;
-		flex-wrap: wrap;
 		align-items: center;
 		position: sticky;
 		top: 0;
@@ -122,6 +123,14 @@
 		margin: auto;
 		padding-bottom: 10px;
 		padding-top: 10px;
+		flex-wrap: wrap;
+	}
+
+	.nav-row {
+		display: flex;
+		width: 100%;
+		justify-content: space-between;
+		align-items: center;
 	}
 
 	.mobile-menu-body {
@@ -294,8 +303,13 @@
 			display: none;
 		}
 
-		input {
-			width: 120px;
+		.search {
+			width: fit-content;
+			flex: 1;
+		}
+
+		.search input {
+			width: 100%;
 		}
 
 		.desktop-icon {
@@ -306,10 +320,6 @@
 			display: block;
 		}
 
-		.search {
-			width: 160px;
-		}
-
 		.mobile-menu-wrapper {
 			display: block;
 			width: 100%;
@@ -317,6 +327,12 @@
 
 		.discord span {
 			display: none;
+		}
+
+		nav {
+			left: 0;
+			width: calc(100% - 60px);
+			padding: 10px 30px;
 		}
 	}
 </style>
