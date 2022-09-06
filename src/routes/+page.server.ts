@@ -12,7 +12,7 @@ export const load: ServerLoad = async ({ parent }) => {
 	});
 
 	if (lucia) {
-		return { user: lucia.user, sets: sets };
+		return { user: lucia.user, sets: sets.reverse() };
 	}
 
 	return { url: process.env.DISCORD_LOGIN_URL, sets: sets };
