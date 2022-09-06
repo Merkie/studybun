@@ -6,10 +6,8 @@
 	import { Icon, Search, Plus, Menu } from 'svelte-hero-icons';
 	import { signOut } from 'lucia-sveltekit/client';
 	import type { IUser } from '$lib/types';
-	import { theme } from '$lib/stores';
 
 	let dropdownShowing = false;
-	let themeSelect: HTMLSelectElement;
 	let searchInput: HTMLInputElement;
 	let mobileMenuVisible = false;
 </script>
@@ -61,17 +59,9 @@
 					<div style={`display: ${dropdownShowing ? 'flex' : 'none'}`} class="drop-down">
 						<p>{user.name}</p>
 						<a href={'/profile/' + user.user_id}>Profile</a>
-						<a href="/">Settings</a>
+						<a href="/settings">Settings</a>
 						<hr />
 						<a href="/library">Library</a>
-						<select
-							style="margin-bottom: 10px;"
-							bind:this={themeSelect}
-							on:input={() => theme.set(themeSelect.value)}
-						>
-							<option value="light">Light</option>
-							<option value="dark">Dark</option>
-						</select>
 						<button
 							on:click={async () => {
 								await signOut();
@@ -165,15 +155,6 @@
 	hr {
 		width: 100%;
 		color: var(--border);
-	}
-
-	select {
-		-webkit-appearance: none;
-		background-color: var(--container-background);
-		border: 1px solid var(--border);
-		padding: 10px;
-		border-radius: 5px;
-		color: var(--text-color);
 	}
 
 	img {
