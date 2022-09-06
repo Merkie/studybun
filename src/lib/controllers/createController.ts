@@ -1,3 +1,5 @@
+import type { IUser } from '$lib/types';
+
 export const fetchTerms = async (context: string) => {
 	if (!context) return;
 	const response = await fetch('/api/ai/list', {
@@ -28,11 +30,10 @@ export const suggestMoreTerms = async (context: string, suggestions: string[]) =
 export const publishSet = async (
 	setList: Array<object>,
 	context: string,
-	data: object,
+	data: { user: IUser },
 	description: string,
 	editingSet: string
 ) => {
-	console.log(editingSet);
 	await fetch('/api/user/publish', {
 		method: 'POST',
 		body: JSON.stringify({

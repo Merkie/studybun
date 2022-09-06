@@ -5,16 +5,14 @@ import type { ISet } from '$lib/types';
 export const POST: RequestHandler = async ({ request }) => {
 	const { set, user, context, description, editingSet } = await request.json();
 
-	console.log(editingSet);
-
 	const userObj = await client.user.findFirst({
 		where: {
-			id: user.user_ud
+			id: user.user_id
 		}
 	});
 
 	if (editingSet) {
-		const deletedSet = await client.flashcardSet.delete({
+		await client.flashcardSet.delete({
 			where: {
 				id: editingSet
 			},
@@ -28,20 +26,28 @@ export const POST: RequestHandler = async ({ request }) => {
 
 	const data: ISet = {
 		author: {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
 			connect: {
-				id: userObj.id
+				id: user.user_id
 			}
 		},
 		name: context,
-		description: '',
+		description: description || '',
 		flashcards: {
-			create: set.map(({ term, description }) => ({ term, description: description }))
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
+			create: set.map(({ term, description, image }) => ({
+				term: term || '',
+				description: description || '',
+				image: image || ''
+			}))
 		}
 	};
 
-	if (editingSet) data.id = editingSet;
+	if (editingSet != '') data.id = editingSet;
 
-	const setObj = await client.flashcardSet.create({
+	await client.flashcardSet.create({
 		data
 	});
 

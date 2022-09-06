@@ -19,6 +19,12 @@
 					>Study Bun Plus</small
 				>
 			{/if}
+			{#if data.user.user_id == data.slugUser.id}
+				<small style="margin-top: 10px;">Used tokens: {data.slugUser.used_openai_tokens}</small>
+				<small style="margin-top: 10px;"
+					>Used tokens ($): {((0.02 / 1000) * data.slugUser.used_openai_tokens).toFixed(3)}</small
+				>
+			{/if}
 		</h1>
 	</div>
 

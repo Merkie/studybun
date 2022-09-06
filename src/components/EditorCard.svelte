@@ -2,19 +2,23 @@
 	import type { IDefineResponse } from '$lib/types';
 	import { onMount } from 'svelte';
 	import { Icon, Photograph, Refresh, Trash } from 'svelte-hero-icons';
+	import ImageResize from 'image-resize';
 
 	// props
 	export let context: string;
 	export let index: number;
 	export let term: string;
 	export let description: string;
+	export let imagesrc: string;
 	export let autofill: boolean;
+	export let userId: string;
 
 	export let descriptor: string;
 	export let removeSetItem: Function;
 	export let updateSetItem: Function;
 
 	let refreshButton: HTMLElement;
+	let fileInput: HTMLInputElement;
 
 	const completedescription = async () => {
 		refreshButton.style.transitionDuration = '1s';
@@ -23,7 +27,7 @@
 		if (!term || !context) return null;
 		const response = await fetch('/api/ai/define', {
 			method: 'POST',
-			body: JSON.stringify({ term: term + descriptor, context })
+			body: JSON.stringify({ term: term + descriptor, context, userId })
 		});
 
 		const resData: IDefineResponse = JSON.parse(await (await response.blob()).text());
@@ -32,13 +36,30 @@
 		refreshButton.style.transform = 'rotate(0deg)';
 	};
 
+	const promptUpload = () => {
+		fileInput.click();
+	};
+
+	const handleImageUpload = async () => {
+		if (!fileInput.files) return;
+		const file = fileInput.files[0];
+		if (!file) return;
+
+		var imageResize = new ImageResize({
+			format: 'png',
+			width: 640
+		});
+		const img = await imageResize.play(file);
+		imagesrc = img.toString();
+	};
+
 	onMount(async () => {
 		if (!term || description) return;
 		await completedescription();
 	});
 	5;
 	$: {
-		const response = updateSetItem(index, term, description);
+		const response = updateSetItem(index, term, description, imagesrc);
 	}
 </script>
 
@@ -46,7 +67,8 @@
 	<span class="header"
 		><p>{index + 1}</p>
 
-		<button on:click={completedescription}><Icon width="20px" src={Photograph} /></button>
+		<button on:click={promptUpload}><Icon width="20px" src={Photograph} /></button>
+		<input on:change={handleImageUpload} type="file" bind:this={fileInput} style="display: none;" />
 		<button class="refreshButton" bind:this={refreshButton} on:click={completedescription}
 			><Icon width="20px" src={Refresh} /></button
 		>
@@ -73,6 +95,14 @@
 				placeholder="A group of atoms bonded together..."
 			/>
 		</span>
+		{#if imagesrc}
+			<span style="flex-grow: 0;">
+				<p style="display: flex; align-items: center; gap: 10px;">
+					Image <span on:click={() => (imagesrc = '')}><Icon width="17px" src={Trash} /></span>
+				</p>
+				<img width="100px" src={imagesrc} alt="" />
+			</span>
+		{/if}
 	</div>
 </main>
 

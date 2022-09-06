@@ -1,8 +1,9 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { openai } from '$lib/openai';
+import { client } from '$lib/prisma';
 
 export const POST: RequestHandler = async ({ request }) => {
-	const { term, context } = await request.json();
+	const { term, context, userId } = await request.json();
 
 	// Get the AI autocomplete
 	const response = await openai.createCompletion({
@@ -20,6 +21,22 @@ export const POST: RequestHandler = async ({ request }) => {
 	// If we get choices back, provide the first one
 	if (response.data.choices) {
 		description = response.data.choices[0].text?.trim();
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		//@ts-ignore
+		if (response.data.total_tokens) {
+			await client.user.update({
+				where: {
+					id: userId
+				},
+				data: {
+					used_openai_tokens: {
+						// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+						//@ts-ignore
+						increment: response.data.total_tokens
+					}
+				}
+			});
+		}
 	} else {
 		description = '';
 	}

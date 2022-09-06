@@ -39,6 +39,7 @@
 		"discord-oauth2": "^2.10.0",
 		"dotenv": "^16.0.2",
 		"events": "^3.3.0",
+		"image-resize": "^1.2.8",
 		"lucia-sveltekit": "^0.7.1",
 		"openai": "^3.0.0",
 		"prisma": "^4.3.0",

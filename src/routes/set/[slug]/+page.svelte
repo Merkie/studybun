@@ -76,8 +76,17 @@
 
 	<div on:click={flip} class="flashcard" bind:this={flashcard}>
 		<h4 class="card-header">{index + 1} / {data.set.flashcards.length}</h4>
+
 		<span
 			><p>{termSide ? 'Term' : 'description'}</p>
+			{#if data.set.flashcards[index].image}
+				<img
+					style="margin-left: 50%; transform: translateX(-50%);"
+					width="120px"
+					src={data.set.flashcards[index].image}
+					alt="flashcard"
+				/>
+			{/if}
 			<h1 class={termSide ? 'term' : 'def'} style="text-align: center;">
 				{data.set.flashcards[index][termSide ? 'term' : 'description']}
 			</h1>
@@ -149,7 +158,7 @@
 
 	.navigation {
 		position: absolute;
-		bottom: 350px;
+		bottom: 300px;
 	}
 
 	.navigation button {

@@ -22,7 +22,7 @@
 	/* Local State */
 	// Bindings
 	let context: string; // Binded to the value of the title <input />
-	let description: string; // Binded to the value of the description <textarea />
+	let description: string = ''; // Binded to the value of the description <textarea />
 
 	// Booleans
 	let suggesting = false; // Whether or not the API is currently suggesting terms
@@ -44,8 +44,8 @@
 	};
 
 	// Callback function that updates a specific item in the setList, called by <EditorCard />
-	const updateSetItem = (index: number, term: string, description: string) => {
-		setList[index] = { term, description };
+	const updateSetItem = (index: number, term: string, description: string, imagesrc: string) => {
+		setList[index] = { term, description, image: imagesrc };
 		setList = [...setList];
 	};
 
@@ -221,6 +221,8 @@
 				index={setList.indexOf(item)}
 				{context}
 				{autofill}
+				imagesrc={item.image || ''}
+				userId={data.user.user_id}
 			/>
 		{/each}
 
