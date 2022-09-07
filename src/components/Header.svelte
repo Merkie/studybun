@@ -167,6 +167,7 @@
 		justify-content: space-between;
 		align-items: center;
 		flex-grow: 1;
+		gap: 10px;
 	}
 
 	hr {
@@ -240,7 +241,6 @@
 	.search {
 		border: 1px solid var(--border);
 		border-radius: 5px;
-		width: 250px;
 		background-color: var(--container-background);
 		display: flex;
 		align-items: center;
@@ -307,7 +307,7 @@
 	@media (max-width: 780px) {
 		.search {
 			width: fit-content;
-			flex: 1;
+			flex-grow: 1;
 		}
 
 		.search input {
@@ -335,6 +335,10 @@
 			left: 0;
 			width: calc(100% - 60px);
 			padding: 10px 30px;
+		}
+
+		img {
+			transform: scale(0.8);
 		}
 	}
 </style>
