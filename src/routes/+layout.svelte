@@ -47,18 +47,18 @@
 	}
 </script>
 
-<Lucia>
-	<span
-		style={`${$theme == 'light' ? lightTheme : ''} ${$theme == 'dark' ? darkTheme : ''} ${
-			$theme == 'utd' ? utdTheme : ''
-		}`}
-	>
+<span
+	style={`${$theme == 'light' ? lightTheme : ''} ${$theme == 'dark' ? darkTheme : ''} ${
+		$theme == 'utd' ? utdTheme : ''
+	}`}
+>
+	<Lucia>
 		<main>
 			<slot />
 		</main>
 		<Header discordLoginUrl={data.url} user={data.user} />
-	</span>
-</Lucia>
+	</Lucia>
+</span>
 
 <style>
 	:global(body) {
