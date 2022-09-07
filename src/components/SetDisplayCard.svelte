@@ -34,13 +34,15 @@
 		Created by <a href={`/profile/${set.author.id}`}>{set.author.name}</a> • {set.flashcards.length}
 		Terms • {format(set.createdAt)}
 	</span>
-	<span class="mobile-icon">
-		<span on:click={() => window.location.assign('/create?set=' + set.id)}>
-			<Icon class="desktop-icon" src={Pencil} width="22px" />
+	{#if edit}
+		<span class="mobile-icon">
+			<span on:click={() => window.location.assign('/create?set=' + set.id)}>
+				<Icon class="desktop-icon" src={Pencil} width="22px" />
+			</span>
+			<span class="desktop-icon" style="flex: 1" />
+			<Icon class="desktop-icon" src={Trash} width="22px" />
 		</span>
-		<span class="desktop-icon" style="flex: 1" />
-		<Icon class="desktop-icon" src={Trash} width="22px" />
-	</span>
+	{/if}
 </div>
 
 <style>
