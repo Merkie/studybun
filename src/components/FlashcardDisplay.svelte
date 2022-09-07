@@ -8,6 +8,7 @@
 	let termSide = true;
 	let flashcard: HTMLDivElement;
 	let maximized = false;
+	let displayText = '';
 
 	const flip = async () => {
 		flashcard.style.transform = 'rotateX(90deg)';
@@ -55,9 +56,13 @@
 
 		flashcard.style.transform = 'translateX(0px)';
 	};
+
+	$: {
+		displayText = set.flashcards[index][termSide ? 'term' : 'description'];
+	}
 </script>
 
-<span class={`flashcard-wrapper ${maximized ? 'maximized' : ''}`}>
+<main class={`${maximized ? 'maximized' : ''}`}>
 	<button on:click={() => (maximized = !maximized)} class="expand-btn">
 		{#if maximized}
 			<svg
@@ -79,47 +84,60 @@
 			<Icon width="20px" src={ArrowsExpand} />
 		{/if}
 	</button>
+
 	<div
 		class="progressbar"
 		style={'width: calc(100% * ' + (index + 1) / set.flashcards.length + ');'}
 	/>
 
-	<div
-		on:click={(e) => {
-			// @ts-ignore
-			if (e.target?.tagName == 'DIV' || e.target?.tagName == 'H1') {
-				flip();
-			}
-		}}
-		class="flashcard"
-		bind:this={flashcard}
-	>
-		<h4 class="card-header">{index + 1} / {set.flashcards.length}</h4>
-		<span
-			><p>{termSide ? 'Term' : 'description'}</p>
-			{#if set.flashcards[index].image}
-				<img
-					style="margin-left: 50%; transform: translateX(-50%);"
-					width="120px"
-					src={set.flashcards[index].image}
-					alt="flashcard"
-				/>
-			{/if}
-			<h1 class={termSide ? 'term' : 'def'} style="text-align: center;">
-				{set.flashcards[index][termSide ? 'term' : 'description']}
-			</h1>
-		</span>
-		<div class="navigation">
-			<button on:click={progressBackwards}><Icon src={ArrowLeft} width="20px" /></button>
-			<button on:click={progressCard}><Icon src={ArrowRight} width="20px" /></button>
+	<span class="flashcard-wrapper">
+		<div
+			on:click={(e) => {
+				// @ts-ignore
+				if (e.target?.tagName == 'DIV' || e.target?.tagName == 'H1' || e.target?.tagName == 'IMG') {
+					flip();
+				}
+			}}
+			class="flashcard"
+			bind:this={flashcard}
+		>
+			<h4 class="card-header">{index + 1} / {set.flashcards.length}</h4>
+			<span>
+				{#if set.flashcards[index].image}
+					<img
+						style="margin-left: 50%; transform: translateX(-50%);"
+						width="120px"
+						src={set.flashcards[index].image}
+						alt="flashcard"
+					/>
+				{/if}
+				<h1 class={termSide ? 'term' : 'def'} style="text-align: center;">
+					{displayText}
+				</h1>
+			</span>
+			<div class="navigation">
+				<button on:click={progressBackwards}><Icon src={ArrowLeft} width="20px" /></button>
+				<button on:click={progressCard}><Icon src={ArrowRight} width="20px" /></button>
+			</div>
 		</div>
-	</div>
-</span>
+	</span>
+</main>
 
 <style>
+	.maximized .flashcard-wrapper {
+		top: 150px;
+		transform: translateY(-30%);
+	}
+
+	.flashcard-wrapper {
+		position: absolute;
+		top: 50%;
+		left: 5%;
+		width: 90%;
+		transform: translateY(-50%);
+	}
 	.flashcard {
 		max-width: 500px;
-		margin: 0 auto;
 		background-color: #fff;
 		padding: 30px;
 		border-radius: 10px;
@@ -128,23 +146,22 @@
 		color: black;
 		position: relative;
 		white-space: pre-wrap;
+		margin: 0 auto;
 	}
 
-	.flashcard-wrapper {
+	main {
 		background-color: var(--container-background);
 		padding: 50px;
 		border-radius: 5px;
 		position: relative;
 		overflow-x: hidden;
-	}
-
-	.term {
-		font-size: 2.5rem;
+		min-height: 350px;
+		/* height: 400px; */
 	}
 
 	.def {
 		font-size: 18px !important;
-		text-align: left !important;
+		/* text-align: left !important; */
 		font-weight: normal;
 	}
 
@@ -261,6 +278,10 @@
 		filter: brightness(1.1);
 	}
 
+	.term {
+		font-size: 190%;
+	}
+
 	.maximized {
 		position: absolute;
 		top: 0;
@@ -273,17 +294,5 @@
 	.maximized .flashcard {
 		top: 70px;
 		max-width: 1000px;
-	}
-
-	@media (max-width: 850px) {
-		h1 {
-			font-size: 1.5rem;
-		}
-	}
-
-	@media (max-width: 500px) {
-		h1 {
-			font-size: 1rem;
-		}
 	}
 </style>

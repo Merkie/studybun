@@ -59,8 +59,7 @@
 						/>
 
 						<div
-							use:clickOutside
-							on:click_outside={() => (dropdownShowing = false)}
+							use:clickOutside={() => (dropdownShowing = false)}
 							style={`display: ${dropdownShowing ? 'flex' : 'none'}`}
 							class="drop-down"
 						>
@@ -96,8 +95,7 @@
 					(mobileMenuVisible ? '' : '; margin: 0px') +
 					(mobileMenuVisible ? '' : '; border: none')}
 				class="mobile-menu-body"
-				use:clickOutside
-				on:click_outside={() => (mobileMenuVisible = false)}
+				use:clickOutside={() => (mobileMenuVisible = false)}
 			>
 				{#if user}
 					<a href="/create">Create</a>

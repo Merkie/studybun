@@ -1,9 +1,7 @@
-// Todo types
-
-export const clickOutside = (node) => {
-	const handleClick = (event) => {
+export const clickOutside = (node: Node, params: Function): SvelteActionReturnType => {
+	const handleClick = (event: Event) => {
 		if (node && !node.contains(event.target) && !event.defaultPrevented) {
-			node.dispatchEvent(new CustomEvent('click_outside', node));
+			params();
 		}
 	};
 
