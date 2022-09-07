@@ -299,10 +299,6 @@
 	}
 
 	@media (max-width: 780px) {
-		span a {
-			display: none;
-		}
-
 		.search {
 			width: fit-content;
 			flex: 1;
