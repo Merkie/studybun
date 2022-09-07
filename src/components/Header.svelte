@@ -6,6 +6,7 @@
 	import { Icon, Search, Plus, Menu } from 'svelte-hero-icons';
 	import { signOut } from 'lucia-sveltekit/client';
 	import type { IUser } from '$lib/types';
+	import { clickOutside } from '$lib/clickOutside';
 
 	let dropdownShowing = false;
 	let searchInput: HTMLInputElement;
@@ -57,7 +58,12 @@
 							alt="profile"
 						/>
 
-						<div style={`display: ${dropdownShowing ? 'flex' : 'none'}`} class="drop-down">
+						<div
+							use:clickOutside
+							on:click_outside={() => (dropdownShowing = false)}
+							style={`display: ${dropdownShowing ? 'flex' : 'none'}`}
+							class="drop-down"
+						>
 							<p>{user.name}</p>
 							<a href={'/profile/' + user.id}>Profile</a>
 							<a href="/settings">Settings</a>
@@ -90,6 +96,8 @@
 					(mobileMenuVisible ? '' : '; margin: 0px') +
 					(mobileMenuVisible ? '' : '; border: none')}
 				class="mobile-menu-body"
+				use:clickOutside
+				on:click_outside={() => (mobileMenuVisible = false)}
 			>
 				{#if user}
 					<a href="/create">Create</a>
