@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { Icon, Photograph, Refresh, Trash } from 'svelte-hero-icons';
 	import ImageResize from 'image-resize';
+	import imageToBase64 from 'image-to-base64/browser';
 
 	// props
 	export let context: string;
@@ -16,6 +17,14 @@
 	export let descriptor: string;
 	export let removeSetItem: Function;
 	export let updateSetItem: Function;
+
+	let imageSuggestionsVisible = false;
+
+	interface IImage {
+		thumnail: string;
+	}
+
+	let imageSuggestions: IImage[] = [];
 
 	let refreshButton: HTMLElement;
 	let fileInput: HTMLInputElement;
@@ -53,11 +62,33 @@
 		imagesrc = img.toString();
 	};
 
+	const fetchImages = async () => {
+		imageSuggestionsVisible = false;
+		const response = await fetch('/api/images', {
+			method: 'POST',
+			body: JSON.stringify({ term: term })
+		});
+		const resData: { images: IImage[] } = JSON.parse(await (await response.blob()).text());
+		if (resData.images) {
+			imageSuggestions = resData.images;
+		}
+	};
+
+	const setImageFromUrl = async (url: string) => {
+		const response = await imageToBase64(url);
+		imagesrc = 'data:image/png;base64,' + response;
+	};
+
 	onMount(async () => {
 		if (!term || description) return;
-		await completedescription();
+		await refresh();
 	});
-	5;
+
+	const refresh = async () => {
+		await completedescription();
+		await fetchImages();
+	};
+
 	$: {
 		const response = updateSetItem(index, term, description, imagesrc);
 	}
@@ -69,7 +100,7 @@
 
 		<button on:click={promptUpload}><Icon width="20px" src={Photograph} /></button>
 		<input on:change={handleImageUpload} type="file" bind:this={fileInput} style="display: none;" />
-		<button class="refreshButton" bind:this={refreshButton} on:click={completedescription}
+		<button class="refreshButton" bind:this={refreshButton} on:click={refresh}
 			><Icon width="20px" src={Refresh} /></button
 		>
 		<div style="flex: 1;" />
@@ -79,7 +110,7 @@
 		<span>
 			<p>Term</p>
 			<textarea
-				on:change={completedescription}
+				on:change={refresh}
 				bind:value={term}
 				rows="4"
 				data-gramm="false"
@@ -104,6 +135,49 @@
 			</span>
 		{/if}
 	</div>
+
+	{#if imageSuggestions.length > 1 && !imageSuggestionsVisible}
+		<p
+			style="padding: 10px; padding-top: 0; margin: 0; color: var(--border); text-decoration: underline; font-weight: normal; cursor: pointer;"
+			on:click={() => (imageSuggestionsVisible = !imageSuggestionsVisible)}
+		>
+			See thumbnail suggestions...
+		</p>
+	{/if}
+
+	<div
+		style={'margin-top: 0; align-items: center; padding-top: 0; gap: 10px; flex-wrap: wrap; flex-direction: row !important; display: ' +
+			(imageSuggestionsVisible ? 'flex' : 'none')}
+	>
+		<button
+			style="background: none; border: none; cursor: pointer;"
+			on:click={() => (imageSuggestionsVisible = false)}
+		>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				fill="none"
+				viewBox="0 0 24 24"
+				strokeWidth={1.5}
+				stroke="currentColor"
+				width="30px"
+				height="30px"
+				color="var(--text-color)"
+			>
+				<path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+			</svg>
+		</button>
+
+		{#each imageSuggestions as image}
+			<img
+				on:click={() => setImageFromUrl(image.thumbnail)}
+				src={image.thumbnail}
+				class="thumbnail-icon"
+				width="50px"
+				height="50px"
+				alt=""
+			/>
+		{/each}
+	</div>
 </main>
 
 <style>
@@ -115,6 +189,18 @@
 		display: flex;
 		flex-direction: column;
 		margin-bottom: 20px;
+	}
+
+	.thumbnail-icon {
+		background-color: white;
+		border-radius: 10px;
+		transition-duration: 0.2s;
+		cursor: pointer;
+	}
+
+	.thumbnail-icon:hover {
+		transform: scale(1.05);
+		filter: brightness(1.1);
 	}
 
 	.header {

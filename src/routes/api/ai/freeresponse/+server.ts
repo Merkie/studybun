@@ -7,7 +7,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	// Get the AI autocomplete
 	const openai_response = await openai.createCompletion({
 		model: 'text-davinci-002',
-		prompt: `Grade the following response given the context as correct or incorrect. Provide only one word response.\nPrompt: ${term}\nCorrect Response: ${definition}\nUser Response: ${response}\nFeedback:`,
+		prompt: `Grade the following response given the context as correct or incorrect. Provide only one word response.\nPrompt: Define "${term}" in your own words? \nUser Response: ${response}\nFeedback:`,
 		temperature: 0.7,
 		max_tokens: 70,
 		top_p: 1,
@@ -21,7 +21,6 @@ export const POST: RequestHandler = async ({ request }) => {
 	// If we get choices back, provide the first one
 	if (openai_response.data.choices) {
 		feedback = openai_response.data.choices[0].text?.trim().toUpperCase() || '';
-		console.log(feedback);
 		if (feedback.includes('INCORRECT')) {
 			booleanScore = false;
 		}

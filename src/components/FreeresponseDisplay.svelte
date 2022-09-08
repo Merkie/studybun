@@ -53,8 +53,10 @@
 		const resData = JSON.parse(await (await response.blob()).text());
 		feedback = resData.feedback;
 
+		console.log(feedback);
+
 		answer.style.display = 'block !important';
-		question.style.transitionDuration = '0.5s';
+		answer.style.transitionDuration = '0.5s';
 		answer.style.opacity = '1';
 	};
 </script>

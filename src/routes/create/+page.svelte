@@ -58,6 +58,23 @@
 		suggestions.splice(index, 1);
 		suggestions = [...suggestions];
 	};
+
+	const promptPublish = async () => {
+		if (!context) {
+			alert('Please enter a title for your set');
+			return false;
+		}
+
+		setList.forEach((item: IFlashcard) => {
+			if (item.description == '' || item.term == '') {
+				alert('Please fill out all term and definition fields before publishing');
+				return false;
+			}
+		});
+		await publishSet(setList, context, data, description, editingSet);
+		return true;
+	};
+
 	// effect that changes the descriptor whenever the user changes the filters
 	$: {
 		descriptor =
@@ -120,8 +137,10 @@
 		<button
 			on:click={async () => {
 				publishing = true;
-				await publishSet(setList, context, data, description, editingSet);
-				window.location.assign('/library');
+				const publish = await promptPublish();
+				if (publish) {
+					window.location.assign('/library');
+				}
 			}}
 			class="publish-btn"
 			disabled={publishing}>Publish</button
