@@ -16,7 +16,18 @@ export const POST: RequestHandler = async ({ request }) => {
 		}
 	});
 
+	const newSets = result.map((set) => {
+		return {
+			...set,
+			flashcards: set.flashcards.map((flashcard) => {
+				return {
+					body: 'hidden'
+				};
+			})
+		};
+	});
+
 	if (!result) return new Response(JSON.stringify({ sets: [] }), { status: 200 });
 
-	return new Response(JSON.stringify({ sets: result }), { status: 200 });
+	return new Response(JSON.stringify({ sets: newSets }), { status: 200 });
 };

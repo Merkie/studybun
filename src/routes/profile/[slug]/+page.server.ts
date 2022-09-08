@@ -18,6 +18,19 @@ export const load: ServerLoad = async ({ parent, params }) => {
 		}
 	});
 
+	if (slugUser?.FlashcardSet) {
+		slugUser.FlashcardSet = slugUser?.FlashcardSet.map((set) => {
+			return {
+				...set,
+				flashcards: set.flashcards.map((flashcard) => {
+					return {
+						body: 'hidden'
+					};
+				})
+			};
+		});
+	}
+
 	if (!slugUser) return { url: '/404' };
 
 	if (lucia) {

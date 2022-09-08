@@ -15,7 +15,18 @@ export const load: ServerLoad = async ({ parent }) => {
 			}
 		});
 
-		return { user: lucia.user, sets: sets.reverse() };
+		const newSets = sets.map((set) => {
+			return {
+				...set,
+				flashcards: set.flashcards.map((flashcard) => {
+					return {
+						body: 'hidden'
+					};
+				})
+			};
+		});
+
+		return { user: lucia.user, sets: newSets.reverse() };
 	}
 
 	return { url: process.env.DISCORD_LOGIN_URL };
