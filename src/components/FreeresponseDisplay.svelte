@@ -13,6 +13,9 @@
 	let question: HTMLDivElement;
 	let answer: HTMLDivElement;
 	let feedback = false;
+	let showEndScreen = false;
+
+	let responses = [];
 
 	onMount(() => {
 		answer.style.display = 'none';
@@ -29,6 +32,12 @@
 		question.style.transitionDuration = '0.5s';
 		question.style.opacity = '1';
 		question.style.transform = 'translateX(0%)';
+		if (index == set.flashcards.length) {
+			showEndScreen = true;
+		}
+		// if (index === set.questions.length + 1) {
+		// 	index = 0;
+		// }
 	};
 
 	const submitResponse = async () => {
@@ -37,6 +46,7 @@
 		question.style.opacity = '0';
 		await new Promise((resolve) => setTimeout(resolve, 500));
 		question.style.display = 'none';
+		answer.style.display = 'block';
 		question.style.transitionDuration = '0s';
 		const response = await fetch('/api/ai/freeresponse', {
 			method: 'POST',
@@ -53,10 +63,15 @@
 		const resData = JSON.parse(await (await response.blob()).text());
 		feedback = resData.feedback;
 
-		console.log(feedback);
+		responses.push({
+			term: set.flashcards[index].term,
+			definition: set.flashcards[index].description,
+			response: responseText,
+			feedback: feedback
+		});
 
-		answer.style.display = 'block !important';
-		answer.style.transitionDuration = '0.5s';
+		answer.style.display = 'block';
+		answer.style.transitionDuration = '.5s';
 		answer.style.opacity = '1';
 	};
 </script>
@@ -85,44 +100,85 @@
 	</button>
 	<div
 		class="progressbar"
-		style={'width: calc(100% * ' + (index + 1) / set.flashcards.length + ');'}
+		style={'width: calc(100% * ' + (index + 1) / (set.flashcards.length + 1) + ');'}
 	/>
-
-	<div
-		class="answer"
-		style={'background-color: ' + (feedback ? '#27b927' : '#db2c2c')}
-		bind:this={answer}
-	>
-		<h1>{feedback ? 'Correct!' : 'Incorrect'}</h1>
-		<div class="answer-split">
-			<span
-				><h3>Your answer:</h3>
-				<p>{responseText}</p></span
-			>
-			<span
-				><h3>Card definition:</h3>
-				<p>{set.flashcards[index].description}</p></span
-			>
+	{#if !showEndScreen}
+		<div
+			class="answer"
+			style={'background-color: ' + (feedback ? '#27b927' : '#db2c2c')}
+			bind:this={answer}
+		>
+			<h1>{feedback ? 'Correct!' : 'Incorrect'}</h1>
+			<div class="answer-split">
+				<span
+					><h3>Your answer:</h3>
+					<p>{responseText}</p></span
+				>
+				<span
+					><h3>Card definition:</h3>
+					<p>{set.flashcards[index].description}</p></span
+				>
+			</div>
+			<button on:click={progress} class="next-btn">Next</button>
 		</div>
-		<button on:click={progress} class="next-btn">Next</button>
-	</div>
-
-	<div bind:this={question} class="question">
-		<div class="question-text">
-			<p>
-				Write the definition for the term <span style="font-weight: bold;"
-					>"{set.flashcards[index].term}"</span
-				> in your own words:
-			</p>
-			<textarea bind:value={responseText} rows="5" />
-			<button on:click={submitResponse} class="submit-btn">Submit</button>
+		<div bind:this={question} class="question">
+			<div class="question-text">
+				<p>
+					Write the definition for the term <span style="font-weight: bold;"
+						>"{set.flashcards[index].term}"</span
+					> in your own words:
+				</p>
+				<textarea bind:value={responseText} rows="5" />
+				<button on:click={submitResponse} class="submit-btn">Submit</button>
+			</div>
 		</div>
-	</div>
+	{:else}
+		<span class="end-screen">
+			<h1>Your results</h1>
+			<div class="results">
+				{#each responses as response}
+					<div class="result">
+						<div
+							class="feedback"
+							style={'background-color: ' + (response.feedback ? '#27b927' : '#db2c2c')}
+						>
+							{response.feedback ? 'Correct!' : 'Incorrect'}
+						</div>
+						<h3>{response.term}</h3>
+						<div class="result-split">
+							<span
+								><h4>Your answer:</h4>
+								<p>{response.response}</p></span
+							>
+							<span
+								><h4>Card definition:</h4>
+								<p>{response.definition}</p></span
+							>
+						</div>
+					</div>
+				{/each}
+			</div></span
+		>
+	{/if}
 </span>
 
 <style>
 	.answer {
 		padding: 20px;
+		border-radius: 10px;
+		color: white;
+	}
+
+	.result {
+		background-color: var(--background);
+		border-radius: 10px;
+		padding: 20px;
+		margin-bottom: 20px;
+		border: 1px solid var(--border);
+	}
+
+	.result .feedback {
+		padding: 10px;
 		border-radius: 10px;
 		color: white;
 	}
@@ -190,9 +246,11 @@
 	.flashcard-wrapper {
 		background-color: var(--container-background);
 		padding: 50px;
+		padding-top: 80px;
 		border-radius: 5px;
 		position: relative;
 		overflow-x: hidden;
+		min-height: 350px;
 	}
 
 	.term {
