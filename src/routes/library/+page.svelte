@@ -1,8 +1,7 @@
 <script lang="ts">
 	import type { ISet, IUser } from '$lib/types';
-	import SetDisplayCard from '../../components/SetDisplayCard.svelte';
-	import Modal from '../../components/Modal.svelte';
-	import { setMaxListeners } from 'discord-oauth2';
+	import SetDisplayCard from '$lib/components/SetDisplayCard.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 	import { onMount } from 'svelte';
 	export let data: { user: IUser; url: string; sets: ISet[] };
 

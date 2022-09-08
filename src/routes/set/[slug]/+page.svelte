@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ISet, IUser } from '$lib/types';
-	import FlashcardDisplay from '../../../components/FlashcardDisplay.svelte';
-	import FreeresponseDisplay from '../../../components/FreeresponseDisplay.svelte';
+	import FlashcardDisplay from '$lib/components/FlashcardDisplay.svelte';
+	import FreeresponseDisplay from '$lib/components/FreeresponseDisplay.svelte';
 	import { Bookmark, Chat, Icon, Pencil, Refresh, Share } from 'svelte-hero-icons';
 
 	export let data: { user: IUser; url: string; set: ISet };

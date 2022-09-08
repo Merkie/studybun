@@ -1,7 +1,7 @@
 <script>
 	import { Lucia } from 'lucia-sveltekit/client';
 	import { theme } from '$lib/stores';
-	import Header from '../components/Header.svelte';
+	import Header from '$lib/components/Header.svelte';
 
 	export let data;
 

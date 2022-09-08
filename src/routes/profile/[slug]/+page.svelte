@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { IUser } from '$lib/types';
 	import { format } from 'timeago.js';
-	import SetDisplayCard from '../../../components/SetDisplayCard.svelte';
+	import SetDisplayCard from '$lib/components/SetDisplayCard.svelte';
 	export let data: { user: IUser; slugUser: IUser; url: string };
 </script>
 

@@ -6,8 +6,8 @@
 	import { onMount } from 'svelte';
 
 	// Components
-	import EditorCard from '../../components/EditorCard.svelte';
-	import Modal from '../../components/Modal.svelte';
+	import EditorCard from '$lib/components/EditorCard.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 
 	// Types
 	import type { IUser, IFlashcard, ISet } from '$lib/types';

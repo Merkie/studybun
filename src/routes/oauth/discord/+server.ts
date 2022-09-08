@@ -1,6 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import DiscordOauth2 from 'discord-oauth2';
-import { auth } from '../../../lib/lucia';
+import { auth } from '$lib/lucia';
 import dotenv from 'dotenv';
 dotenv.config();
 

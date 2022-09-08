@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { IUser, ISet } from '$lib/types';
-	import SetDisplayCard from '../components/SetDisplayCard.svelte';
+	import SetDisplayCard from '$lib/components/SetDisplayCard.svelte';
 	export let data: { user: IUser; url: string; sets: ISet[] };
 </script>
 
