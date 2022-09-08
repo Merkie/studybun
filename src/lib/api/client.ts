@@ -1,6 +1,7 @@
 // Types
 import type { DuckDuckGoImage } from 'duckduckgo-images-api';
-import type { ISet, IUser } from './types';
+import type { Session } from 'lucia-sveltekit/types';
+import type { ISet, IUser } from '../types';
 
 // Post function that is used internally within this file
 const _post = async (url: string, body: any) => {
@@ -18,37 +19,51 @@ const _post = async (url: string, body: any) => {
 export const define_from_term = async (
 	term: string,
 	context: string,
-	userId: string
-): Promise<{ description: string }> => {
+	session: Session
+): Promise<{ description: string; error: string }> => {
+	if (!session || !session.user) {
+		return { description: '', error: 'User not logged in.' };
+	}
 	return await _post('/api/ai/define', {
 		term,
 		context,
-		userId
+		session
 	});
 };
 
 // Checks free response answer given the term and response
-// TODO: Add userId and context
 export const check_free_response = async (
 	term: string,
-	response: string
-): Promise<{ feedback: boolean }> => {
-	return await _post('/api/ai/freeresponse', { term, response });
+	response: string,
+	session: Session
+): Promise<{ feedback: boolean; error: string }> => {
+	if (!session || !session.user) {
+		return { feedback: false, error: 'User not logged in.' };
+	}
+	return await _post('/api/ai/freeresponse', { term, response, session });
 };
 
 // Gets a list of terms given a context
-// TODO: Add userId
-export const fetch_term_suggestions = async (context: string): Promise<{ terms: string[] }> => {
-	return await _post('/api/ai/list', { context });
+export const fetch_term_suggestions = async (
+	context: string,
+	session: Session
+): Promise<{ terms: string[]; error: string }> => {
+	if (!session || !session.user) {
+		return { terms: [], error: 'User not logged in.' };
+	}
+	return await _post('/api/ai/list', { context, session });
 };
 
 // Get more terms given a context and terms
-// TODO: Add userId
 export const fetch_more_term_suggestions = async (
 	context: string,
-	terms: string[]
-): Promise<{ terms: string[] }> => {
-	return await _post('/api/ai/list/continue', { context, terms });
+	terms: string[],
+	session: Session
+): Promise<{ terms: string[]; error: string }> => {
+	if (!session || !session.user) {
+		return { terms: [], error: 'User not logged in.' };
+	}
+	return await _post('/api/ai/list/continue', { context, terms, session });
 };
 
 // Get a list of images given a term
@@ -57,9 +72,8 @@ export const fetch_images = async (term: string): Promise<{ images: DuckDuckGoIm
 };
 
 // Delete a set
-// TODO: Add userId and authentication
-export const delete_set = async (id: string): Promise<{ success: boolean }> => {
-	return await _post('/api/set/delete', { id });
+export const delete_set = async (id: string, session: Session): Promise<{ success: boolean }> => {
+	return await _post('/api/set/delete', { id, session });
 };
 
 // Fetch a set

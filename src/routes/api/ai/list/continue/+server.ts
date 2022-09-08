@@ -1,8 +1,14 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { openai } from '$lib/openai';
+import { increment_user_tokens } from '$lib/api/server';
 
 export const POST: RequestHandler = async ({ request }) => {
-	const { terms, context } = await request.json();
+	const { terms, context, session } = await request.json();
+
+	// If the user is not logged in, return an error
+	if (!session || !session.user) {
+		return new Response(JSON.stringify({ terms: [] }), { status: 200 });
+	}
 
 	// Get the AI autocomplete
 	const response = await openai.createCompletion({
@@ -22,6 +28,9 @@ export const POST: RequestHandler = async ({ request }) => {
 	// If we get choices back, provide the first one
 	if (response.data.choices) {
 		continuedTerms = response.data.choices[0].text?.trim().split(',') || [];
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		//@ts-ignore
+		increment_user_tokens(session, response.data.usage.total_tokens);
 	}
 
 	const termsEdited = continuedTerms.map((term: string) => {

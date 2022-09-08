@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { client } from '$lib/prisma';
-import type { ISet, IUser } from './types';
+import type { Session } from 'lucia-sveltekit/types';
+import type { ISet, IUser } from '../types';
 
 // Fetches all sets and hides flashcard bodies
 export const fetch_all_sets = async (): Promise<{ sets: ISet[] }> => {
@@ -112,4 +113,34 @@ export const fetch_user_sets = async (id: string): Promise<{ sets: ISet[] }> => 
 
 	//@ts-ignore
 	return { sets: newSets };
+};
+
+export const increment_user_tokens = async (session: Session, amount: number): Promise<void> => {
+	if (!session || !session.user) return;
+	const token = await client.refreshToken.findFirst({
+		where: {
+			refresh_token: session.refresh_token
+		}
+	});
+
+	let userId = '';
+
+	if (token) {
+		userId = token.user_id;
+	}
+
+	if (userId == '') return;
+
+	const update = await client.user.update({
+		where: {
+			id: userId
+		},
+		data: {
+			used_openai_tokens: {
+				increment: amount
+			}
+		}
+	});
+
+	console.log(amount);
 };

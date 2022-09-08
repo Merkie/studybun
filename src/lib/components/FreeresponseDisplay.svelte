@@ -3,6 +3,8 @@
 	import { ArrowsExpand, Icon } from 'svelte-hero-icons';
 	import { onMount } from 'svelte';
 	import { check_free_response } from '$lib/api/client';
+	import { getSession } from 'lucia-sveltekit/client';
+	import type { Session } from 'lucia-sveltekit/types';
 
 	export let set: ISet;
 	export let user: IUser;
@@ -17,6 +19,12 @@
 	let showEndScreen = false;
 
 	let responses = [];
+
+	let session: Session;
+
+	getSession().subscribe((s) => {
+		session = s;
+	});
 
 	onMount(() => {
 		answer.style.display = 'none';
@@ -50,7 +58,8 @@
 		answer.style.display = 'block';
 		question.style.transitionDuration = '0s';
 
-		feedback = (await check_free_response(set.flashcards[index].term, responseText)).feedback;
+		feedback = (await check_free_response(set.flashcards[index].term, responseText, session))
+			.feedback;
 
 		responses.push({
 			term: set.flashcards[index].term,
@@ -159,7 +168,7 @@
 	}
 
 	.result {
-		background-color: var(--background);
+		background-color: var(--surface-background);
 		border-radius: 10px;
 		padding: 20px;
 		margin-bottom: 20px;
@@ -175,10 +184,17 @@
 	.answer-split {
 		width: 100%;
 		display: flex;
+		white-space: pre-wrap;
+	}
+
+	.answer-split p {
+		width: 100%;
+		margin-bottom: 20px;
 	}
 
 	.answer-split * {
-		flex: 1;
+		width: 50%;
+		margin: 0;
 	}
 
 	.next-btn {
@@ -380,5 +396,15 @@
 
 	.maximized .answer {
 		margin-top: 50px;
+	}
+
+	@media (max-width: 700px) {
+		.answer-split * {
+			width: auto;
+		}
+
+		.answer-split {
+			flex-direction: column;
+		}
 	}
 </style>

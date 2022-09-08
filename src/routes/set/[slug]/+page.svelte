@@ -3,7 +3,6 @@
 	import FlashcardDisplay from '$lib/components/FlashcardDisplay.svelte';
 	import FreeresponseDisplay from '$lib/components/FreeresponseDisplay.svelte';
 	import { Bookmark, Chat, Icon, Pencil, Refresh, Share } from 'svelte-hero-icons';
-
 	export let data: { user: IUser; url: string; set: ISet };
 	let selected = 'flashcards';
 </script>

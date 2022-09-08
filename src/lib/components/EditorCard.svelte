@@ -6,6 +6,8 @@
 	import imageToBase64 from 'image-to-base64/browser';
 	import { define_from_term, fetch_images } from '$lib/api/client';
 	import type { DuckDuckGoImage } from 'duckduckgo-images-api';
+	import type { Session } from 'lucia-sveltekit/types';
+	import { getSession } from 'lucia-sveltekit/client';
 
 	// props
 	export let context: string;
@@ -19,6 +21,11 @@
 	export let descriptor: string;
 	export let removeSetItem: Function;
 	export let updateSetItem: Function;
+	let session: Session;
+
+	getSession().subscribe((s) => {
+		session = s;
+	});
 
 	let imageSuggestionsVisible = false;
 
@@ -32,7 +39,7 @@
 		refreshButton.style.transform = 'rotate(360deg)';
 		if (!autofill) return;
 		if (!term || !context) return null;
-		description = (await define_from_term(term + descriptor, context, userId)).description;
+		description = (await define_from_term(term + descriptor, context, session)).description;
 		refreshButton.style.transitionDuration = '0s';
 		refreshButton.style.transform = 'rotate(0deg)';
 	};

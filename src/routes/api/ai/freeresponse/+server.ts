@@ -1,8 +1,15 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import type { RequestHandler } from '@sveltejs/kit';
 import { openai } from '$lib/openai';
+import type { Session } from 'lucia-sveltekit/types';
+import { increment_user_tokens } from '$lib/api/server';
 
 export const POST: RequestHandler = async ({ request }) => {
-	const { term, response } = await request.json();
+	const { term, response, session } = await request.json();
+
+	if (!session || !session.user) {
+		return new Response(JSON.stringify({ feedback: false }), { status: 200 });
+	}
 
 	// Get the AI autocomplete
 	const openai_response = await openai.createCompletion({
@@ -25,6 +32,10 @@ export const POST: RequestHandler = async ({ request }) => {
 			booleanScore = false;
 		}
 	}
+
+	// @ts-ignore
+	// Incrament tokens
+	increment_user_tokens(session, openai_response.data.usage.total_tokens);
 
 	// Send back the description
 	return new Response(JSON.stringify({ feedback: booleanScore }), { status: 200 });

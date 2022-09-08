@@ -22,11 +22,14 @@
 
 	// Icons
 	import { AcademicCap, DotsVertical, Icon, LockOpen, Plus } from 'svelte-hero-icons';
+	import { getSession } from 'lucia-sveltekit/client';
+	import type { Session } from 'lucia-sveltekit/types';
 
 	/* Local State */
 	// Bindings
 	let context: string; // Binded to the value of the title <input />
 	let description: string = ''; // Binded to the value of the description <textarea />
+	let session: Session;
 
 	// Booleans
 	let suggesting = false; // Whether or not the API is currently suggesting terms
@@ -40,6 +43,10 @@
 	let editingSet: string; // The set that is currently being edited, '' if new set
 	let suggestions: string[] = []; // Term suggestions from API
 	let descriptor: string; // String that is built from the user's selected filters
+
+	getSession().subscribe((s) => {
+		session = s;
+	});
 
 	// Add an empty flashcard to the end of the setList
 	const addSetItem = (term: string) => {
@@ -159,7 +166,7 @@
 		placeholder={`Enter a title, like ${'"Chemistry: Unit 1 - Atomic Structure"'}`}
 		on:change={async () => {
 			if (autofill) {
-				suggestions = (await fetch_term_suggestions(context)).terms;
+				suggestions = (await fetch_term_suggestions(context, session)).terms;
 			}
 		}}
 	/>
@@ -225,7 +232,7 @@
 					suggesting = true;
 					suggestions = [
 						...suggestions,
-						...((await fetch_more_term_suggestions(context, suggestions)).terms || [])
+						...((await fetch_more_term_suggestions(context, suggestions, session)).terms || [])
 					];
 					suggesting = false;
 				}}
