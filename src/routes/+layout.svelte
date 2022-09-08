@@ -74,6 +74,7 @@
 		width: min(calc(100% - 120px), 1200px);
 		margin: 0 auto;
 		margin-top: 100px;
+		margin-bottom: 40px;
 		background-color: var(--surface-background);
 		padding: 30px;
 		border-radius: 10px;

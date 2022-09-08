@@ -29,7 +29,7 @@
 
 <h1>{data.slugUser.name}'s study sets</h1>
 <span style="display: flex; flex-wrap: wrap; gap: 30px;">
-	{#each data.slugUser.FlashcardSet as item}
+	{#each data.slugUser.flashcard_sets as item}
 		<SetDisplayCard set={item} />
 	{/each}
 </span>

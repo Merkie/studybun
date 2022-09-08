@@ -2,12 +2,12 @@ export interface IUser {
 	name: string;
 	id: string;
 	image: string;
-	user_id: string;
+	// user_id: string;
 	used_openai_tokens: number;
 	account_plan: string;
 	created_at: string;
 	updated_at: string;
-	FlashcardSet: ISet[];
+	flashcard_sets: ISet[];
 }
 
 export interface IFlashcard {

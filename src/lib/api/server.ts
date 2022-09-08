@@ -57,7 +57,7 @@ export const fetch_user = async (id: string): Promise<{ user: IUser }> => {
 			id
 		},
 		include: {
-			FlashcardSet: {
+			flashcard_sets: {
 				include: {
 					flashcards: true,
 					author: true
@@ -69,9 +69,9 @@ export const fetch_user = async (id: string): Promise<{ user: IUser }> => {
 	//@ts-ignore
 	if (!slugUser) return { user: null };
 
-	if (slugUser.FlashcardSet) {
+	if (slugUser.flashcard_sets) {
 		//@ts-ignore
-		slugUser.FlashcardSet = slugUser?.FlashcardSet.map((set) => {
+		slugUser.flashcard_sets = slugUser?.flashcard_sets.map((set) => {
 			return {
 				...set,
 				flashcards: set.flashcards.map(() => {

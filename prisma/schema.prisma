@@ -13,21 +13,42 @@ datasource db {
 
 model FlashCard {
   id               String        @id @default(cuid())
-  term             String
-  description      String
-  hiddenDescriptor String?
-  image            String?
+  term             String // Front side of the card
+  description      String // Back side of the card
+  hiddenDescriptor String? // Hidden descriptor for the card
+  image            String? // Image src in base64
   FlashcardSet     FlashcardSet? @relation(fields: [flashcardSetId], references: [id])
   flashcardSetId   String?
+}
+
+model Like {
+  id             String        @id @default(cuid())
+  user           User          @relation(fields: [userId], references: [id])
+  userId         String
+  FlashcardSet   FlashcardSet? @relation(fields: [flashcardSetId], references: [id])
+  flashcardSetId String?
+}
+
+model Comment {
+  id             String        @id @default(cuid())
+  text           String
+  user           User          @relation(fields: [userId], references: [id])
+  userId         String
+  FlashcardSet   FlashcardSet? @relation(fields: [flashcardSetId], references: [id])
+  flashcardSetId String?
+  replyId        String?
 }
 
 model FlashcardSet {
   id          String      @id @default(cuid())
   author      User        @relation(fields: [userId], references: [id])
-  name        String
-  description String
-  flashcards  FlashCard[]
-  public      Boolean     @default(false)
+  name        String // Name of the set
+  description String // Description for the set
+  flashcards  FlashCard[] // Flashcards
+  public      Boolean     @default(false) // If the set is public
+  views       Int         @default(0) // Number of views
+  comments    Comment[] // Comments
+  likes       Like[] // Likes
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   userId      String
@@ -44,18 +65,19 @@ model RefreshToken {
 }
 
 model User {
-  id                         String         @id @unique @default(cuid())
-  identifier_token           String         @unique
-  hashed_password            String?
-  used_openai_tokens         Int            @default(0)
-  used_openai_tokens_monthly Int            @default(0)
-  account_plan               String         @default("free")
-  RefreshToken               RefreshToken[]
-  name                       String
-  image                      String
-  created_at                 DateTime       @default(now())
-  updated_at                 DateTime       @updatedAt
-  FlashcardSet               FlashcardSet[]
+  id                   String         @id @unique @default(cuid())
+  identifier_token     String         @unique
+  used_openai_tokens   Int            @default(0) // How many openai tokens the user has uhsed
+  account_plan         String         @default("free") // The user's account plan
+  RefreshToken         RefreshToken[]
+  name                 String // Username
+  image                String // Profile image src
+  flashcard_sets       FlashcardSet[] // Flashcard sets the user owns
+  likes                Like[] // User's likes
+  comments             Comment[] // User's comments
+  saved_flashcard_sets String[] // User's saved flashcard sets
+  created_at           DateTime       @default(now())
+  updated_at           DateTime       @updatedAt
 
   @@map("user")
 }
