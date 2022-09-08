@@ -63,9 +63,9 @@ export const delete_set = async (id: string): Promise<{ success: boolean }> => {
 };
 
 // Fetch a set
-export const fetch_set = async (id: string): Promise<{ set: ISet }> => {
-	return await _post('/api/set/fetch', { id });
-};
+// export const fetch_set = async (id: string): Promise<{ set: ISet }> => {
+// 	return await _post('/api/set/fetch', { id });
+// };
 
 // Search sets
 export const search_sets = async (term: string): Promise<{ sets: ISet[] }> => {
@@ -74,9 +74,9 @@ export const search_sets = async (term: string): Promise<{ sets: ISet[] }> => {
 
 // Fetch all sets
 // Limit 100
-export const fetch_all_sets = async (): Promise<{ sets: ISet[] }> => {
-	return await _post('/api/set/all', {});
-};
+// export const fetch_all_sets = async (): Promise<{ sets: ISet[] }> => {
+// 	return await _post('/api/set/all', {});
+// };
 
 // Publish a set
 export const publish_set = async (
@@ -95,7 +95,7 @@ export const publish_set = async (
 	});
 };
 
-// Fetch user sets
-export const fetch_user_sets = async (userId: string): Promise<{ sets: ISet[] }> => {
-	return await _post('/api/user/sets', { userId });
-};
+// // Fetch user sets
+// export const fetch_user_sets = async (userId: string): Promise<{ sets: ISet[] }> => {
+// 	return await _post('/api/user/sets', { userId });
+// };

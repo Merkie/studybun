@@ -3,7 +3,7 @@
 	import SetDisplayCard from '$lib/components/SetDisplayCard.svelte';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
-	import { search_sets } from '$lib/api';
+	import { search_sets } from '$lib/api/client';
 
 	let sets: ISet[];
 

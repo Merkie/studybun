@@ -3,6 +3,7 @@
 	import SetDisplayCard from '$lib/components/SetDisplayCard.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import { onMount } from 'svelte';
+	import { delete_set } from '$lib/api/client';
 	export let data: { user: IUser; url: string; sets: ISet[] };
 
 	let modalMessage = ''; // The message to display in the modal
@@ -16,18 +17,8 @@
 		modalMessage = 'Are you sure you want to delete this set?';
 		modalObject = {
 			'Yes, delete this': async () => {
-				await fetch('/api/set/delete', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						id: data.sets[deleteIndex].id
-					})
-				});
-
+				await delete_set(data.sets[deleteIndex].id);
 				window.location.assign('/library');
-
 				modalOpen = false;
 			}
 		};

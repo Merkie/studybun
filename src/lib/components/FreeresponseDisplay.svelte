@@ -2,7 +2,7 @@
 	import type { ISet, IUser } from '$lib/types';
 	import { ArrowsExpand, Icon } from 'svelte-hero-icons';
 	import { onMount } from 'svelte';
-	import { check_free_response } from '$lib/api';
+	import { check_free_response } from '$lib/api/client';
 
 	export let set: ISet;
 	export let user: IUser;

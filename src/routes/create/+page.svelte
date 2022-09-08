@@ -14,7 +14,11 @@
 
 	// API
 	// import { fetchTerms, suggestMoreTerms, publishSet } from '$lib/controllers/createController';
-	import { fetch_term_suggestions, fetch_more_term_suggestions, publish_set } from '$lib/api';
+	import {
+		fetch_term_suggestions,
+		fetch_more_term_suggestions,
+		publish_set
+	} from '$lib/api/client';
 
 	// Icons
 	import { AcademicCap, DotsVertical, Icon, LockOpen, Plus } from 'svelte-hero-icons';

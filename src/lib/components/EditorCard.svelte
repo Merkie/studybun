@@ -4,7 +4,7 @@
 	import { Icon, Photograph, Refresh, Trash } from 'svelte-hero-icons';
 	import ImageResize from 'image-resize';
 	import imageToBase64 from 'image-to-base64/browser';
-	import { define_from_term, fetch_images } from '$lib/api';
+	import { define_from_term, fetch_images } from '$lib/api/client';
 	import type { DuckDuckGoImage } from 'duckduckgo-images-api';
 
 	// props

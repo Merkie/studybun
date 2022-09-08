@@ -1,5 +1,5 @@
 import type { ServerLoad } from '@sveltejs/kit';
-import { fetch_user_sets } from '$lib/api_server';
+import { fetch_user_sets } from '$lib/api/server';
 
 export const load: ServerLoad = async ({ parent }) => {
 	const { lucia } = await parent();
