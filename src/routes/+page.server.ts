@@ -9,5 +9,16 @@ export const load: ServerLoad = async () => {
 		}
 	});
 
-	return { sets: sets.reverse() };
+	const newSets = sets.map((set) => {
+		return {
+			...set,
+			flashcards: set.flashcards.map((flashcard) => {
+				return {
+					body: 'hidden'
+				};
+			})
+		};
+	});
+
+	return { sets: newSets.reverse() };
 };
