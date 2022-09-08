@@ -1,37 +1,10 @@
 import type { ServerLoad } from '@sveltejs/kit';
-import { client } from '$lib/prisma';
+import { fetch_user } from '$lib/api_server';
 
 export const load: ServerLoad = async ({ parent, params }) => {
 	const { lucia } = await parent();
 
-	const slugUser = await client.user.findFirst({
-		where: {
-			id: params.slug
-		},
-		include: {
-			FlashcardSet: {
-				include: {
-					flashcards: true,
-					author: true
-				}
-			}
-		}
-	});
-
-	if (slugUser?.FlashcardSet) {
-		slugUser.FlashcardSet = slugUser?.FlashcardSet.map((set) => {
-			return {
-				...set,
-				flashcards: set.flashcards.map((flashcard) => {
-					return {
-						body: 'hidden'
-					};
-				})
-			};
-		});
-	}
-
-	if (!slugUser) return { url: '/404' };
+	const slugUser = (await fetch_user(params.slug || '')).user;
 
 	if (lucia) {
 		return { user: lucia.user, slugUser };

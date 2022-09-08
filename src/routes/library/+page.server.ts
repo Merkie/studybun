@@ -1,33 +1,11 @@
 import type { ServerLoad } from '@sveltejs/kit';
-import { client } from '$lib/prisma';
+import { fetch_user_sets } from '$lib/api_server';
 
 export const load: ServerLoad = async ({ parent }) => {
 	const { lucia } = await parent();
+	const { sets } = await fetch_user_sets(lucia.id);
 
-	if (lucia) {
-		const sets = await client.flashcardSet.findMany({
-			where: {
-				userId: lucia.user.user_id
-			},
-			include: {
-				flashcards: true,
-				author: true
-			}
-		});
+	if (lucia) return { user: lucia.user, sets: sets.reverse() };
 
-		const newSets = sets.map((set) => {
-			return {
-				...set,
-				flashcards: set.flashcards.map((flashcard) => {
-					return {
-						body: 'hidden'
-					};
-				})
-			};
-		});
-
-		return { user: lucia.user, sets: newSets.reverse() };
-	}
-
-	return { url: process.env.DISCORD_LOGIN_URL };
+	return { sets: null, user: null };
 };

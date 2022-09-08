@@ -2,7 +2,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { openai } from '$lib/openai';
 
 export const POST: RequestHandler = async ({ request }) => {
-	const { term, definition, response } = await request.json();
+	const { term, response } = await request.json();
 
 	// Get the AI autocomplete
 	const openai_response = await openai.createCompletion({

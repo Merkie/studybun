@@ -12,8 +12,9 @@
 	// Types
 	import type { IUser, IFlashcard, ISet } from '$lib/types';
 
-	// Controllers
-	import { fetchTerms, suggestMoreTerms, publishSet } from '$lib/controllers/createController';
+	// API
+	// import { fetchTerms, suggestMoreTerms, publishSet } from '$lib/controllers/createController';
+	import { fetch_term_suggestions, fetch_more_term_suggestions, publish_set } from '$lib/api';
 
 	// Icons
 	import { AcademicCap, DotsVertical, Icon, LockOpen, Plus } from 'svelte-hero-icons';
@@ -71,7 +72,8 @@
 				return false;
 			}
 		});
-		await publishSet(setList, context, data, description, editingSet);
+
+		await publish_set(setList, context, data.user, description, editingSet);
 		return true;
 	};
 
@@ -153,7 +155,7 @@
 		placeholder={`Enter a title, like ${'"Chemistry: Unit 1 - Atomic Structure"'}`}
 		on:change={async () => {
 			if (autofill) {
-				suggestions = await fetchTerms(context);
+				suggestions = (await fetch_term_suggestions(context)).terms;
 			}
 		}}
 	/>
@@ -217,7 +219,10 @@
 			<button
 				on:click={async () => {
 					suggesting = true;
-					suggestions = [...suggestions, ...((await suggestMoreTerms(context, suggestions)) || [])];
+					suggestions = [
+						...suggestions,
+						...((await fetch_more_term_suggestions(context, suggestions)).terms || [])
+					];
 					suggesting = false;
 				}}
 				class="more-suggestions"

@@ -2,11 +2,11 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { client } from '$lib/prisma';
 
 export const POST: RequestHandler = async ({ request }) => {
-	const { user } = await request.json();
+	const { userId } = await request.json();
 
 	const userObj = await client.user.findFirst({
 		where: {
-			id: user
+			id: userId
 		}
 	});
 
@@ -14,7 +14,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
 	const sets = await client.flashcardSet.findMany({
 		where: {
-			userId: user
+			userId: userId
 		}
 	});
 

@@ -17,16 +17,14 @@ export const POST: RequestHandler = async ({ request }) => {
 		presence_penalty: 0
 	});
 
-	let continuedTerms;
+	let continuedTerms: string[] = [];
 
 	// If we get choices back, provide the first one
 	if (response.data.choices) {
-		continuedTerms = response.data.choices[0].text?.trim().split(',');
-	} else {
-		continuedTerms = [];
+		continuedTerms = response.data.choices[0].text?.trim().split(',') || [];
 	}
 
-	const termsEdited = (terms || []).map((term: string) => {
+	const termsEdited = continuedTerms.map((term: string) => {
 		return term.trim();
 	});
 

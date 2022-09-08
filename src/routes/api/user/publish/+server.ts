@@ -51,5 +51,5 @@ export const POST: RequestHandler = async ({ request }) => {
 		data
 	});
 
-	return new Response('ok', { status: 200 });
+	return new Response(JSON.stringify({ success: true }), { status: 200 });
 };

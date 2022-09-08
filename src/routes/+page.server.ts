@@ -1,24 +1,7 @@
 import type { ServerLoad } from '@sveltejs/kit';
-import { client } from '$lib/prisma';
+import { fetch_all_sets } from '$lib/api_server';
 
 export const load: ServerLoad = async () => {
-	const sets = await client.flashcardSet.findMany({
-		include: {
-			author: true,
-			flashcards: true
-		}
-	});
-
-	const newSets = sets.map((set) => {
-		return {
-			...set,
-			flashcards: set.flashcards.map((flashcard) => {
-				return {
-					body: 'hidden'
-				};
-			})
-		};
-	});
-
-	return { sets: newSets.reverse() };
+	const { sets } = await fetch_all_sets();
+	return { sets: sets.reverse() };
 };

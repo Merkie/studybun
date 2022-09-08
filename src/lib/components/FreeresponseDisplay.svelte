@@ -1,7 +1,8 @@
 <script lang="ts">
 	import type { ISet, IUser } from '$lib/types';
-	import { ArrowLeft, ArrowRight, ArrowsExpand, Icon } from 'svelte-hero-icons';
+	import { ArrowsExpand, Icon } from 'svelte-hero-icons';
 	import { onMount } from 'svelte';
+	import { check_free_response } from '$lib/api';
 
 	export let set: ISet;
 	export let user: IUser;
@@ -48,20 +49,8 @@
 		question.style.display = 'none';
 		answer.style.display = 'block';
 		question.style.transitionDuration = '0s';
-		const response = await fetch('/api/ai/freeresponse', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				term: set.flashcards[index].term,
-				definition: set.flashcards[index].description,
-				response: responseText
-			})
-		});
 
-		const resData = JSON.parse(await (await response.blob()).text());
-		feedback = resData.feedback;
+		feedback = (await check_free_response(set.flashcards[index].term, responseText)).feedback;
 
 		responses.push({
 			term: set.flashcards[index].term,

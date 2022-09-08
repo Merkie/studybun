@@ -13,7 +13,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		}
 	});
 
-	if (!setObj) return new Response(JSON.stringify({ error: 'Set not found' }), { status: 500 });
+	if (!setObj) return new Response(JSON.stringify({ success: false }), { status: 500 });
 
-	return new Response(JSON.stringify({ set: setObj }), { status: 200 });
+	return new Response(JSON.stringify({ success: true }), { status: 200 });
 };

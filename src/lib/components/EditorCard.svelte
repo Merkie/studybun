@@ -4,6 +4,8 @@
 	import { Icon, Photograph, Refresh, Trash } from 'svelte-hero-icons';
 	import ImageResize from 'image-resize';
 	import imageToBase64 from 'image-to-base64/browser';
+	import { define_from_term, fetch_images } from '$lib/api';
+	import type { DuckDuckGoImage } from 'duckduckgo-images-api';
 
 	// props
 	export let context: string;
@@ -20,11 +22,7 @@
 
 	let imageSuggestionsVisible = false;
 
-	interface IImage {
-		thumnail: string;
-	}
-
-	let imageSuggestions: IImage[] = [];
+	let imageSuggestions: DuckDuckGoImage[] = [];
 
 	let refreshButton: HTMLElement;
 	let fileInput: HTMLInputElement;
@@ -34,13 +32,7 @@
 		refreshButton.style.transform = 'rotate(360deg)';
 		if (!autofill) return;
 		if (!term || !context) return null;
-		const response = await fetch('/api/ai/define', {
-			method: 'POST',
-			body: JSON.stringify({ term: term + descriptor, context, userId })
-		});
-
-		const resData: IDefineResponse = JSON.parse(await (await response.blob()).text());
-		description = resData.description;
+		description = (await define_from_term(term + descriptor, context, userId)).description;
 		refreshButton.style.transitionDuration = '0s';
 		refreshButton.style.transform = 'rotate(0deg)';
 	};
@@ -64,14 +56,7 @@
 
 	const fetchImages = async () => {
 		imageSuggestionsVisible = false;
-		const response = await fetch('/api/images', {
-			method: 'POST',
-			body: JSON.stringify({ term: term })
-		});
-		const resData: { images: IImage[] } = JSON.parse(await (await response.blob()).text());
-		if (resData.images) {
-			imageSuggestions = resData.images;
-		}
+		imageSuggestions = (await fetch_images(term)).images;
 	};
 
 	const setImageFromUrl = async (url: string) => {

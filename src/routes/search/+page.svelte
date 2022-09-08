@@ -1,26 +1,22 @@
 <script lang="ts">
-	import type { IUser, ISet } from '$lib/types';
+	import type { ISet } from '$lib/types';
 	import SetDisplayCard from '$lib/components/SetDisplayCard.svelte';
-	export let data: { user: IUser; url: string; sets: ISet[] };
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
+	import { search_sets } from '$lib/api';
 
 	let sets: ISet[];
 
 	const search = async (query: string) => {
-		const response = await fetch(`/api/set/search`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ term: query })
-		});
-		sets = JSON.parse(await (await response.blob()).text()).sets;
+		sets = (await search_sets(query)).sets;
 	};
 
 	onMount(() => {
 		search($page.url.searchParams.get('term') || '');
 	});
+
+	// TODO: Can I move this logic into a load function so the user doesnt see a blank screen?
+	// Issue is getting the slug into the load function.
 </script>
 
 <h1>Study sets that match the term "{$page.url.searchParams.get('term')}"</h1>
