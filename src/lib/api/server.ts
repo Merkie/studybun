@@ -67,7 +67,7 @@ export const fetch_trending_sets = async (): Promise<{ sets: ISet[] }> => {
 	return { sets: newSets };
 };
 
-export const fetch_set = async (id: string): Promise<{ set: ISet }> => {
+export const fetch_set = async (id: string, include_cards = true): Promise<{ set: ISet }> => {
 	const set = await client.flashcardSet.findFirst({
 		where: {
 			id
@@ -78,17 +78,26 @@ export const fetch_set = async (id: string): Promise<{ set: ISet }> => {
 		}
 	});
 
-	// Update the set's views
-	await client.flashcardSet.update({
-		where: {
-			id
-		},
-		data: {
-			views: {
-				increment: 1
+	if (include_cards) {
+		// Update the set's views
+		await client.flashcardSet.update({
+			where: {
+				id
+			},
+			data: {
+				views: {
+					increment: 1
+				}
 			}
-		}
-	});
+		});
+	} else {
+		set?.flashcards.map((card) => {
+			return {
+				...card,
+				body: 'hidden'
+			};
+		});
+	}
 
 	//@ts-ignore
 	if (!set) return { set: null };
@@ -186,4 +195,16 @@ export const increment_user_tokens = async (session: Session, amount: number): P
 			}
 		}
 	});
+};
+
+export const fetch_sets_from_list = async (list: string[]): Promise<{ sets: ISet[] }> => {
+	const sets: ISet[] = [];
+
+	for (let i = 0; i < list.length; i++) {
+		const set = await fetch_set(list[i], false);
+		sets.push(set.set);
+	}
+
+	//@ts-ignore
+	return { sets };
 };

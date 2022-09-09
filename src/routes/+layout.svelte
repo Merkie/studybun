@@ -19,6 +19,7 @@
 		--container-background: #161e3c;
 		--border: #4f609d;
 		--text-color: white;
+		--header-background: #0e1324bd;
 	`.trim();
 
 	let utdTheme = `

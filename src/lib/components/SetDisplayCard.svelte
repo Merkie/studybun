@@ -19,7 +19,7 @@
 </script>
 
 <div style={`filter: hue-rotate(${indexToBrightness() * 50}deg)`}>
-	<span on:click={() => window.location.assign('/set/' + set.id)}>
+	<a href={'/set/' + set.id} style="text-decoration: none; color: inherit;">
 		<span class="header">
 			<span>{set.name} </span>
 			{#if edit}
@@ -66,7 +66,7 @@
 				{/if}
 			</span>
 		</span>
-	</span>
+	</a>
 
 	<span class="subtext">
 		<img class="profile-img" src={set.author.image} alt="" /><a
@@ -103,6 +103,7 @@
 		gap: 10px;
 		flex-grow: 1;
 		flex-shrink: 0;
+		box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
 	}
 
 	.card-info {
@@ -136,6 +137,8 @@
 
 	div:hover {
 		transform: translateY(-3px);
+		box-shadow: 0 20px 15px rgba(0, 0, 0, 0.2);
+		border-color: var(--text-color);
 	}
 
 	.subtext {

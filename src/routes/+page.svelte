@@ -1,9 +1,24 @@
 <script lang="ts">
 	import type { IUser, ISet } from '$lib/types';
 	import SetDisplayCard from '$lib/components/SetDisplayCard.svelte';
-	import { Fire, Icon } from 'svelte-hero-icons';
-	export let data: { user: IUser; url: string; sets: ISet[]; trendingSets: ISet[] };
+	import { Eye, Fire, Icon } from 'svelte-hero-icons';
+	export let data: {
+		user: IUser;
+		url: string;
+		sets: ISet[];
+		trendingSets: ISet[];
+		recentlyViewed: ISet[];
+	};
 </script>
+
+{#if data.recentlyViewed}
+	<h1><Icon width={'35px'} solid={true} src={Eye} />Recently Viewed</h1>
+	<span class="card-container">
+		{#each data.recentlyViewed as item}
+			<SetDisplayCard index={data.recentlyViewed.indexOf(item)} set={item} />
+		{/each}
+	</span>
+{/if}
 
 <h1><Icon width={'35px'} solid={true} src={Fire} />Trending Sets</h1>
 

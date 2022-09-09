@@ -23,7 +23,6 @@
 					width="30px"
 					alt=""
 				/>
-
 				<span>
 					{#if user}
 						<a style="" class="create desktop-icon" href="/create"
@@ -114,13 +113,14 @@
 		top: 0;
 		left: 0;
 		z-index: 100;
-		position: absolute;
+		position: fixed;
+		backdrop-filter: blur(2px);
 	}
 	nav {
 		padding: 0 30px;
 		border-bottom-left-radius: 10px;
 		border-bottom-right-radius: 10px;
-		background-color: var(--surface-background);
+		background-color: var(--header-background);
 		display: flex;
 		align-items: center;
 		position: sticky;
