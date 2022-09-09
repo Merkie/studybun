@@ -19,7 +19,7 @@
 	};
 </script>
 
-<div style={`filter: hue-rotate(${indexToBrightness() * 50}deg)`}>
+<div class="main" style={`filter: hue-rotate(${indexToBrightness() * 50}deg)`}>
 	{#if saved.includes(set.id)}
 		<span class="save-icon"> <Icon width="45px" solid={true} src={Bookmark} /></span>
 	{/if}
@@ -90,6 +90,10 @@
 </div>
 
 <style>
+	.main {
+		position: relative;
+	}
+
 	div {
 		padding: 20px 30px;
 		background-color: var(--container-background);
