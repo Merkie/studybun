@@ -1,11 +1,11 @@
 import type { ServerLoad } from '@sveltejs/kit';
 import { fetch_all_sets, fetch_sets_from_list, fetch_trending_sets } from '$lib/api/server';
 import { client } from '$lib/prisma';
-import type { ISet } from '$lib/types';
 
 export const load: ServerLoad = async ({ parent }) => {
 	const { lucia } = await parent();
 	let recent_sets_objects;
+	let saved_sets: string[] = [];
 
 	if (lucia && lucia.user) {
 		const user = await client.user.findFirst({
@@ -13,6 +13,8 @@ export const load: ServerLoad = async ({ parent }) => {
 				id: lucia.user.user_id
 			}
 		});
+
+		saved_sets = user?.saved_flashcard_sets || [];
 
 		if (user) {
 			let recents = user.recently_viewed;
@@ -28,6 +30,7 @@ export const load: ServerLoad = async ({ parent }) => {
 	return {
 		sets: sets.reverse(),
 		trendingSets: trending,
-		recentlyViewed: recent_sets_objects
+		recentlyViewed: recent_sets_objects,
+		savedSets: saved_sets
 	};
 };

@@ -1,10 +1,12 @@
 <script lang="ts">
-	import type { ISet } from '$lib/types';
+	import type { ISet, IUser } from '$lib/types';
 	import SetDisplayCard from '$lib/components/SetDisplayCard.svelte';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { search_sets } from '$lib/api/client';
+	import { dataset_dev } from 'svelte/internal';
 
+	export let data: { user: IUser; saved: string[] };
 	let sets: ISet[];
 	let searching = true;
 	let spinner: HTMLDivElement;
@@ -26,7 +28,7 @@
 <span style="display: flex; flex-wrap: wrap; gap: 30px;">
 	{#if sets}
 		{#each sets as item}
-			<SetDisplayCard index={sets.indexOf(item)} set={item} />
+			<SetDisplayCard saved={data.saved} index={sets.indexOf(item)} set={item} />
 		{/each}
 		{#if sets.length < 1}
 			<h1 style="text-align: center; width: 100%;">Nothing here 👻</h1>

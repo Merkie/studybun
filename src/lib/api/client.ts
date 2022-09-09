@@ -109,6 +109,13 @@ export const publish_set = async (
 	});
 };
 
+export const toggle_favorite = async (setId: string, session: Session) => {
+	await _post('/api/set/favorite', {
+		setId,
+		session
+	});
+};
+
 // // Fetch user sets
 // export const fetch_user_sets = async (userId: string): Promise<{ sets: ISet[] }> => {
 // 	return await _post('/api/user/sets', { userId });

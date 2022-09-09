@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { format } from 'timeago.js';
-	import { Eye, Icon, Pencil, Trash } from 'svelte-hero-icons';
+	import { Bookmark, Eye, Icon, Pencil, Trash } from 'svelte-hero-icons';
 	import type { ISet } from '$lib/types';
 	export let set: ISet;
 	// TODO: make these props better
@@ -8,6 +8,7 @@
 	export let index: number = 0;
 	export let promptDelete: Function = () => {};
 	export let indexCallback: Function = () => {};
+	export let saved: string[] = [];
 
 	const indexToBrightness = () => {
 		const firstNumber = parseInt(index / 10 + '') + 1;
@@ -19,6 +20,9 @@
 </script>
 
 <div style={`filter: hue-rotate(${indexToBrightness() * 50}deg)`}>
+	{#if saved.includes(set.id)}
+		<span class="save-icon"> <Icon width="45px" solid={true} src={Bookmark} /></span>
+	{/if}
 	<a href={'/set/' + set.id} style="text-decoration: none; color: inherit;">
 		<span class="header">
 			<span>{set.name} </span>
@@ -104,6 +108,13 @@
 		flex-grow: 1;
 		flex-shrink: 0;
 		box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+	}
+
+	.save-icon {
+		position: absolute;
+		top: -12px;
+		right: 5px;
+		color: rgb(254, 197, 52);
 	}
 
 	.card-info {

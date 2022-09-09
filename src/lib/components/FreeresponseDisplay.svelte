@@ -7,7 +7,6 @@
 	import type { Session } from 'lucia-sveltekit/types';
 
 	export let set: ISet;
-	export let user: IUser;
 
 	let index = 0;
 	let termSide = true;

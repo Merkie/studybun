@@ -67,6 +67,7 @@
 							<a href="/settings">Settings</a>
 							<hr />
 							<a href="/library">Library</a>
+							<a href="/saved">Saved</a>
 							<button
 								on:click={async () => {
 									await signOut();

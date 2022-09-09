@@ -3,7 +3,7 @@ import { fetch_user_sets } from '$lib/api/server';
 
 export const load: ServerLoad = async ({ parent }) => {
 	const { lucia } = await parent();
-	const { sets } = await fetch_user_sets(lucia.id);
+	const { sets } = await fetch_user_sets(lucia.user.user_id);
 
 	if (lucia) return { user: lucia.user, sets: sets.reverse() };
 

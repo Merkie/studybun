@@ -3,8 +3,23 @@
 	import FlashcardDisplay from '$lib/components/FlashcardDisplay.svelte';
 	import FreeresponseDisplay from '$lib/components/FreeresponseDisplay.svelte';
 	import { Bookmark, Chat, Icon, Pencil, Refresh, Share } from 'svelte-hero-icons';
-	export let data: { user: IUser; url: string; set: ISet };
+	import { getSession } from 'lucia-sveltekit/client';
+	import type { Session } from 'lucia-sveltekit/types';
+	import { toggle_favorite } from '$lib/api/client';
+	export let data: { user: IUser; url: string; set: ISet; isFavorited: boolean };
 	let selected = 'flashcards';
+
+	let favorited = data.isFavorited;
+	let sess: Session;
+
+	getSession().subscribe((s) => {
+		sess = s;
+	});
+
+	const favorite_set = () => {
+		favorited = !favorited;
+		toggle_favorite(data.set.id, sess);
+	};
 </script>
 
 <h1 style="margin-bottom: 5px;">{data.set.name}</h1>
@@ -85,8 +100,8 @@
 			>
 		</h3>
 		<span class="action-btns" style="display: flex; gap: 10px;">
-			<button>
-				<Icon width="20px" src={Bookmark} />
+			<button on:click={favorite_set}>
+				<Icon solid={favorited} width="20px" src={Bookmark} />
 			</button>
 			<button>
 				<Icon width="20px" src={Refresh} />

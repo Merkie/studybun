@@ -8,6 +8,7 @@
 		sets: ISet[];
 		trendingSets: ISet[];
 		recentlyViewed: ISet[];
+		savedSets: string[];
 	};
 </script>
 
@@ -15,7 +16,7 @@
 	<h1><Icon width={'35px'} solid={true} src={Eye} />Recently Viewed</h1>
 	<span class="card-container">
 		{#each data.recentlyViewed as item}
-			<SetDisplayCard index={data.recentlyViewed.indexOf(item)} set={item} />
+			<SetDisplayCard saved={data.savedSets} index={data.recentlyViewed.indexOf(item)} set={item} />
 		{/each}
 	</span>
 {/if}
@@ -24,14 +25,14 @@
 
 <span class="card-container">
 	{#each data.trendingSets as item}
-		<SetDisplayCard index={data.trendingSets.indexOf(item)} set={item} />
+		<SetDisplayCard saved={data.savedSets} index={data.trendingSets.indexOf(item)} set={item} />
 	{/each}
 </span>
 
 <h1>All study sets</h1>
 <span class="card-container">
 	{#each data.sets as item}
-		<SetDisplayCard index={data.sets.indexOf(item)} set={item} />
+		<SetDisplayCard saved={data.savedSets} index={data.sets.indexOf(item)} set={item} />
 	{/each}
 </span>
 

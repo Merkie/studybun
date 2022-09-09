@@ -143,7 +143,7 @@ export const fetch_user = async (id: string): Promise<{ user: IUser }> => {
 export const fetch_user_sets = async (id: string): Promise<{ sets: ISet[] }> => {
 	const sets = await client.flashcardSet.findMany({
 		where: {
-			id
+			userId: id
 		},
 		include: {
 			flashcards: true,
