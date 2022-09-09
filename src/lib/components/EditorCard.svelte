@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { IDefineResponse } from '$lib/types';
 	import { onMount } from 'svelte';
 	import { Icon, Photograph, Refresh, Trash } from 'svelte-hero-icons';
 	import ImageResize from 'image-resize';

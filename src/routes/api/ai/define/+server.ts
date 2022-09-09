@@ -6,8 +6,6 @@ import { client } from '$lib/prisma';
 export const POST: RequestHandler = async ({ request }) => {
 	const { term, context, session } = await request.json();
 
-	console.log('Testing axiom', term, context, session);
-
 	if (!session || !session.user) {
 		return new Response(JSON.stringify({ description: '' }), { status: 200 });
 	}

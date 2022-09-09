@@ -8,6 +8,10 @@ export interface IUser {
 	created_at: string;
 	updated_at: string;
 	flashcard_sets: ISet[];
+	likes: ILike[];
+	comments: IComment[];
+	saved_flashcard_sets: string;
+	recently_viewed: string;
 }
 
 export interface IFlashcard {
@@ -26,15 +30,22 @@ export interface ISet {
 	flashcards: IFlashcard[];
 	public: boolean;
 	views: number;
+	likes: ILike[];
+	comments: Comment[];
 	createdAt: string;
 	updatedAt: string;
 }
 
-export interface IDefineRequest {
-	term: string;
-	context: string;
+export interface ILike {
+	id: string;
+	user: IUser;
+	FlashcardSet: ISet;
 }
 
-export interface IDefineResponse {
-	description: string;
+export interface IComment {
+	id: string;
+	text: string;
+	user: IUser;
+	FlashcardSet: ISet;
+	replyId?: string;
 }

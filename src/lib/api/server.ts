@@ -186,6 +186,4 @@ export const increment_user_tokens = async (session: Session, amount: number): P
 			}
 		}
 	});
-
-	console.log(amount);
 };

@@ -9,8 +9,6 @@
 	export let promptDelete: Function = () => {};
 	export let indexCallback: Function = () => {};
 
-	console.log(set);
-
 	const indexToBrightness = () => {
 		const firstNumber = parseInt(index / 10 + '') + 1;
 		if (firstNumber % 2 == 0) {
