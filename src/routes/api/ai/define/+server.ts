@@ -1,11 +1,31 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { openai } from '$lib/openai';
 import { increment_user_tokens } from '$lib/api/server';
+import { client } from '$lib/prisma';
 
 export const POST: RequestHandler = async ({ request }) => {
-	const { term, context, userId, session } = await request.json();
+	const { term, context, session } = await request.json();
+
+	console.log('Testing axiom', term, context, session);
 
 	if (!session || !session.user) {
+		return new Response(JSON.stringify({ description: '' }), { status: 200 });
+	}
+
+	// Get the current user obkect
+	const user = await client.user.findUnique({
+		where: {
+			id: session.user.user_id
+		}
+	});
+
+	// If no user, return false
+	if (!user) {
+		return new Response(JSON.stringify({ description: '' }), { status: 200 });
+	}
+
+	// If no tokens, return false
+	if (user.account_plan == 'free' && user.used_openai_tokens > 50000) {
 		return new Response(JSON.stringify({ description: '' }), { status: 200 });
 	}
 

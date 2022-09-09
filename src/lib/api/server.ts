@@ -45,6 +45,18 @@ export const fetch_set = async (id: string): Promise<{ set: ISet }> => {
 		}
 	});
 
+	// Update the set's views
+	await client.flashcardSet.update({
+		where: {
+			id
+		},
+		data: {
+			views: {
+				increment: 1
+			}
+		}
+	});
+
 	//@ts-ignore
 	if (!set) return { set: null };
 	//@ts-ignore

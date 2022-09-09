@@ -1,13 +1,35 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import type { RequestHandler } from '@sveltejs/kit';
 import { openai } from '$lib/openai';
-import type { Session } from 'lucia-sveltekit/types';
 import { increment_user_tokens } from '$lib/api/server';
+import { client } from '$lib/prisma';
 
 export const POST: RequestHandler = async ({ request }) => {
 	const { term, response, session } = await request.json();
 
 	if (!session || !session.user) {
+		return new Response(JSON.stringify({ feedback: false }), { status: 200 });
+	}
+
+	// Get the current user obkect
+	const user = await client.user.findUnique({
+		where: {
+			id: session.user.user_id
+		}
+	});
+
+	// If no user, return false
+	if (!user) {
+		return new Response(JSON.stringify({ feedback: false }), { status: 200 });
+	}
+
+	// If no tokens, return false
+	if (user.account_plan == 'free' && user.used_openai_tokens > 50000) {
+		return new Response(JSON.stringify({ feedback: false }), { status: 200 });
+	}
+
+	// if the user doesnt have enough tokens
+	if (session.user.used_openai_tokens >= 50000 && session.user.account_plan == 'free') {
 		return new Response(JSON.stringify({ feedback: false }), { status: 200 });
 	}
 
