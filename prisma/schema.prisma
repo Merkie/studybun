@@ -76,6 +76,7 @@ model User {
   likes                Like[] // User's likes
   comments             Comment[] // User's comments
   saved_flashcard_sets String[] // User's saved flashcard sets
+  recently_viewed      String[] // User's recently viewed flashcard sets
   created_at           DateTime       @default(now())
   updated_at           DateTime       @updatedAt
 

@@ -25,6 +25,7 @@ export interface ISet {
 	description: string;
 	flashcards: IFlashcard[];
 	public: boolean;
+	views: number;
 	createdAt: string;
 	updatedAt: string;
 }

@@ -34,6 +34,39 @@ export const fetch_all_sets = async (): Promise<{ sets: ISet[] }> => {
 	return { sets: newSets };
 };
 
+export const fetch_trending_sets = async (): Promise<{ sets: ISet[] }> => {
+	const result = await client.flashcardSet.findMany({
+		include: {
+			author: true,
+			flashcards: true
+		},
+		orderBy: {
+			views: 'desc'
+		}
+	});
+
+	// If there isnt any result then just return a blank array
+	if (!result) return { sets: [] };
+
+	// Map all the flashcards to hide the body, this will reduce front end load when fetching this data
+	const newSets = result.map((set) => {
+		return {
+			...set,
+			flashcards: set.flashcards.map(() => {
+				return {
+					body: 'hidden'
+				};
+			})
+		};
+	});
+
+	// Only get first 100 sets
+	newSets.splice(10);
+
+	//@ts-ignore
+	return { sets: newSets };
+};
+
 export const fetch_set = async (id: string): Promise<{ set: ISet }> => {
 	const set = await client.flashcardSet.findFirst({
 		where: {
