@@ -88,7 +88,7 @@
 {/if}
 
 {#if selected == 'freeresponse'}
-	<FreeresponseDisplay user={data.user} set={data.set} />
+	<FreeresponseDisplay set={data.set} />
 {/if}
 
 <span class="info-section">
@@ -115,9 +115,47 @@
 	<p style="margin-top: 0;">
 		{data.set.description}
 	</p>
+
+	<h1>Terms in this set:</h1>
+
+	{#each data.set.flashcards as card}
+		<span class="term-card">
+			<span class="term-card-header">
+				<p style="font-size: 1.6rem; font-weight: bold;">{card.term}</p>
+				{#if card.image}
+					<img src={card.image} width="100px;" alt="" />
+				{/if}
+			</span>
+			<span>
+				<p>{card.description}</p>
+			</span>
+		</span>
+	{/each}
 </span>
 
 <style>
+	.term-card {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: 10px;
+		background-color: var(--container-background);
+		font-size: 1.2rem;
+		padding: 30px;
+		border-radius: 10px;
+		margin-bottom: 30px;
+	}
+
+	.term-card img {
+		border-radius: 10px;
+	}
+	.term-card span {
+		flex: 1;
+	}
+
+	.term-card p {
+		white-space: pre-wrap;
+	}
 	.option-buttons {
 		display: flex;
 		gap: 10px;
@@ -173,6 +211,15 @@
 	@media (max-width: 850px) {
 		h1 {
 			font-size: 1.5rem;
+		}
+
+		.term-card {
+			flex-direction: column;
+		}
+
+		.term-card-header {
+			display: flex;
+			justify-content: space-between;
 		}
 	}
 

@@ -11,6 +11,8 @@
 	let dropdownShowing = false;
 	let searchInput: HTMLInputElement;
 	let mobileMenuVisible = false;
+
+	console.log(user);
 </script>
 
 <main>

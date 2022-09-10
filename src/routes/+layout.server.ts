@@ -4,6 +4,7 @@ import { client } from '$lib/prisma';
 
 export const load = async (event: ServerLoadEvent) => {
 	const response = await auth.load(event);
+	console.log(response);
 	const url = process.env.DISCORD_LOGIN_URL;
 
 	if (response.lucia) {
@@ -14,5 +15,5 @@ export const load = async (event: ServerLoadEvent) => {
 		if (user) return { ...response, user, url };
 	}
 
-	return { ...response, url };
+	return { response, url };
 };
