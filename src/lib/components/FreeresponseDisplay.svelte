@@ -273,7 +273,7 @@
 		top: 0;
 		left: 0;
 		height: 10px;
-		background-color: var(--border);
+		background-color: var(--highlight);
 		border-radius: 10px;
 		transition-duration: 0.2s;
 	}

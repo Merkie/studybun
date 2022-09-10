@@ -110,7 +110,6 @@
 <style>
 	main {
 		width: 100%;
-		filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.2));
 		top: 0;
 		left: 0;
 		z-index: 100;
@@ -119,6 +118,8 @@
 	}
 	nav {
 		padding: 0 30px;
+		filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.2));
+
 		border-bottom-left-radius: 10px;
 		border-bottom-right-radius: 10px;
 		background-color: var(--header-background);
@@ -250,6 +251,7 @@
 
 	input {
 		height: 100%;
+		width: 400px;
 		padding: 5px;
 		background-color: inherit;
 		border: none;
@@ -305,7 +307,7 @@
 		display: none;
 	}
 
-	@media (max-width: 780px) {
+	@media (max-width: 800px) {
 		.search {
 			width: fit-content;
 			flex-grow: 1;

@@ -2,25 +2,11 @@
 	import { Lucia } from 'lucia-sveltekit/client';
 	import { theme } from '$lib/stores';
 	import Header from '$lib/components/Header.svelte';
-	import { darkTheme } from '$lib/themes';
+	import { darkTheme, lightTheme } from '$lib/themes';
 
 	export let data;
 
-	let lightTheme = `
-		--surface-background: white;
-		--background: #f3c2d4;
-		--container-background: #d7f1f6;
-		--border: #3f808d;
-		--text-color: black;
-	`.trim();
-
-	let utdTheme = `
-		--surface-background: white;
-		--background: #2ecc71;
-		--container-background: #ffb270;
-		--border: #30336b;
-		--text-color: #130f40;
-	`.trim();
+	const utdTheme = {};
 
 	$: {
 		let userTheme = `${$theme == 'light' ? lightTheme : ''} ${$theme == 'dark' ? darkTheme : ''} ${

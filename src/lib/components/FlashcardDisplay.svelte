@@ -11,17 +11,19 @@
 	let displayText = '';
 
 	const flip = async () => {
+		flashcard.style.transitionDuration = '.2s';
 		flashcard.style.transform = 'rotateX(90deg)';
-		await new Promise((resolve) => setTimeout(resolve, 220));
+		await new Promise((resolve) => setTimeout(resolve, 200));
 		termSide = !termSide;
 		flashcard.style.transform = 'rotateX(0deg)';
 	};
 
 	const progressCard = async () => {
-		flashcard.style.transform = 'translateX(200px)';
-		flashcard.style.opacity = '0';
+		flashcard.style.transitionDuration = '.1';
+		flashcard.style.transform = 'translateX(50px) perspective(400px) rotateY(-10deg) scale(1.05)';
+		flashcard.style.opacity = '0.75';
 
-		await new Promise((resolve) => setTimeout(resolve, 220));
+		await new Promise((resolve) => setTimeout(resolve, 100));
 
 		index = index + 1;
 		if (index >= set.flashcards.length) {
@@ -29,19 +31,20 @@
 		}
 		termSide = true;
 
-		flashcard.style.transform = 'translateX(-200px)';
+		flashcard.style.transform = 'translateX(-50px)';
 
-		await new Promise((resolve) => setTimeout(resolve, 220));
+		await new Promise((resolve) => setTimeout(resolve, 100));
 		flashcard.style.opacity = '1';
 
 		flashcard.style.transform = 'translateX(0px)';
 	};
 
 	const progressBackwards = async () => {
-		flashcard.style.transform = 'translateX(-00px)';
-		flashcard.style.opacity = '0';
+		flashcard.style.transitionDuration = '.1';
+		flashcard.style.transform = 'translateX(-50px) perspective(400px) rotateY(10deg) scale(1.05)';
+		flashcard.style.opacity = '0.75';
 
-		await new Promise((resolve) => setTimeout(resolve, 220));
+		await new Promise((resolve) => setTimeout(resolve, 100));
 
 		index = index - 1;
 		if (index < 0) {
@@ -49,9 +52,9 @@
 		}
 		termSide = true;
 
-		flashcard.style.transform = 'translateX(200px)';
+		flashcard.style.transform = 'translateX(50px)';
 
-		await new Promise((resolve) => setTimeout(resolve, 220));
+		await new Promise((resolve) => setTimeout(resolve, 100));
 		flashcard.style.opacity = '1';
 
 		flashcard.style.transform = 'translateX(0px)';
@@ -185,7 +188,7 @@
 	.navigation button {
 		background-color: var(--background);
 		border: 1px solid var(--border);
-		padding: 10px 20px;
+		padding: 20px 20px;
 		border-radius: 5px;
 		transition-duration: 0.2s;
 		cursor: pointer;
