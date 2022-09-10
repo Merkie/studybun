@@ -286,8 +286,8 @@
 	}
 
 	.publish-btn {
-		background-color: #77d084;
-		border-color: #589f62;
+		background-color: var(--light-success);
+		border-color: var(--dark-success);
 		color: white;
 	}
 

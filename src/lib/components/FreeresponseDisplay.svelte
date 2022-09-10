@@ -102,7 +102,7 @@
 	{#if !showEndScreen}
 		<div
 			class="answer"
-			style={'background-color: ' + (feedback ? '#27b927' : '#db2c2c')}
+			style={'background-color: ' + (feedback ? 'var(--light-success)' : 'var(--failure-light)')}
 			bind:this={answer}
 		>
 			<h1>{feedback ? 'Correct!' : 'Incorrect'}</h1>
@@ -137,7 +137,8 @@
 					<div class="result">
 						<div
 							class="feedback"
-							style={'background-color: ' + (response.feedback ? '#27b927' : '#db2c2c')}
+							style={'background-color: ' +
+								(feedback ? 'var(--light-success)' : 'var(--failure-light)')}
 						>
 							{response.feedback ? 'Correct!' : 'Incorrect'}
 						</div>
@@ -220,8 +221,8 @@
 	}
 
 	.submit-btn {
-		background-color: #77d084;
-		border: 1px solid #4e8957;
+		background-color: var(--light-success);
+		border: 1px solid var(--dark-success);
 		color: white;
 		padding: 12px 20px;
 		text-align: center;
@@ -237,10 +238,10 @@
 	.flashcard {
 		max-width: 500px;
 		margin: 0 auto;
-		background-color: #fff;
+		background-color: var(--flashcard-background);
 		padding: 30px;
 		border-radius: 10px;
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 0 10px var(--drop-shadow-color);
 		transition-duration: 0.2s;
 		color: black;
 		position: relative;
@@ -313,7 +314,7 @@
 		top: -50px;
 		left: 50%;
 		transform: translateX(-50%);
-		filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.1));
+		filter: drop-shadow(0 0 10px var(--drop-shadow-color));
 		color: var(--text-color);
 	}
 

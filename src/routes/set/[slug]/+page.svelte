@@ -96,6 +96,7 @@
 	<span style="display: flex; align-items: center; justify-content: space-between;">
 		<h3 style=" display: flex; align-items: center; gap: 5px;">
 			<img src={data.set.author.image} width="25px" alt="profile" style="border-radius: 50%;" /><a
+				style="color: var(--highlight"
 				href={`/profile/${data.set.author.id}`}>{data.set.author.name}</a
 			>
 		</h3>

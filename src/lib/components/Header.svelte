@@ -62,7 +62,7 @@
 							style={`display: ${dropdownShowing ? 'flex' : 'none'}`}
 							class="drop-down"
 						>
-							<p>{user.name}</p>
+							<p style="font-weight: bold">{user.name}</p>
 							<a href={'/profile/' + user.id}>Profile</a>
 							<a href="/settings">Settings</a>
 							<hr />
@@ -205,7 +205,7 @@
 		right: 0;
 		background-color: var(--surface-background);
 		border-radius: 5px;
-		box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+		box-shadow: 0px 0px 5px var(--drop-shadow-color);
 		display: flex;
 		flex-direction: column;
 		padding: 5px;
@@ -216,7 +216,7 @@
 		border-radius: 5px;
 		padding: 10px 10px;
 		text-decoration: none;
-		color: var(--border);
+		color: var(--text-color);
 		cursor: pointer;
 	}
 
@@ -230,8 +230,8 @@
 	}
 
 	.drop-down button {
-		background-color: rgb(255, 91, 91);
-		border: 1px solid rgb(178, 61, 61);
+		background-color: var(--failure-light);
+		border: 1px solid var(--failure-dark);
 		color: white;
 		border-radius: 5px;
 		padding: 5px 10px;
@@ -275,12 +275,12 @@
 	}
 
 	.create {
-		background-color: #77d084;
+		background-color: var(--light-success);
 		color: white;
 		border: none;
 		border-radius: 5px;
 		padding: 5px 10px;
-		border: 1px solid #28522e62;
+		border: 1px solid var(--dark-success);
 		display: flex;
 		align-items: center;
 		gap: 5px;

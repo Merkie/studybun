@@ -138,10 +138,10 @@
 	}
 	.flashcard {
 		max-width: 500px;
-		background-color: #fff;
+		background-color: var(--flashcard-background);
 		padding: 30px;
 		border-radius: 10px;
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 0 10px var(--drop-shadow-color);
 		transition-duration: 0.2s;
 		color: black;
 		position: relative;
@@ -170,7 +170,7 @@
 		top: 0;
 		left: 0;
 		height: 10px;
-		background-color: var(--border);
+		background-color: var(--highlight);
 		border-radius: 10px;
 		transition-duration: 0.2s;
 	}
@@ -191,6 +191,7 @@
 		cursor: pointer;
 		font-size: 20px;
 		color: var(--text-color);
+		width: 150px;
 	}
 
 	.navigation * {

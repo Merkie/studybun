@@ -111,14 +111,14 @@
 		gap: 10px;
 		flex-grow: 1;
 		flex-shrink: 0;
-		box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+		box-shadow: 0 0 15px var(--drop-shadow-color);
 	}
 
 	.save-icon {
 		position: absolute;
 		top: -12px;
 		right: 5px;
-		color: rgb(254, 197, 52);
+		color: var(--save-icon-color);
 	}
 
 	.card-info {
@@ -152,7 +152,7 @@
 
 	div:hover {
 		transform: translateY(-3px);
-		box-shadow: 0 20px 15px rgba(0, 0, 0, 0.2);
+		box-shadow: 0 20px 15px var(--drop-shadow-color);
 		border-color: var(--text-color);
 	}
 

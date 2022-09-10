@@ -47,7 +47,7 @@
 	}
 
 	.color-btn {
-		background-color: rgb(244, 89, 89);
-		border-color: rgb(147, 44, 44);
+		background-color: var(--failure-light);
+		border-color: var(--failure-dark);
 	}
 </style>
