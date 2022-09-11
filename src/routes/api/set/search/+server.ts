@@ -1,5 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { client } from '$lib/prisma';
+import { minimize_set_display } from '$lib/utils';
 
 export const POST: RequestHandler = async ({ request }) => {
 	const { term } = await request.json();
@@ -16,18 +17,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		}
 	});
 
-	const newSets = result.map((set) => {
-		return {
-			...set,
-			flashcards: set.flashcards.map(() => {
-				return {
-					body: 'hidden'
-				};
-			})
-		};
-	});
-
 	if (!result) return new Response(JSON.stringify({ sets: [] }), { status: 200 });
 
-	return new Response(JSON.stringify({ sets: newSets }), { status: 200 });
+	return new Response(JSON.stringify({ sets: minimize_set_display(result) }), { status: 200 });
 };

@@ -25,14 +25,14 @@
 
 <span class="card-container">
 	{#each data.trendingSets as item}
-		<SetDisplayCard saved={data.savedSets} index={data.trendingSets.indexOf(item)} set={item} />
+		<SetDisplayCard saved={data.savedSets} index={data.trendingSets.indexOf(item)} {...item} />
 	{/each}
 </span>
 
 <h1>All study sets</h1>
 <span class="card-container">
 	{#each data.sets as item}
-		<SetDisplayCard saved={data.savedSets} index={data.sets.indexOf(item)} set={item} />
+		<SetDisplayCard saved={data.savedSets} index={data.sets.indexOf(item)} {...item} />
 	{/each}
 </span>
 

@@ -38,8 +38,6 @@ export const GET: RequestHandler = async ({ request }) => {
 		// If we get a user, login the user
 		const authenticated_user = await auth.authenticateUser(discordUser.id, discordUser.username);
 
-		console.log(authenticated_user.cookies);
-
 		// redirect to home
 		return new Response('Redirect', {
 			status: 303,

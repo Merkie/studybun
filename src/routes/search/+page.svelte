@@ -28,7 +28,7 @@
 <span style="display: flex; flex-wrap: wrap; gap: 30px;">
 	{#if sets}
 		{#each sets as item}
-			<SetDisplayCard saved={data.saved} index={sets.indexOf(item)} set={item} />
+			<SetDisplayCard saved={data.saved} index={sets.indexOf(item)} {...item} />
 		{/each}
 		{#if sets.length < 1}
 			<h1 style="text-align: center; width: 100%;">Nothing here 👻</h1>

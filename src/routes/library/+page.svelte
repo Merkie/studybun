@@ -42,7 +42,7 @@
 				indexCallback={(index) => (deleteIndex = index)}
 				{promptDelete}
 				edit={true}
-				set={item}
+				{...item}
 			/>
 		{/each}
 	</span>
