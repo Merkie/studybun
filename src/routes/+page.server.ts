@@ -25,7 +25,7 @@ export const load: ServerLoad = async ({ parent }) => {
 
 		if (!user) return;
 
-		saved_sets = user.saved_flashcard_sets?.map((item) => item.flashcardSetId);
+		saved_sets = user.saved_flashcard_sets.map((item) => item.flashcardSetId);
 		const recently_viewed_set_ids = Array.from(
 			new Set(user.recently_viewed.map((item) => item.flashcardSetId))
 		);

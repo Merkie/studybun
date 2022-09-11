@@ -9,6 +9,9 @@ export const POST: RequestHandler = async ({ request }) => {
 		where: {
 			name: {
 				search: term
+			},
+			description: {
+				search: term
 			}
 		},
 		include: {

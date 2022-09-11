@@ -1,13 +1,10 @@
 <script lang="ts">
-	import type { IUser, ISet } from '$lib/types';
+	import type { ISetDisplay } from '$lib/types';
 	import SetDisplayCard from '$lib/components/SetDisplayCard.svelte';
 	import { Eye, Fire, Icon } from 'svelte-hero-icons';
 	export let data: {
-		user: IUser;
-		url: string;
-		sets: ISet[];
-		trendingSets: ISet[];
-		recentlyViewed: ISet[];
+		trendingSets: ISetDisplay[];
+		recentlyViewed: ISetDisplay[];
 		savedSets: string[];
 	};
 </script>
@@ -15,17 +12,17 @@
 {#if data.recentlyViewed.length > 0}
 	<h1><Icon width={'35px'} solid={true} src={Eye} />Recently Viewed</h1>
 	<span class="card-container">
-		{#each data.recentlyViewed as item}
-			<SetDisplayCard saved={data.savedSets} index={data.recentlyViewed.indexOf(item)} {...item} />
+		{#each data.recentlyViewed as item, index}
+			<SetDisplayCard saved={data.savedSets} {index} {...item} />
 		{/each}
 	</span>
 {/if}
 
-{#if data.trendingSets.length > 1}
+{#if data.trendingSets.length > 0}
 	<h1><Icon width={'35px'} solid={true} src={Fire} />Trending Sets</h1>
 	<span class="card-container">
-		{#each data.trendingSets as item}
-			<SetDisplayCard saved={data.savedSets} index={data.trendingSets.indexOf(item)} {...item} />
+		{#each data.trendingSets as item, index}
+			<SetDisplayCard saved={data.savedSets} {index} {...item} />
 		{/each}
 	</span>
 {/if}

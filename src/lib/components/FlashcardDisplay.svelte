@@ -186,7 +186,7 @@
 	}
 
 	.navigation button {
-		background-color: var(--background);
+		background-color: var(--surface-background);
 		border: 1px solid var(--border);
 		padding: 20px 20px;
 		border-radius: 5px;
@@ -298,5 +298,12 @@
 	.maximized .flashcard {
 		top: 70px;
 		max-width: 1000px;
+	}
+
+	@media (max-width: 600px) {
+		.navigation button {
+			padding: 20px 20px;
+			width: 100px;
+		}
 	}
 </style>

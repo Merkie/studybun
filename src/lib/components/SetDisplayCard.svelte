@@ -11,13 +11,12 @@
 	export let author_id: string;
 	export let author_image: string;
 	export let created_at: string;
-
-	// TODO: make these props better
-	export let edit: boolean = false;
-	export let index: number = 0;
-	export let promptDelete: Function = () => {};
-	export let indexCallback: Function = () => {};
+	export let index: number;
 	export let saved: string[] = [];
+
+	// Editing props
+	export let edit: boolean = false;
+	export let promptDelete: Function = (index: number) => {};
 
 	const indexToBrightness = () => {
 		const firstNumber = parseInt(index / 10 + '') + 1;
@@ -29,30 +28,35 @@
 </script>
 
 <div class="main">
-	<span class="background" style={`filter: hue-rotate(${indexToBrightness() * 50}deg)`} />
+	<span
+		on:click={() => window.location.assign('/set/' + id)}
+		class="background"
+		style={`filter: hue-rotate(${indexToBrightness() * 50}deg)`}
+	/>
 	{#if saved.includes(id)}
 		<span class="save-icon"> <Icon width="45px" solid={true} src={Bookmark} /></span>
 	{/if}
-	<a href={'/set/' + id} style="text-decoration: none; color: inherit;">
-		<span class="header">
+	<span class="header">
+		<a href={'/set/' + id} style="text-decoration: none; color: inherit;">
 			<span>{name} </span>
-			{#if edit}
-				<span class="desktop-icon">
-					<span on:click={() => window.location.assign('/create?set=' + id)}>
-						<Icon src={Pencil} width="18px" />
-					</span>
-					<span style="flex: 1" />
-					<span
-						on:click={() => {
-							promptDelete();
-							indexCallback(index);
-						}}
-					>
-						<Icon src={Trash} width="18px" />
-					</span>
+		</a>
+		{#if edit}
+			<span class="desktop-icon">
+				<span on:click={() => window.location.assign('/create?set=' + id)}>
+					<Icon src={Pencil} width="18px" />
 				</span>
-			{/if}
-		</span>
+				<span style="flex: 1" />
+				<span
+					on:click={() => {
+						promptDelete(id);
+					}}
+				>
+					<Icon src={Trash} width="18px" />
+				</span>
+			</span>
+		{/if}
+	</span>
+	<a href={'/set/' + id} style="text-decoration: none; color: inherit;">
 		<span class="card-info">
 			<span
 				><svg

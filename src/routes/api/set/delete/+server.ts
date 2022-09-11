@@ -14,13 +14,17 @@ export const POST: RequestHandler = async ({ request }) => {
 
 	if (!setObj) return new Response(JSON.stringify({ success: false }), { status: 500 });
 
-	if (setObj.userId == sess?.user) {
+	if (setObj?.userId == sess?.user.user_id) {
 		await client.flashcardSet.delete({
 			where: {
 				id
 			},
 			include: {
-				flashcards: true
+				flashcards: true,
+				comments: true,
+				likes: true,
+				RecentlyViewedSet: true,
+				SavedSet: true
 			}
 		});
 

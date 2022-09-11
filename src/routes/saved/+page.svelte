@@ -9,7 +9,7 @@
 	<h1>Your saved sets</h1>
 	<span style="display: flex; flex-wrap: wrap; gap: 30px;">
 		{#each data.sets as item}
-			<SetDisplayCard set={item} index={data.sets.indexOf(item)} />
+			<SetDisplayCard index={data.sets.indexOf(item)} {...item} />
 		{/each}
 	</span>
 {/if}

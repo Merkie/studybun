@@ -36,6 +36,17 @@ export interface ISet {
 	updatedAt: string;
 }
 
+export interface ISetDisplay {
+	id: string;
+	name: string;
+	views: number;
+	term_count: number;
+	author_name: string;
+	author_id: string;
+	author_image: string;
+	created_at: string;
+}
+
 export interface ILike {
 	id: string;
 	user: IUser;

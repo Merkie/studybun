@@ -191,8 +191,10 @@ export const fetch_sets_from_list = async (list: string[]): Promise<{ sets: ISet
 	const sets: ISet[] = [];
 
 	for (let i = 0; i < list.length; i++) {
-		const set = await fetch_set(list[i], false);
-		sets.push(set.set);
+		if (list[i]) {
+			const set = await fetch_set(list[i], false);
+			sets.push(set.set);
+		}
 	}
 
 	//@ts-ignore
