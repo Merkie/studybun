@@ -88,6 +88,7 @@ model User {
   used_openai_tokens   Int                 @default(0) // How many openai tokens the user has uhsed
   account_plan         String              @default("free") // The user's account plan
   RefreshToken         RefreshToken[]
+  hashed_password      String?
   name                 String // Username
   image                String // Profile image src
   flashcard_sets       FlashcardSet[] // Flashcard sets the user owns
