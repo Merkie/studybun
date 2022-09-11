@@ -40,18 +40,20 @@ model Comment {
 }
 
 model FlashcardSet {
-  id          String      @id @default(cuid())
-  author      User        @relation(fields: [userId], references: [id])
-  name        String // Name of the set
-  description String // Description for the set
-  flashcards  FlashCard[] // Flashcards
-  public      Boolean     @default(false) // If the set is public
-  views       Int         @default(0) // Number of views
-  comments    Comment[] // Comments
-  likes       Like[] // Likes
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  userId      String
+  id                String              @id @default(cuid())
+  author            User                @relation(fields: [userId], references: [id])
+  name              String // Name of the set
+  description       String // Description for the set
+  flashcards        FlashCard[] // Flashcards
+  public            Boolean             @default(false) // If the set is public
+  views             Int                 @default(0) // Number of views
+  comments          Comment[] // Comments
+  likes             Like[] // Likes
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  userId            String
+  RecentlyViewedSet RecentlyViewedSet[]
+  SavedSet          SavedSet[]
 }
 
 model RefreshToken {
@@ -64,21 +66,37 @@ model RefreshToken {
   @@map("refresh_token")
 }
 
+model RecentlyViewedSet {
+  id             Int          @id @unique @default(autoincrement())
+  user           User         @relation(fields: [userId], references: [id])
+  userId         String
+  set            FlashcardSet @relation(fields: [flashcardSetId], references: [id])
+  flashcardSetId String
+}
+
+model SavedSet {
+  id             Int          @id @unique @default(autoincrement())
+  user           User         @relation(fields: [userId], references: [id])
+  userId         String
+  set            FlashcardSet @relation(fields: [flashcardSetId], references: [id])
+  flashcardSetId String
+}
+
 model User {
-  id                   String         @id @unique @default(cuid())
-  identifier_token     String         @unique
-  used_openai_tokens   Int            @default(0) // How many openai tokens the user has uhsed
-  account_plan         String         @default("free") // The user's account plan
+  id                   String              @id @unique @default(cuid())
+  identifier_token     String              @unique
+  used_openai_tokens   Int                 @default(0) // How many openai tokens the user has uhsed
+  account_plan         String              @default("free") // The user's account plan
   RefreshToken         RefreshToken[]
   name                 String // Username
   image                String // Profile image src
   flashcard_sets       FlashcardSet[] // Flashcard sets the user owns
   likes                Like[] // User's likes
   comments             Comment[] // User's comments
-  saved_flashcard_sets String[] // User's saved flashcard sets
-  recently_viewed      String[] // User's recently viewed flashcard sets
-  created_at           DateTime       @default(now())
-  updated_at           DateTime       @updatedAt
+  saved_flashcard_sets SavedSet[] // User's saved flashcard sets
+  recently_viewed      RecentlyViewedSet[] // User's recently viewed flashcard sets
+  created_at           DateTime            @default(now())
+  updated_at           DateTime            @updatedAt
 
   @@map("user")
 }
