@@ -80,16 +80,6 @@ export const fetch_set = async (id: string, include_cards = true): Promise<{ set
 
 	if (include_cards) {
 		// Update the set's views
-		await client.flashcardSet.update({
-			where: {
-				id
-			},
-			data: {
-				views: {
-					increment: 1
-				}
-			}
-		});
 	} else {
 		set?.flashcards.map((card) => {
 			return {

@@ -39,7 +39,7 @@
 						/>
 					</div>
 					{#if user}
-						<a style="" class="discord desktop-icon" href="/discord"
+						<a style="" class="discord desktop-icon" target="_blank" href="/discord"
 							><img width="14px" src="https://studybun.vercel.app/discord.svg" alt="discord" /><span
 								>Join the Discord!</span
 							></a
@@ -101,7 +101,7 @@
 					<a href="/create">Create</a>
 					<a href="/library">Your Library</a>
 				{/if}
-				<a href="/discord">Study Bun Discord server</a>
+				<a href="/discord" target="_blank">Study Bun Discord server</a>
 			</div>
 		</div>
 	</nav>

@@ -12,29 +12,23 @@
 	};
 </script>
 
-{#if data.recentlyViewed}
+{#if data.recentlyViewed.length > 0}
 	<h1><Icon width={'35px'} solid={true} src={Eye} />Recently Viewed</h1>
 	<span class="card-container">
 		{#each data.recentlyViewed as item}
-			<SetDisplayCard saved={data.savedSets} index={data.recentlyViewed.indexOf(item)} set={item} />
+			<SetDisplayCard saved={data.savedSets} index={data.recentlyViewed.indexOf(item)} {...item} />
 		{/each}
 	</span>
 {/if}
 
-<h1><Icon width={'35px'} solid={true} src={Fire} />Trending Sets</h1>
-
-<span class="card-container">
-	{#each data.trendingSets as item}
-		<SetDisplayCard saved={data.savedSets} index={data.trendingSets.indexOf(item)} {...item} />
-	{/each}
-</span>
-
-<h1>All study sets</h1>
-<span class="card-container">
-	{#each data.sets as item}
-		<SetDisplayCard saved={data.savedSets} index={data.sets.indexOf(item)} {...item} />
-	{/each}
-</span>
+{#if data.trendingSets.length > 1}
+	<h1><Icon width={'35px'} solid={true} src={Fire} />Trending Sets</h1>
+	<span class="card-container">
+		{#each data.trendingSets as item}
+			<SetDisplayCard saved={data.savedSets} index={data.trendingSets.indexOf(item)} {...item} />
+		{/each}
+	</span>
+{/if}
 
 <style>
 	h1 {
