@@ -26,8 +26,9 @@
 	<title>{data.set.name} Flashcards | Study Bun</title>
 	<meta property="og:image" content="https://studybun.com/favicon.png" />
 	<meta property="og:title" content="{data.set.name} Flashcards | Study Bun" />
+	<meta name="title" content="{data.set.name} Flashcards | Study Bun" />
 	<meta
-		property="og:description"
+		name="description"
 		content={'Terms in this set: ' +
 			data.set.flashcards
 				.slice(0, 5)
