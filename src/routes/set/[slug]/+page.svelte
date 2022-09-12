@@ -2,7 +2,7 @@
 	import type { ISet, IUser } from '$lib/types';
 	import FlashcardDisplay from '$lib/components/FlashcardDisplay.svelte';
 	import FreeresponseDisplay from '$lib/components/FreeresponseDisplay.svelte';
-	import { Bookmark, Chat, Icon, Pencil, Refresh, Share } from 'svelte-hero-icons';
+	import { Bookmark, Chat, Icon, Pencil, Refresh, ClipboardCopy } from 'svelte-hero-icons';
 	import { getSession } from 'lucia-sveltekit/client';
 	import type { Session } from 'lucia-sveltekit/types';
 	import { toggle_favorite } from '$lib/api/client';
@@ -101,14 +101,16 @@
 			>
 		</h3>
 		<span class="action-btns" style="display: flex; gap: 10px;">
-			<button on:click={favorite_set}>
-				<Icon solid={favorited} width="20px" src={Bookmark} />
-			</button>
-			<button>
-				<Icon width="20px" src={Refresh} />
-			</button>
-			<button>
-				<Icon width="20px" src={Share} />
+			{#if data.user}
+				<button on:click={favorite_set}>
+					<Icon solid={favorited} width="20px" src={Bookmark} />
+				</button>
+				<button>
+					<Icon width="20px" src={Refresh} />
+				</button>
+			{/if}
+			<button on:click={() => navigator.clipboard.writeText(window.location)}>
+				<Icon width="20px" src={ClipboardCopy} />
 			</button>
 		</span>
 	</span>
@@ -206,6 +208,11 @@
 	.action-btns button:hover {
 		transform: scale(1.05);
 		filter: brightness(1.1);
+	}
+
+	.action-btns button:active {
+		background-color: var(--text-color);
+		color: var(--surface-background);
 	}
 
 	@media (max-width: 850px) {
