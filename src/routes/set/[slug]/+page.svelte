@@ -24,6 +24,18 @@
 
 <svelte:head>
 	<title>{data.set.name} Flashcards | Study Bun</title>
+	<meta property="og:image" content="https://studybun.com/favicon.png" />
+	<meta property="og:title" content="{data.set.name} Flashcards | Study Bun" />
+	<meta
+		property="og:description"
+		content={'Terms in this set: ' +
+			data.set.flashcards
+				.slice(0, 5)
+				.map((e) => {
+					return e.term;
+				})
+				.join(', ')}
+	/>
 </svelte:head>
 
 <h1 style="margin-bottom: 5px;">{data.set.name}</h1>
