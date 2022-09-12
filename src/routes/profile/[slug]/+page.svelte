@@ -5,6 +5,10 @@
 	export let data: { user: IUser; slugUser: IUser; url: string };
 </script>
 
+<svelte:head>
+	<title>{data.slugUser.name}'s profile | Study Bun</title>
+</svelte:head>
+
 <div class="header">
 	<img src={data.slugUser.image} width="100px" alt="" />
 	<h1>

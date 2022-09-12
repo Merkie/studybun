@@ -24,6 +24,10 @@
 	// Issue is getting the slug into the load function.
 </script>
 
+<svelte:head>
+	<title>Search | Study Bun</title>
+</svelte:head>
+
 <h1>Study sets that match the term "{$page.url.searchParams.get('term')}"</h1>
 <span style="display: flex; flex-wrap: wrap; gap: 30px;">
 	{#if sets}

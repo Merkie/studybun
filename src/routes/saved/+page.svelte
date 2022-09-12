@@ -5,6 +5,10 @@
 	export let data: { user: IUser; sets: ISet[] };
 </script>
 
+<svelte:head>
+	<title>Saved | Study Bun</title>
+</svelte:head>
+
 {#if data.user}
 	<h1>Your saved sets</h1>
 	<span style="display: flex; flex-wrap: wrap; gap: 30px;">

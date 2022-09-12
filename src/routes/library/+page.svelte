@@ -41,6 +41,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>Library | Study Bun</title>
+</svelte:head>
+
 {#if data.user}
 	<h1>Your study sets</h1>
 	<span style="display: flex; flex-wrap: wrap; gap: 30px;">

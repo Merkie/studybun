@@ -22,6 +22,10 @@
 	};
 </script>
 
+<svelte:head>
+	<title>{data.set.name} Flashcards | Study Bun</title>
+</svelte:head>
+
 <h1 style="margin-bottom: 5px;">{data.set.name}</h1>
 
 <span class="option-buttons">
