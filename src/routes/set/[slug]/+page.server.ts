@@ -17,8 +17,6 @@ export const load: ServerLoad = async ({ parent, params }) => {
 			}
 		});
 
-		console.log(user);
-
 		const last_viewed = user?.recently_viewed[user.recently_viewed.length - 1];
 
 		if (last_viewed?.flashcardSetId != params.slug) {

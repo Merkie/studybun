@@ -35,7 +35,19 @@
 				.map((e) => {
 					return e.term;
 				})
-				.join(', ')}
+				.join(', ') +
+			'...'}
+	/>
+	<meta
+		property="og:description"
+		content={'Terms in this set: ' +
+			data.set.flashcards
+				.slice(0, 5)
+				.map((e) => {
+					return e.term;
+				})
+				.join(', ') +
+			'...'}
 	/>
 </svelte:head>
 
