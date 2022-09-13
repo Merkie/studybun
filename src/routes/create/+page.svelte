@@ -276,6 +276,7 @@
 	.publish-btn {
 		padding: 5px;
 		background-color: var(--container-background);
+
 		border: 1px solid var(--border);
 		border-radius: 5px;
 		cursor: pointer;
@@ -304,6 +305,7 @@
 		font-size: 18px;
 		margin-bottom: 20px;
 		background-color: var(--container-background);
+
 		border: 1px solid var(--border);
 		color: var(--text-color);
 		font-family: sans-serif;
@@ -312,6 +314,7 @@
 	.filters {
 		padding: 10px;
 		background-color: var(--container-background);
+
 		border: 1px solid var(--border);
 		border-radius: 5px;
 		margin-bottom: 20px;
@@ -329,6 +332,7 @@
 
 	.filters .selected {
 		background-color: var(--container-background);
+
 		border: 1px solid var(--border);
 		filter: brightness(1.2);
 		transform: scale(1.05);
@@ -361,6 +365,7 @@
 
 	.add {
 		background-color: var(--container-background);
+
 		border: 1px solid var(--border);
 		border-radius: 50%;
 		padding: 10px 12px;
@@ -382,6 +387,7 @@
 	.more-suggestions {
 		padding: 5px;
 		background-color: var(--container-background);
+
 		border: 1px solid var(--border);
 		color: var(--text-color);
 		border-radius: 5px;

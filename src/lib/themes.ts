@@ -33,3 +33,68 @@ export const lightTheme = `
 		--save-icon-color: #ffc014;
 		--highlight: #eb719f;
 	`.trim();
+
+export const oceanLight = `
+		--surface-background: #e8eefc;
+		--background: white;
+		--container-background: #adcaf3;
+		--container-text-color: white;
+		--border: #99addb;
+		--text-color: #223a2e;
+		--header-background: #e8eefcbd;
+		--flashcard-background: white;
+		--light-success: #30BB74;
+		--dark-success: #017A54;
+		--spinner-color: #f7f7f7;
+		--drop-shadow-color: rgba(0, 0, 0, 0.1);
+		--failure-light: #BA4345;
+		--failure-dark: #640A24;
+		--save-icon-color: #323dd4;
+		--highlight: #658aef;
+	`.trim();
+
+export const loading = `
+		--surface-background: white;
+		--background: white;
+		--container-background: white;
+		--container-text-color: white;
+		--border: white;
+		--text-color: white;
+		--header-background: white;
+		--flashcard-background: white;
+		--light-success: white;
+		--dark-success: white;
+		--spinner-color: white;
+		--drop-shadow-color: rgba(0, 0, 0, 0.0);
+		--failure-light: white;
+		--failure-dark: white;
+		--save-icon-color: white;
+		--highlight: white;
+	`.trim();
+
+export const themes = {
+	dark: {
+		theme: darkTheme,
+		hueRotate: 70,
+		background: '#080a14',
+		textColor: 'white'
+	},
+	light: {
+		theme: lightTheme,
+		hueRotate: -70,
+		background: 'white',
+		textColor: '#2F2538'
+	},
+	oceanlight: {
+		theme: oceanLight,
+		hueRotate: -70,
+		background: 'white',
+		textColor: '#223a2e'
+	},
+	loading: {
+		theme: loading,
+		hueRotate: 0,
+		background: 'white',
+		textColor: 'white'
+	}
+};

@@ -17,12 +17,8 @@
 	<nav>
 		<span class="nav-row">
 			<span class="nav-items">
-				<img
-					on:click={() => window.location.assign('/')}
-					src="https://studybun.vercel.app/logo.png"
-					width="30px"
-					alt=""
-				/>
+				<a href="/"> <img src="https://studybun.vercel.app/logo.png" width="30px" alt="" /></a>
+
 				<span>
 					{#if user}
 						<a style="" class="create desktop-icon" href="/create"
@@ -223,6 +219,7 @@
 
 	.drop-down a:hover {
 		background-color: var(--container-background);
+
 		color: var(--text-color);
 	}
 
@@ -256,7 +253,7 @@
 		background-color: inherit;
 		border: none;
 		outline: none;
-		color: var(--text-color);
+		color: var(--text-color) !important;
 	}
 
 	span {
@@ -298,7 +295,7 @@
 		display: none;
 		background: none;
 		border: none;
-		color: white;
+		color: var(--text-color);
 		padding-left: 20px;
 		cursor: pointer;
 	}

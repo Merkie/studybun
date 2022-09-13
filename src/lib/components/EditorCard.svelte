@@ -174,6 +174,7 @@
 <style>
 	main {
 		background-color: var(--container-background);
+		color: var(--container-text-color) !important;
 		width: calc(100%);
 		border-radius: 5px;
 		border: var(--border) 1px solid;
@@ -239,7 +240,7 @@
 	p {
 		margin: 5px;
 		/* color: var(--dark-pink); */
-		color: var(--text-color);
+		/* color: var(--text-color); */
 		font-weight: bold;
 	}
 

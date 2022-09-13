@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { format } from 'timeago.js';
 	import { Bookmark, Eye, Icon, Pencil, Trash } from 'svelte-hero-icons';
+	import { theme } from '$lib/stores';
+	import { themes } from '$lib/themes';
 
 	// Default props
 	export let id: string;
@@ -31,7 +33,7 @@
 	<span
 		on:click={() => window.location.assign('/set/' + id)}
 		class="background"
-		style={`filter: hue-rotate(${indexToBrightness() * 50}deg)`}
+		style={`filter: hue-rotate(${indexToBrightness() * themes[$theme].hueRotate}deg)`}
 	/>
 	{#if saved.includes(id)}
 		<span class="save-icon"> <Icon width="45px" solid={true} src={Bookmark} /></span>
@@ -126,7 +128,8 @@
 
 	div {
 		padding: 20px 30px;
-		/* background-color: var(--container-background); */
+		/* background-color: var(--container-background);
+ */
 		border: 1px solid var(--border);
 		border-radius: 10px;
 		font-size: 18px;

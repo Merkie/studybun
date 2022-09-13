@@ -37,6 +37,7 @@
 
 	button {
 		background-color: var(--container-background);
+
 		border: 1px solid var(--border);
 		color: var(--text-color);
 		padding: 10px 20px;

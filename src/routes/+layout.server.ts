@@ -1,6 +1,7 @@
 import { auth } from '$lib/lucia';
 import type { ServerLoadEvent } from '@sveltejs/kit';
 import { client } from '$lib/prisma';
+import { theme } from '$lib/stores';
 
 export const load = async (event: ServerLoadEvent) => {
 	const response = await auth.load(event);

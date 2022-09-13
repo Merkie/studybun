@@ -2,5 +2,5 @@ import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
 
 //string
-export const theme = writable((browser && localStorage.getItem('theme')) || 'dark');
+export const theme = writable((browser && localStorage.getItem('theme')) || 'loading');
 theme.subscribe((val) => browser && (localStorage.theme = val));

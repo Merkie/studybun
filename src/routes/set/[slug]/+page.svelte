@@ -171,6 +171,7 @@
 		flex-wrap: wrap;
 		gap: 10px;
 		background-color: var(--container-background);
+
 		font-size: 1.2rem;
 		padding: 30px;
 		border-radius: 10px;

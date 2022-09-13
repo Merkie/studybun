@@ -25,7 +25,7 @@
 	>
 		<option value="light">Light</option>
 		<option value="dark">Dark</option>
-		<option value="utd">UT Dallas</option>
+		<option value="oceanlight">Ocean Light</option>
 	</select>
 {/if}
 
@@ -33,6 +33,7 @@
 	select {
 		-webkit-appearance: none;
 		background-color: var(--container-background);
+
 		border: 1px solid var(--border);
 		padding: 10px;
 		border-radius: 5px;

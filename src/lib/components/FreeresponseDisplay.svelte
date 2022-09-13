@@ -250,6 +250,7 @@
 
 	.flashcard-wrapper {
 		background-color: var(--container-background);
+
 		padding: 50px;
 		padding-top: 80px;
 		border-radius: 5px;
