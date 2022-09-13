@@ -1,21 +1,3 @@
-export const lightTheme = `
-		--surface-background: #f2f3f5;
-		--background: white;
-		--container-background: #dcdee0;
-		--border: black;
-		--text-color: #50565f;
-		--header-background: #f2f3f5bd;
-		--flashcard-background: white;
-		--light-success: #30BB74;
-		--dark-success: #017A54;
-		--spinner-color: #f7f7f7;
-		--drop-shadow-color: rgba(0, 0, 0, 0.05);
-		--failure-light: #BA4345;
-		--failure-dark: #640A24;
-		--save-icon-color: #ffc014;
-		--highlight: #75B8FA;
-	`.trim();
-
 export const darkTheme = `
 		--surface-background: #12162a;
 		--background: #080a14;
@@ -32,4 +14,22 @@ export const darkTheme = `
 		--failure-dark: #640A24;
 		--save-icon-color: #ffc014;
 		--highlight: #75B8FA;
+	`.trim();
+
+export const lightTheme = `
+		--surface-background: #FCEAF1;
+		--background: white;
+		--container-background: #F3B4CC;
+		--border: #dba0b7;
+		--text-color: #2F2538;
+		--header-background: #FCEAF1bd;
+		--flashcard-background: white;
+		--light-success: #30BB74;
+		--dark-success: #017A54;
+		--spinner-color: #f7f7f7;
+		--drop-shadow-color: rgba(0, 0, 0, 0.1);
+		--failure-light: #BA4345;
+		--failure-dark: #640A24;
+		--save-icon-color: #ffc014;
+		--highlight: #eb719f;
 	`.trim();
