@@ -134,11 +134,9 @@
 				<button on:click={favorite_set}>
 					<Icon solid={favorited} width="20px" src={Bookmark} />
 				</button>
-				<button>
-					<Icon width="20px" src={Refresh} />
-				</button>
 			{/if}
 			<button on:click={() => navigator.clipboard.writeText(window.location)}>
+				<div class="tooltip">Copied!</div>
 				<Icon width="20px" src={ClipboardCopy} />
 			</button>
 		</span>
@@ -165,6 +163,18 @@
 </span>
 
 <style>
+	.tooltip {
+		position: absolute;
+		top: -40px;
+		left: 50%;
+		transform: translateX(-50%);
+		background-color: var(--highlight);
+		color: var(--background);
+		padding: 5px;
+		border-radius: 5px;
+		font-size: 0.8rem;
+	}
+
 	.term-card {
 		display: flex;
 		flex-direction: row;
@@ -233,8 +243,8 @@
 		cursor: pointer;
 		color: var(--text-color);
 		transition-duration: 0.2s;
+		position: relative;
 	}
-
 	.action-btns button:hover {
 		transform: scale(1.05);
 		filter: brightness(1.1);
