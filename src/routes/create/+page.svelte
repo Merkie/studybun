@@ -24,6 +24,7 @@
 	import { AcademicCap, DotsVertical, Icon, LockOpen, Plus } from 'svelte-hero-icons';
 	import { getSession } from 'lucia-sveltekit/client';
 	import type { Session } from 'lucia-sveltekit/types';
+	import EditorCardList from '$lib/components/EditorCardList.svelte';
 
 	/* Local State */
 	// Bindings
@@ -39,7 +40,7 @@
 	let summarize = false; // Whether or not the user has summarize enabled
 
 	// Other
-	let setList: IFlashcard[] = [{ term: '', description: '' }]; // List of flashcards
+	let setList: IFlashcard[] = []; // List of flashcards
 	let editingSet: string; // The set that is currently being edited, '' if new set
 	let suggestions: string[] = []; // Term suggestions from API
 	let descriptor: string; // String that is built from the user's selected filters
@@ -88,11 +89,18 @@
 		return true;
 	};
 
-	// effect that changes the descriptor whenever the user changes the filters
+	let items: Array<{ id: number; data: any }>;
+
+	const setListCallBack = (items: Array<any>) => {
+		setList = items;
+	};
+
 	$: {
+		items = setList.map((item, index) => ({ id: index, data: item }));
 		descriptor =
-			(summarize ? ', summarize for fifth grader' : '') +
-			(bulletpoints ? ', summarized bulletpoints' : '');
+			(summarize ? 'summarized for fifth grader ' : '') +
+			(bulletpoints ? 'in summarized bulletpoints ' : '');
+		setList = [...setList];
 	}
 
 	onMount(async () => {
@@ -129,6 +137,8 @@
 				context = set.name; // Change the title (context) to the set's name
 				description = set.description; // Set the description to the set's description
 			}
+		} else {
+			setList = [{ term: '', description: '' }];
 		}
 	});
 </script>
@@ -243,24 +253,32 @@
 		{/if}
 	</div>
 
-	{#each setList as item}
-		<EditorCard
-			{removeSetItem}
-			{updateSetItem}
-			{descriptor}
-			description={item.description}
-			term={item.term}
-			index={setList.indexOf(item)}
-			{context}
-			{autofill}
-			imagesrc={item.image || ''}
-			userId={data.user.user_id}
-		/>
-	{/each}
+	{#if setList.length > 0}
+		<EditorCardList {autofill} {setListCallBack} {descriptor} {session} {context} set={setList} />
+	{/if}
 
-	<button style="height: 60px; width: 60px;" on:click={() => addSetItem('')} class="add"
-		><Icon width="30px" src={Plus} /></button
+	<!-- <section
+		use:dndzone={{ items, flipDurationMs }}
+		on:consider={handleDndConsider}
+		on:finalize={handleDndFinalize}
 	>
+		{#each items as item, index (item.id)}
+			<div animate:flip={{ duration: flipDurationMs }}>
+				<EditorCard
+					{removeSetItem}
+					{updateSetItem}
+					{descriptor}
+					description={item.data.description}
+					term={item.data.term}
+					{index}
+					{context}
+					{autofill}
+					imagesrc={item.data.image || ''}
+					userId={data.user.user_id}
+				/>
+			</div>
+		{/each}
+	</section> -->
 {/if}
 
 <style>
