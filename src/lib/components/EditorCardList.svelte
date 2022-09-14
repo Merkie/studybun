@@ -8,6 +8,8 @@
 	import cuid from 'cuid';
 	import { dataset_dev } from 'svelte/internal';
 	import type { DuckDuckGoImage } from 'duckduckgo-images-api';
+	import { themes } from '$lib/themes';
+	import { theme } from '$lib/stores';
 
 	const flipDurationMs = 300;
 
@@ -111,6 +113,14 @@
 		setListCallBack(items.map((item) => item.data));
 	};
 
+	const indexToBrightness = (index: number) => {
+		const firstNumber = parseInt(index / 10 + '') + 1;
+		if (firstNumber % 2 == 0) {
+			return (9 - (index % 10)) / 10;
+		}
+		return ((index % 10) + 1) / 10;
+	};
+
 	$: {
 		items = set.map((item) => ({ id: item.id, data: item }));
 	}
@@ -123,6 +133,11 @@
 >
 	{#each items as item, index (item.id)}
 		<div class="card-main" animate:flip={{ duration: flipDurationMs }}>
+			<span
+				class="card-background"
+				style={`filter:
+				hue-rotate(${indexToBrightness(index) * themes[$theme].hueRotate}deg)`}
+			/>
 			<span class="header"
 				><p>{index + 1}</p>
 				<button on:click={() => {}}><Icon width="20px" src={Photograph} /></button>
@@ -214,7 +229,8 @@
 
 <style>
 	.card-main {
-		background-color: var(--container-background);
+		/* background-color: var(--container-background); */
+		background-color: transparent;
 		color: var(--container-text-color) !important;
 		width: calc(100% - 20px);
 		border-radius: 5px;
@@ -222,6 +238,22 @@
 		display: flex;
 		flex-direction: column;
 		margin-bottom: 20px;
+		position: relative;
+	}
+
+	.card-background {
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		border-radius: 5px;
+		background-color: var(--container-background);
+		z-index: 1;
+	}
+
+	.card-main * {
+		z-index: 2;
 	}
 
 	.animate-spin {
