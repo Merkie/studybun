@@ -247,6 +247,7 @@
 		gap: 10px;
 		padding-bottom: 10px;
 		padding-left: 10px;
+		overflow-x: scroll;
 	}
 
 	.thumbnail-suggestions img {
