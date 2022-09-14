@@ -21,6 +21,10 @@
 		favorited = !favorited;
 		toggle_favorite(data.set.id, sess, favorited);
 	};
+
+	const maximizedCallback = (max: boolean) => {
+		maximized = max;
+	};
 </script>
 
 <svelte:head>
@@ -114,54 +118,56 @@
 </span>
 
 {#if selected == 'flashcards'}
-	<FlashcardDisplay set={data.set} />
+	<FlashcardDisplay {maximizedCallback} set={data.set} />
 {/if}
 
 {#if selected == 'freeresponse'}
-	<FreeresponseDisplay set={data.set} />
+	<FreeresponseDisplay {maximizedCallback} set={data.set} />
 {/if}
 
-<span class="info-section">
-	<small>Created by</small>
-	<span style="display: flex; align-items: center; justify-content: space-between;">
-		<h3 style=" display: flex; align-items: center; gap: 5px;">
-			<img src={data.set.author.image} width="25px" alt="profile" style="border-radius: 50%;" /><a
-				style="color: var(--highlight"
-				href={`/profile/${data.set.author.id}`}>{data.set.author.name}</a
-			>
-		</h3>
-		<span class="action-btns" style="display: flex; gap: 10px;">
-			{#if data.user}
-				<button on:click={favorite_set}>
-					<Icon solid={favorited} width="20px" src={Bookmark} />
-				</button>
-			{/if}
-			<button on:click={() => navigator.clipboard.writeText(window.location)}>
-				<div class="tooltip">Copied!</div>
-				<Icon width="20px" src={ClipboardCopy} />
-			</button>
-		</span>
-	</span>
-	<p style="margin-top: 0;">
-		{data.set.description}
-	</p>
-
-	<h1>Terms in this set:</h1>
-
-	{#each data.set.flashcards as card}
-		<span class="term-card">
-			<span class="term-card-header">
-				<p style="font-size: 1.6rem; font-weight: bold;">{card.term}</p>
-				{#if card.image}
-					<img src={card.image} width="100px;" alt="" />
+{#if !maximized}
+	<span class="info-section">
+		<small>Created by</small>
+		<span style="display: flex; align-items: center; justify-content: space-between;">
+			<h3 style=" display: flex; align-items: center; gap: 5px;">
+				<img src={data.set.author.image} width="25px" alt="profile" style="border-radius: 50%;" /><a
+					style="color: var(--highlight"
+					href={`/profile/${data.set.author.id}`}>{data.set.author.name}</a
+				>
+			</h3>
+			<span class="action-btns" style="display: flex; gap: 10px;">
+				{#if data.user}
+					<button on:click={favorite_set}>
+						<Icon solid={favorited} width="20px" src={Bookmark} />
+					</button>
 				{/if}
-			</span>
-			<span>
-				<p>{card.description}</p>
+				<button on:click={() => navigator.clipboard.writeText(window.location)}>
+					<div class="tooltip">Copied!</div>
+					<Icon width="20px" src={ClipboardCopy} />
+				</button>
 			</span>
 		</span>
-	{/each}
-</span>
+		<p style="margin-top: 0;">
+			{data.set.description}
+		</p>
+
+		<h1>Terms in this set:</h1>
+
+		{#each data.set.flashcards as card}
+			<span class="term-card">
+				<span class="term-card-header">
+					<p style="font-size: 1.6rem; font-weight: bold;">{card.term}</p>
+					{#if card.image}
+						<img src={card.image} width="100px;" alt="" />
+					{/if}
+				</span>
+				<span>
+					<p>{card.description}</p>
+				</span>
+			</span>
+		{/each}
+	</span>
+{/if}
 
 <style>
 	.tooltip {

@@ -7,6 +7,7 @@
 	import type { Session } from 'lucia-sveltekit/types';
 
 	export let set: ISet;
+	export let maximizedCallback: Function;
 
 	let index = 0;
 	let termSide = true;
@@ -71,6 +72,10 @@
 		answer.style.transitionDuration = '.5s';
 		answer.style.opacity = '1';
 	};
+
+	$: {
+		maximizedCallback(maximized);
+	}
 </script>
 
 <span class={`flashcard-wrapper ${maximized ? 'maximized' : ''}`}>

@@ -3,6 +3,7 @@
 	import { ArrowLeft, ArrowRight, ArrowsExpand, Icon } from 'svelte-hero-icons';
 
 	export let set: ISet;
+	export let maximizedCallback: Function;
 
 	let index = 0;
 	let termSide = true;
@@ -62,6 +63,7 @@
 
 	$: {
 		displayText = set.flashcards[index][termSide ? 'term' : 'description'];
+		maximizedCallback(maximized);
 	}
 </script>
 
