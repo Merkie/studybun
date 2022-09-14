@@ -6,7 +6,7 @@ export const load: ServerLoad = async ({ parent }) => {
 	const { lucia } = await parent();
 	const { sets } = await fetch_user_sets(lucia.user.user_id);
 
-	if (lucia) return { user: lucia.user, sets: minimize_set_display(sets).reverse() };
+	if (lucia) return { user: lucia.user, sets: minimize_set_display(sets) };
 
 	return { sets: null, user: null };
 };

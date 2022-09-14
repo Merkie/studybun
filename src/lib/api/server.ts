@@ -138,6 +138,9 @@ export const fetch_user_sets = async (id: string): Promise<{ sets: ISet[] }> => 
 		include: {
 			flashcards: true,
 			author: true
+		},
+		orderBy: {
+			updatedAt: 'desc'
 		}
 	});
 

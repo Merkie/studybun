@@ -229,8 +229,7 @@
 
 <style>
 	.card-main {
-		/* background-color: var(--container-background); */
-		background-color: transparent;
+		background-color: var(--container-background);
 		color: var(--container-text-color) !important;
 		width: calc(100% - 20px);
 		border-radius: 5px;
