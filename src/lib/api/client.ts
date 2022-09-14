@@ -109,10 +109,11 @@ export const publish_set = async (
 	});
 };
 
-export const toggle_favorite = async (setId: string, session: Session) => {
+export const toggle_favorite = async (setId: string, session: Session, create: boolean) => {
 	await _post('/api/set/favorite', {
 		setId,
-		session
+		session,
+		create
 	});
 };
 

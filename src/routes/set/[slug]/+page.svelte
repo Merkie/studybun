@@ -11,6 +11,7 @@
 
 	let favorited = data.isFavorited;
 	let sess: Session;
+	let maximized = false;
 
 	getSession().subscribe((s) => {
 		sess = s;
@@ -18,7 +19,7 @@
 
 	const favorite_set = () => {
 		favorited = !favorited;
-		toggle_favorite(data.set.id, sess);
+		toggle_favorite(data.set.id, sess, favorited);
 	};
 </script>
 
