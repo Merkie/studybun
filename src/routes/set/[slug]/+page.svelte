@@ -6,6 +6,7 @@
 	import { getSession } from 'lucia-sveltekit/client';
 	import type { Session } from 'lucia-sveltekit/types';
 	import { toggle_favorite } from '$lib/api/client';
+	import DiscussDisplay from '$lib/components/DiscussDisplay.svelte';
 	export let data: { user: IUser; url: string; set: ISet; isFavorited: boolean };
 	let selected = 'flashcards';
 
@@ -87,7 +88,15 @@
 		class={`${selected === 'freeresponse' ? 'selected' : ''}`}
 		><Icon width="15px" src={Pencil} /> Free Response</button
 	>
-	<button class={`${selected === 'match' ? 'selected' : ''}`} on:click={() => (selected = 'match')}
+	<button
+		on:click={() => (selected = 'discuss')}
+		class={`${selected === 'discuss' ? 'selected' : ''}`}
+		><Icon width="15px" src={Chat} /> Discuss</button
+	>
+	<button
+		disabled={true}
+		class={`${selected === 'match' ? 'selected' : ''}`}
+		on:click={() => (selected = 'match')}
 		><svg
 			xmlns="http://www.w3.org/2000/svg"
 			x="0px"
@@ -102,7 +111,10 @@
 			/></svg
 		> Match</button
 	>
-	<button class={`${selected === 'test' ? 'selected' : ''}`} on:click={() => (selected = 'test')}
+	<button
+		disabled={true}
+		class={`${selected === 'test' ? 'selected' : ''}`}
+		on:click={() => (selected = 'test')}
 		><svg
 			xmlns="http://www.w3.org/2000/svg"
 			x="0px"
@@ -117,11 +129,6 @@
 		>
 		Test</button
 	>
-	<button
-		on:click={() => (selected = 'discuss')}
-		class={`${selected === 'discuss' ? 'selected' : ''}`}
-		><Icon width="15px" src={Chat} /> Discuss</button
-	>
 </span>
 
 {#if selected == 'flashcards'}
@@ -130,6 +137,10 @@
 
 {#if selected == 'freeresponse'}
 	<FreeresponseDisplay {maximizedCallback} set={data.set} />
+{/if}
+
+{#if selected == 'discuss'}
+	<DiscussDisplay session={sess} {maximizedCallback} context={data.set.name} />
 {/if}
 
 {#if !maximized}

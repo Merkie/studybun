@@ -156,7 +156,6 @@
 
 	main {
 		background-color: var(--container-background);
-
 		padding: 50px;
 		border-radius: 5px;
 		position: relative;

@@ -5,10 +5,6 @@
 	// Svelte
 	import { onMount } from 'svelte';
 
-	// Components
-	import EditorCard from '$lib/components/EditorCard.svelte';
-	import Modal from '$lib/components/Modal.svelte';
-
 	// Types
 	import type { IUser, IFlashcard, ISet } from '$lib/types';
 
@@ -30,7 +26,7 @@
 	// Bindings
 	let context: string; // Binded to the value of the title <input />
 	let description: string = ''; // Binded to the value of the description <textarea />
-	let session: Session;
+	let session: Session; // Binded to the current session of the user, null if no session
 
 	// Booleans
 	let suggesting = false; // Whether or not the API is currently suggesting terms
@@ -45,6 +41,10 @@
 	let suggestions: string[] = []; // Term suggestions from API
 	let descriptor: string; // String that is built from the user's selected filters
 
+	// items variable that holds the flashcards in a parsable format
+	let items: Array<{ id: number; data: any }>;
+
+	// Gets the session and sets it to the local state
 	getSession().subscribe((s) => {
 		session = s;
 	});
@@ -55,27 +55,17 @@
 		setList = [...setList];
 	};
 
-	// Callback function that updates a specific item in the setList, called by <EditorCard />
-	const updateSetItem = (index: number, term: string, description: string, imagesrc: string) => {
-		setList[index] = { term, description, image: imagesrc };
-		setList = [...setList];
-	};
-
-	// Callback function that removed a specific card from the setList, called by <EditorCard />
-	const removeSetItem = (index: number) => {
-		setList = setList.slice(0, index).concat(setList.slice(index + 1));
-	};
-
 	// Removes a specific suggestion from the suggestions array
 	const removeSuggestionItem = (index: number) => {
 		suggestions.splice(index, 1);
 		suggestions = [...suggestions];
 	};
 
+	// Prompts a publish while checking if all values are present
 	const promptPublish = async () => {
 		if (!context) {
 			alert('Please enter a title for your set');
-			return false;
+			return faslse;
 		}
 
 		setList.forEach((item: IFlashcard) => {
@@ -88,8 +78,6 @@
 		await publish_set(setList, context, data.user, description, editingSet);
 		return true;
 	};
-
-	let items: Array<{ id: number; data: any }>;
 
 	const setListCallBack = (items: Array<any>) => {
 		setList = items;
@@ -256,29 +244,6 @@
 	{#if setList.length > 0}
 		<EditorCardList {autofill} {setListCallBack} {descriptor} {session} {context} set={setList} />
 	{/if}
-
-	<!-- <section
-		use:dndzone={{ items, flipDurationMs }}
-		on:consider={handleDndConsider}
-		on:finalize={handleDndFinalize}
-	>
-		{#each items as item, index (item.id)}
-			<div animate:flip={{ duration: flipDurationMs }}>
-				<EditorCard
-					{removeSetItem}
-					{updateSetItem}
-					{descriptor}
-					description={item.data.description}
-					term={item.data.term}
-					{index}
-					{context}
-					{autofill}
-					imagesrc={item.data.image || ''}
-					userId={data.user.user_id}
-				/>
-			</div>
-		{/each}
-	</section> -->
 {/if}
 
 <style>
@@ -380,21 +345,6 @@
 		cursor: pointer;
 		margin: 10px 0;
 	}
-
-	.add {
-		background-color: var(--container-background);
-
-		border: 1px solid var(--border);
-		border-radius: 50%;
-		padding: 10px 12px;
-		color: var(--text-color);
-		font-size: 18px;
-		margin-top: 20px;
-		cursor: pointer;
-		margin-left: 50%;
-		transform: translateX(-50%);
-	}
-
 	.suggestions {
 		display: flex;
 		flex-wrap: wrap;
@@ -405,7 +355,6 @@
 	.more-suggestions {
 		padding: 5px;
 		background-color: var(--container-background);
-
 		border: 1px solid var(--border);
 		color: var(--text-color);
 		border-radius: 5px;
