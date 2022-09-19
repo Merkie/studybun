@@ -22,7 +22,7 @@
 
 	let refreshElem: HTMLElement;
 
-	let items: Array<{ id: string; data: any }>;
+	let items: Array<{ id: string; data: any }> = [];
 
 	let dragDisabled = true;
 
@@ -95,6 +95,9 @@
 	const autocomplete_thumbnail_suggestions = async (id: string) => {
 		// get the item from the list with the same id
 		const item = items.find((item) => item.id === id);
+
+		if (!item) return;
+
 		const image_suggestions: DuckDuckGoImage[] = (await fetch_images(item.data.term)).images;
 		// add image suggestions to the item with the same id
 		items = items.map((item) => {
@@ -156,7 +159,8 @@
 	};
 
 	$: {
-		items = set.map((item) => ({ id: item.id, data: item }));
+		console.log(items);
+		items = set.map((item) => ({ id: item.id || cuid(), data: item }));
 	}
 </script>
 

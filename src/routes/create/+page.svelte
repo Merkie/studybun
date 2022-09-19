@@ -36,7 +36,7 @@
 	let summarize = false; // Whether or not the user has summarize enabled
 
 	// Other
-	let setList: IFlashcard[] = []; // List of flashcards
+	let setList: IFlashcard[] = [{ term: '', description: '' }]; // List of flashcards
 	let editingSet: string; // The set that is currently being edited, '' if new set
 	let suggestions: string[] = []; // Term suggestions from API
 	let descriptor: string; // String that is built from the user's selected filters

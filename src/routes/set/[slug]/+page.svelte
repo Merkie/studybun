@@ -59,10 +59,12 @@
 
 <h1 style="margin-bottom: 5px; display: flex; align-items: center; gap: 10px;">
 	{data.set.name}
-	{#if data.user.id === data.set.author.id}
-		<a href={'/create?set=' + data.set.id}>
-			<Icon src={Pencil} width="25px" />
-		</a>
+	{#if data.user}
+		{#if data.user.id === data.set.author.id}
+			<a href={'/create?set=' + data.set.id}>
+				<Icon src={Pencil} width="25px" />
+			</a>
+		{/if}
 	{/if}
 </h1>
 
